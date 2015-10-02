@@ -1,6 +1,6 @@
 # nyhedsbreveadmin
 
-Dette er en webapp som kan 1) administrere opsætninge, 2) oprette smartlinks samt 3) administretrere kunder.
+Dette er en webapp som kan 1) administrere opsætning af nyhedsbreve i "hjulet", 2) oprette smartlinks samt 3) administrere kunder.
 De bygges alle i Angular 1.4 og hostes i samme statiske server (Node/S3 bucket).
 
 Der benyttes MDBAPI til alt kommunikation.
@@ -99,7 +99,7 @@ Første view indeholder en søge-funktionalitet, hvorfra man kan søge på kunde
 - Permission
 
 Ved klik på kunder, skal man vise en formular til at ændre i stamdata samt få et overblik over kundens historik.
+Redigér-siden skal have en knap, hvor der hurtigt kan sende en "login-email". Dvs. POST `/mails/profile-page-link`.
 
 TODO: Den eksisterende PUT `/users` skal ændres til at være en PATCH. Og der skal laves en ny PUT som er idempotent, dvs. den overskriver evt. nyhedsbreve, interesser og permissions. Daniel spec'er til Jesper.
-
 
