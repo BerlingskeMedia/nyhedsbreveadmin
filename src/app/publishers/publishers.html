@@ -1,0 +1,61 @@
+<div class="table-responsive">
+  <form>
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+        <input type="text" class="form-control" placeholder="Søg" ng-model="searchterm">
+      </div>
+    </div>
+  </form>
+  <table class="table table-striped">
+    <thead>
+        <tr>
+          <th>
+            <a href="" ng-click="sortType = 'publisher_id'; sortReverse = !sortReverse">
+              ID
+              <span ng-show="sortType == 'publisher_id' && !sortReverse" class="fa fa-caret-down"></span>
+              <span ng-show="sortType == 'publisher_id' && sortReverse" class="fa fa-caret-up"></span>
+            </a>
+          </th>
+          <th>
+            <a href="" ng-click="sortType = 'publisher_navn'; sortReverse = !sortReverse">
+              Navn
+              <span ng-show="sortType == 'publisher_navn' && !sortReverse" class="fa fa-caret-down"></span>
+              <span ng-show="sortType == 'publisher_navn' && sortReverse" class="fa fa-caret-up"></span>
+            </a>
+          </th>
+          <th>
+            <a href="" ng-click="sortType = 'publisher_toppic'; sortReverse = !sortReverse">
+              Billede URL
+              <span ng-show="sortType == 'publisher_toppic' && !sortReverse" class="fa fa-caret-down"></span>
+              <span ng-show="sortType == 'publisher_toppic' && sortReverse" class="fa fa-caret-up"></span>
+            </a>
+          </th>
+          <th>
+            <a href="" ng-click="sortType = 'hidden'; sortReverse = !sortReverse">
+              Hidden
+              <span ng-show="sortType == 'hidden' && !sortReverse" class="fa fa-caret-down"></span>
+              <span ng-show="sortType == 'hidden' && sortReverse" class="fa fa-caret-up"></span>
+            </a>
+          </th>
+          <th>
+            <a href="" ng-click="sortType = 'enabled'; sortReverse = !sortReverse">
+              Enabled
+              <span ng-show="sortType == 'enabled' && !sortReverse" class="fa fa-caret-down"></span>
+              <span ng-show="sortType == 'enabled' && sortReverse" class="fa fa-caret-up"></span>
+            </a>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="publisher in publishers | orderBy:sortType:sortReverse | filter:searchterm" ng-click="hurra()">
+            <td>{{publisher.publisher_id}}</td>
+            <td>{{publisher.publisher_navn}}</td>
+            <td>{{publisher.publisher_toppic}}</td>
+            <td>{{publisher.hidden}}</td>
+            <td>{{publisher.enabled}}</td>
+          </a>
+        </tr>
+      </tbody>
+  </table>
+</div>
