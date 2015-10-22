@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-      .module('nyhedsbrevematerial')
+      .module('nyhedsbreveadmin')
       .service('mdbAPI', mdbAPI);
 
   function mdbAPI($http, nyhedsbreveadminConfig) {

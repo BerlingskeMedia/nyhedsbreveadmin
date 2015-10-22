@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nyhedsbrevematerial')
+    .module('nyhedsbreveadmin')
     .run(runBlock);
 
   /** @ngInject */

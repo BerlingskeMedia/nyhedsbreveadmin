@@ -2,18 +2,21 @@
   'use strict';
 
   angular
-    .module('nyhedsbrevematerial')
+    .module('nyhedsbreveadmin')
     .controller('PublishersController', PublishersController);
 
   /** @ngInject */
   function PublishersController($scope, mdbAPI) {
-    mdbAPI.getPublishers().then(function(data) {
-      console.log(data);
-      $scope.publishers = data.data;
-    });
+    var vm = this;
 
-    $scope.hurra = function() {
-     console.log('hurra');
+    activate();
+
+    function activate() {
+      mdbAPI.getPublishers().then(function(response) {
+        vm.publishers = response.data;
+      })
     }
+
+
   }
 })();

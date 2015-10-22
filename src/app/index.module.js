@@ -2,6 +2,6 @@
   'use strict';
 
   angular
-    .module('nyhedsbrevematerial', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ui.router', 'ngMaterial']);
+    .module('nyhedsbreveadmin', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngMessages', 'ngAria', 'ui.router', 'ui.bootstrap', 'toastr']);
 
 })();

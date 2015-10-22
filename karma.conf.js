@@ -6,6 +6,10 @@ var conf = require('./gulp/conf');
 var _ = require('lodash');
 var wiredep = require('wiredep');
 
+var pathSrcHtml = [
+  path.join(conf.paths.src, '/**/*.html')
+];
+
 function listFiles() {
   var wiredepOptions = _.extend({}, conf.wiredep, {
     dependencies: true,
@@ -18,8 +22,8 @@ function listFiles() {
       path.join(conf.paths.src, '/app/**/*.js'),
       path.join(conf.paths.src, '/**/*.spec.js'),
       path.join(conf.paths.src, '/**/*.mock.js'),
-      path.join(conf.paths.src, '/**/*.html')
-    ]);
+    ])
+    .concat(pathSrcHtml);
 }
 
 module.exports = function(config) {
@@ -31,15 +35,17 @@ module.exports = function(config) {
 
     autoWatch: false,
 
+    ngHtml2JsPreprocessor: {
+      stripPrefix: conf.paths.src + '/',
+      moduleName: 'nyhedsbreveadmin'
+    },
+
+    logLevel: 'WARN',
+
     frameworks: ['jasmine', 'angular-filesort'],
 
     angularFilesort: {
       whitelist: [path.join(conf.paths.src, '/**/!(*.html|*.spec|*.mock).js')]
-    },
-
-    ngHtml2JsPreprocessor: {
-      stripPrefix: 'src/',
-      moduleName: 'nyhedsbrevematerial'
     },
 
     browsers : ['PhantomJS'],
@@ -47,14 +53,27 @@ module.exports = function(config) {
     plugins : [
       'karma-phantomjs-launcher',
       'karma-angular-filesort',
+      'karma-coverage',
       'karma-jasmine',
       'karma-ng-html2js-preprocessor'
     ],
 
-    preprocessors: {
-      'src/**/*.html': ['ng-html2js']
-    }
+    coverageReporter: {
+      type : 'html',
+      dir : 'coverage/'
+    },
+
+    reporters: ['progress']
   };
+
+  // This is the default preprocessors configuration for a usage with Karma cli
+  // The coverage preprocessor is added in gulp/unit-test.js only for single tests
+  // It was not possible to do it there because karma doesn't let us now if we are
+  // running a single test or not
+  configuration.preprocessors = {};
+  pathSrcHtml.forEach(function(path) {
+    configuration.preprocessors[path] = ['ng-html2js'];
+  });
 
   // This block is needed to execute Chrome on Travis
   // If you ever plan to use Chrome and Travis, you can keep it
