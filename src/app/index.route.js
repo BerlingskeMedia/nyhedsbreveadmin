@@ -28,7 +28,9 @@
       })
       .state('permissions', {
         url: '/permissions',
-        template: 'permissions'
+        templateUrl: 'app/permissions/permissions.html',
+        controller: 'PermissionsController',
+        controllerAs: 'permissionsCtrl'
       })
       .state('locations', {
         url: '/locations',
