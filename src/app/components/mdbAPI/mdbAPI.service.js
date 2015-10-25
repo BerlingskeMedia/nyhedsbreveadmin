@@ -14,6 +14,7 @@
       getInteresser: getInteresser,
       getPermissions: getPermissions,
       getNyhedsbreve: getNyhedsbreve,
+      getLocations: getLocations,
     };
 
     return service;
@@ -34,6 +35,10 @@
 
     function getNyhedsbreve() {
       return $http.get(APIBASEURL + "nyhedsbreve");
+    }
+
+    function getLocations() {
+      return $http.get(APIBASEURL + "locations");
     }
 
   }
