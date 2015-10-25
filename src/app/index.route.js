@@ -40,11 +40,13 @@
       })
       .state('kunder', {
         url: '/kunder',
-        template: 'kunder'
+        template: 'TODO: Kundesøgning. Vis Stamdata + Historik, Ændring af stamdata'
       })
       .state('smartlinkbuilder', {
         url: '/smartlinkbuilder',
-        template: 'smartlinkbuilder'
+        templateUrl: 'app/smartlinkbuilder/smartlinkbuilder.html',
+        controller: 'SmartlinkBuilderController',
+        controllerAs: 'smartlinkCtrl'
       });
 
     $urlRouterProvider.otherwise('/publishers');
