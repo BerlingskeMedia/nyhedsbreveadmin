@@ -3,24 +3,37 @@
 
   angular
       .module('nyhedsbreveadmin')
-      .service('mdbAPI', mdbAPI);
+      .factory('mdbAPI', mdbAPI);
 
   function mdbAPI($http, nyhedsbreveadminConfig) {
     var APIBASEURL = nyhedsbreveadminConfig.APIBASEURL
 
-    this.getPublishers = function() {
+    var service = {
+      APIBASEURL: APIBASEURL,
+      getPublishers: getPublishers,
+      getInteresser: getInteresser,
+      getPermissions: getPermissions,
+      getNyhedsbreve: getNyhedsbreve,
+    };
+
+    return service;
+
+
+
+    function getPublishers() {
+      console.log(nyhedsbreveadminConfig.APIBASEURL);
       return $http.get(APIBASEURL + "publishers");
     }
 
-    this.getInteresser = function() {
+    function getInteresser() {
       return $http.get(APIBASEURL + "interesser");
     }
 
-    this.getPermissions = function() {
+    function getPermissions() {
       return $http.get(APIBASEURL + "nyhedsbreve?permission=1");
     }
 
-    this.getNyhedsbreve = function() {
+    function getNyhedsbreve() {
       return $http.get(APIBASEURL + "nyhedsbreve");
     }
 
