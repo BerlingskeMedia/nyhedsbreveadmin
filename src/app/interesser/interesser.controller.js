@@ -12,8 +12,8 @@
     activate();
 
     function activate() {
-      mdbAPI.getInteresser().then(function(response) {
-        vm.interesser = response.data;
+      mdbAPI.getInteresser().then(function(interesser) {
+        vm.interesser = interesser;
       })
     }
 

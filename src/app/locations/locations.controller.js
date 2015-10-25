@@ -12,8 +12,8 @@
     activate();
 
     function activate() {
-      mdbAPI.getLocations().then(function(response) {
-        vm.locations = response.data;
+      mdbAPI.getLocations().then(function(locations) {
+        vm.locations = locations;
       })
     }
 

@@ -12,8 +12,8 @@
     activate();
 
     function activate() {
-      mdbAPI.getNyhedsbreve().then(function(response) {
-        vm.nyhedsbreve = response.data;
+      mdbAPI.getNyhedsbreve().then(function(nyhedsbreve) {
+        vm.nyhedsbreve = nyhedsbreve;
       })
     }
 

@@ -23,7 +23,8 @@
 
 
     function getPublishers() {
-      return $http.get(APIBASEURL + "publishers");
+      return $http.get(APIBASEURL + "publishers")
+      .then(_httpSuccessCallback);
     }
 
     function getPublisher(id) {
@@ -34,22 +35,27 @@
     }
 
     function getInteresser() {
-      return $http.get(APIBASEURL + "interesser");
+      return $http.get(APIBASEURL + "interesser")
+      .then(_httpSuccessCallback);
     }
 
     function getPermissions() {
-      return $http.get(APIBASEURL + "nyhedsbreve?permission=1");
+      return $http.get(APIBASEURL + "nyhedsbreve?permission=1")
+      .then(_httpSuccessCallback);
     }
 
     function getNyhedsbreve() {
-      return $http.get(APIBASEURL + "nyhedsbreve");
+      return $http.get(APIBASEURL + "nyhedsbreve")
+      .then(_httpSuccessCallback);
     }
 
     function getLocations() {
-      return $http.get(APIBASEURL + "locations");
+      return $http.get(APIBASEURL + "locations")
+      .then(_httpSuccessCallback);
     }
 
-    var _httpCallback = function(response) {
+    function _httpSuccessCallback(response) {
+      console.log('_httpSuccessCallback');
       return response.data;
     }
 

@@ -12,8 +12,8 @@
     activate();
 
     function activate() {
-      mdbAPI.getPublishers().then(function(response) {
-        vm.publishers = response.data;
+      mdbAPI.getPublishers().then(function(publishers) {
+        vm.publishers = publishers;
       })
     }
 

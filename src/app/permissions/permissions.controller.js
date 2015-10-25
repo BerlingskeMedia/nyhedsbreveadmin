@@ -12,8 +12,8 @@
     activate();
 
     function activate() {
-      mdbAPI.getPermissions().then(function(response) {
-        vm.permissions = response.data;
+      mdbAPI.getPermissions().then(function(permissions) {
+        vm.permissions = permissions;
       })
     }
 
