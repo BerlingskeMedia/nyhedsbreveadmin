@@ -9,10 +9,16 @@
   function routerConfig($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('publishers', {
-        url: '/publishers',
-        templateUrl: 'app/publishers/publishers.html',
+        url: '/publisher',
+        templateUrl: 'app/publisher/publishers.html',
         controller: 'PublishersController',
         controllerAs: 'pubsCtrl'
+      })
+      .state('publisher', {
+        url: '/publisher/:id',
+        templateUrl: 'app/publisher/publisher.html',
+        controller: 'PublisherController',
+        controllerAs: 'pubCtrl'
       })
       .state('nyhedsbreve', {
         url: '/nyhedsbreve',

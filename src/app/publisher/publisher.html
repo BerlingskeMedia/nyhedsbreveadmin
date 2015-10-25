@@ -1,0 +1,21 @@
+<h1>{{pubCtrl.publisher.publisher_navn}}</h1>
+
+<form name="editForm">
+  <div class="form-group error">
+    <label>Navn</label>
+    <input type="text" name="name" required placeholder="Navn" ng-model="pubCtrl.publisher.publisher_navn"class="form-control">
+  </div>
+  <div ng-messages="editForm.name.$error">
+    <div ng-message="required">Du skal indtaste et navn</div>
+  </div>
+  <div class="form-group">
+    <label>Image URL</label>
+    <input type="url" ng-model="pubCtrl.publisher.toppic" class="form-control" name="image" placeholder="Image URL" required>
+  </div>
+  <div class="checkbox">
+    <label>
+      <input ng-model="pubCtrl.publisher.hidden" type="checkbox">Hidden
+    </label>
+  </div>
+  <button type="submit" class="btn btn-default">Gem</button>
+</form>
