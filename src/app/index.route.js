@@ -16,11 +16,15 @@
       })
       .state('nyhedsbreve', {
         url: '/nyhedsbreve',
-        template: 'nyhedsbreve'
+        templateUrl: 'app/nyhedsbreve/nyhedsbreve.html',
+        controller: 'NyhedsbreveController',
+        controllerAs: 'nyhedsbreveCtrl'
       })
-      .state('intesser', {
-        url: '/intesser',
-        template: 'intesser'
+      .state('interesser', {
+        url: '/interesser',
+        templateUrl: 'app/interesser/interesser.html',
+        controller: 'InteresserController',
+        controllerAs: 'interesserCtrl'
       })
       .state('permissions', {
         url: '/permissions',

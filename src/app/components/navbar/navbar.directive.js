@@ -6,7 +6,6 @@
     .directive('nyhedsbreveNavbar', nyhedsbreveNavbar);
 
   function nyhedsbreveNavbar() {
-    console.log('nu');
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/navbar/navbar.html',

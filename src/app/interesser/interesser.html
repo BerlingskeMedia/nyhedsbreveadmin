@@ -1,0 +1,16 @@
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+        <tr>
+          <th>ID</th>
+          <th>Navn</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="interesse in interesserCtrl.interesser">
+          <th>{{interesse.interesse_id}}</th>
+          <td>{{interesse.interesse_navn}}</td>
+        </tr>
+      </tbody>
+  </table>
+</div>

@@ -21,7 +21,6 @@
 
 
     function getPublishers() {
-      console.log(nyhedsbreveadminConfig.APIBASEURL);
       return $http.get(APIBASEURL + "publishers");
     }
 
