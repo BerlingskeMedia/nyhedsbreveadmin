@@ -12,6 +12,7 @@
     activate();
 
     function activate() {
+      $scope.sortType = 'publisher_id'
       mdbAPI.getPublishers().then(function(publishers) {
         vm.publishers = publishers;
       })

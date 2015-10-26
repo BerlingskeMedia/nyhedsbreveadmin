@@ -27,15 +27,21 @@
             </a>
           </th>
           <th>Billede</th>
-          <th>Enabled</th>
+          <th>
+            <a href="" ng-click="sortType = 'enabled'; sortReverse = !sortReverse">
+              Enabled
+              <span ng-show="sortType == 'enabled' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+              <span ng-show="sortType == 'enabled' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+            </a>
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="publisher in pubsCtrl.publishers | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="publisher({id:publisher.publisher_id})">
-            <th>{{publisher.publisher_id}}</th>
-            <td>{{publisher.publisher_navn}}</td>
-            <td>{{publisher.publisher_toppic}}</td>
-            <td>{{publisher.enabled ? 'True' : 'False'}}</td>
+            <th>{{::publisher.publisher_id}}</th>
+            <td>{{::publisher.publisher_navn}}</td>
+            <td>{{::publisher.publisher_toppic}}</td>
+            <td>{{::publisher.enabled ? 'True' : 'False'}}</td>
         </tr>
       </tbody>
   </table>
