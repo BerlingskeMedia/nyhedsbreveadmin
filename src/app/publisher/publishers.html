@@ -37,7 +37,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="publisher in pubsCtrl.publishers | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="publisher({id:publisher.publisher_id})">
+        <tr ng-repeat="publisher in vm.publishers | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="publisher({id:publisher.publisher_id})">
             <th>{{::publisher.publisher_id}}</th>
             <td>{{::publisher.publisher_navn}}</td>
             <td>{{::publisher.publisher_toppic}}</td>
