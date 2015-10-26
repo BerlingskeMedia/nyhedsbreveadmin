@@ -28,7 +28,7 @@
   <img class="nyhedsbreve-image" ng-src="{{vm.publisher.publisher_toppic}}" />
   <div class="checkbox">
     <label>
-      <input ng-model="vm.publisher.enabled" type="checkbox" ng-true-value="1" ng-false-value="0">Enabled
+      <input ng-model="vm.publisher.enabled" type="checkbox" ng-true-value="1" ng-false-value="0" >Enabled
     </label>
   </div>
   <button type="submit" class="btn" ng-class="{'btn-success' : editForm.$valid}" ng-disabled="editForm.$invalid" ng-click="vm.update(vm.publisher)">Gem</button>

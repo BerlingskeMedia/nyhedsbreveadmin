@@ -3,10 +3,10 @@
 
   angular
     .module('nyhedsbreveadmin')
-    .controller('NyhedsbreveController', NyhedsbreveController);
+    .controller('NyhedsbrevListController', NyhedsbrevListController);
 
   /** @ngInject */
-  function NyhedsbreveController($scope, mdbAPI) {
+  function NyhedsbrevListController($scope, mdbAPI) {
     var vm = this;
 
     activate();

@@ -1,7 +1,9 @@
 {
   "name": "nyhedsbreveadmin",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+
+  },
   "scripts": {
     "test": "gulp test"
   },
@@ -33,6 +35,7 @@
     "gulp-sourcemaps": "~1.6.0",
     "gulp-sass": "~2.0.4",
     "gulp-angular-filesort": "~1.1.1",
+    "gulp-minify-html": "^1.0.4",
     "main-bower-files": "~2.9.0",
     "wiredep": "~2.2.2",
     "karma": "~0.13.10",

@@ -15,6 +15,7 @@
       getInteresser: getInteresser,
       getPermissions: getPermissions,
       getNyhedsbreve: getNyhedsbreve,
+      getNyhedsbrev: getNyhedsbrev,
       getLocations: getLocations,
       putPublisher: putPublisher
     };
@@ -28,17 +29,17 @@
       .then(_httpSuccessCallback);
     }
 
+    function getPublisher(id) {
+      return $http.get(APIBASEURL + "publishers?publisher_id=" + id)
+      .then(_httpArraySuccessCallback);
+    }
+
     function putPublisher(publisher) {
       return $http.put(APIBASEURL + "publishers/" + publisher.publisher_id, publisher)
       .then(_httpSuccessCallback);
     }
 
-    function getPublisher(id) {
-      return $http.get(APIBASEURL + "publishers?publisher_id=" + id)
-      .then(function(response) {
-        return response.data[0];
-      });
-    }
+
 
     function getInteresser() {
       return $http.get(APIBASEURL + "interesser")
@@ -55,6 +56,11 @@
       .then(_httpSuccessCallback);
     }
 
+    function getNyhedsbrev(id) {
+      return $http.get(APIBASEURL + "nyhedsbreve?nyhedsbrev_id=" + id)
+      .then(_httpArraySuccessCallback);
+    }
+
     function getLocations() {
       return $http.get(APIBASEURL + "locations")
       .then(_httpSuccessCallback);
@@ -63,6 +69,11 @@
     function _httpSuccessCallback(response) {
       console.log(response.data);
       return response.data;
+    }
+
+    function _httpArraySuccessCallback(response) {
+      console.log(response.data);
+      return response.data[0];
     }
 
   }

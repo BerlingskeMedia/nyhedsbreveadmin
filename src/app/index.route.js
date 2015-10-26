@@ -20,31 +20,37 @@
         controller: 'PublisherDetailController',
         controllerAs: 'vm'
       })
-      .state('nyhedsbreve', {
-        url: '/nyhedsbreve',
-        templateUrl: 'app/nyhedsbreve/nyhedsbreve.html',
-        controller: 'NyhedsbreveController',
+      .state('nyhedsbrev', {
+        url: '/nyhedsbrev',
+        templateUrl: 'app/nyhedsbrev/nyhedsbrev.list.html',
+        controller: 'NyhedsbrevListController',
         controllerAs: 'vm'
       })
-      .state('interesser', {
-        url: '/interesser',
+      .state('nyhedsbrev-detail', {
+        url: '/nyhedsbrev/:id',
+        templateUrl: 'app/nyhedsbrev/nyhedsbrev.detail.html',
+        controller: 'NyhedsbrevDetailController',
+        controllerAs: 'vm'
+      })
+      .state('interesse', {
+        url: '/interesse',
         templateUrl: 'app/interesser/interesser.html',
         controller: 'InteresserController',
         controllerAs: 'interesserCtrl'
       })
-      .state('permissions', {
-        url: '/permissions',
+      .state('permission', {
+        url: '/permission',
         templateUrl: 'app/permissions/permissions.html',
         controller: 'PermissionsController',
         controllerAs: 'permissionsCtrl'
       })
-      .state('locations', {
-        url: '/locations',
+      .state('location', {
+        url: '/location',
         templateUrl: 'app/locations/locations.html',
         controller: 'LocationsController',
         controllerAs: 'locationsCtrl'
       })
-      .state('kunder', {
+      .state('kunde', {
         url: '/kunder',
         template: 'TODO: Kundesøgning. Vis Stamdata + Historik, Ændring af stamdata'
       })

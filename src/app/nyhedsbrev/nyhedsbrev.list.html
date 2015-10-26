@@ -30,7 +30,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="nyhedsbrev in vm.nyhedsbreve | orderBy:sortType:sortReverse | filter:searchterm">
+        <tr ng-repeat="nyhedsbrev in vm.nyhedsbreve | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="nyhedsbrev-detail({id:nyhedsbrev.nyhedsbrev_id})">
           <th>{{::nyhedsbrev.nyhedsbrev_id}}</th>
           <td>{{::nyhedsbrev.nyhedsbrev_navn}}</td>
           <td>{{::nyhedsbrev.indhold}}</td>
