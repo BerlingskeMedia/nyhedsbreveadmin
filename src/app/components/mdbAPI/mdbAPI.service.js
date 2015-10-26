@@ -16,6 +16,7 @@
       getPermissions: getPermissions,
       getNyhedsbreve: getNyhedsbreve,
       getLocations: getLocations,
+      putPublisher: putPublisher
     };
 
     return service;
@@ -24,6 +25,11 @@
 
     function getPublishers() {
       return $http.get(APIBASEURL + "publishers")
+      .then(_httpSuccessCallback);
+    }
+
+    function putPublisher(publisher) {
+      return $http.put(APIBASEURL + "publishers/" + publisher.publisher_id, publisher)
       .then(_httpSuccessCallback);
     }
 

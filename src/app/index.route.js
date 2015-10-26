@@ -12,13 +12,13 @@
         url: '/publisher',
         templateUrl: 'app/publisher/publishers.html',
         controller: 'PublishersController',
-        controllerAs: 'pubsCtrl'
+        controllerAs: 'vm'
       })
       .state('publisher', {
         url: '/publisher/:id',
         templateUrl: 'app/publisher/publisher.html',
         controller: 'PublisherController',
-        controllerAs: 'pubCtrl'
+        controllerAs: 'vm'
       })
       .state('nyhedsbreve', {
         url: '/nyhedsbreve',

@@ -8,6 +8,7 @@
   /** @ngInject */
   function PublisherController($stateParams, mdbAPI) {
     var vm = this;
+    vm.update = update;
 
     activate();
 
@@ -17,6 +18,11 @@
         vm.publisher = publisher;
       })
     }
+
+    function update(publisher) {
+      return mdbAPI.putPublisher(publisher);
+    }
+
 
   }
 })();
