@@ -6,7 +6,7 @@
     .module('nyhedsbreveadmin')
     .constant('moment', moment)
     .constant("nyhedsbreveadminConfig", {
-      "APIBASEURL": "http://localhost:1337/54.77.4.249:8080/"
+      "APIBASEURL": "http://192.168.1.71:1337/54.77.4.249:8080/"
     });
 
 })();

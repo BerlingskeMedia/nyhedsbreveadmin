@@ -8,16 +8,16 @@
   /** @ngInject */
   function routerConfig($stateProvider, $urlRouterProvider) {
     $stateProvider
-      .state('publishers', {
+      .state('publisher', {
         url: '/publisher',
-        templateUrl: 'app/publisher/publishers.html',
-        controller: 'PublishersController',
+        templateUrl: 'app/publisher/publisher.list.html',
+        controller: 'PublishersListController',
         controllerAs: 'vm'
       })
-      .state('publisher', {
-        url: '/publisher/:id',
-        templateUrl: 'app/publisher/publisher.html',
-        controller: 'PublisherController',
+      .state('publisher.detail', {
+        url: '/:id',
+        templateUrl: 'app/publisher/publisher.detail.html',
+        controller: 'PublisherDetailController',
         controllerAs: 'vm'
       })
       .state('nyhedsbreve', {
@@ -55,7 +55,7 @@
         controllerAs: 'smartlinkCtrl'
       });
 
-    $urlRouterProvider.otherwise('/publishers');
+    $urlRouterProvider.otherwise('/publisher');
   }
 
 })();

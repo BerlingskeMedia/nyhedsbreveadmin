@@ -3,10 +3,10 @@
 
   angular
     .module('nyhedsbreveadmin')
-    .controller('PublisherController', PublisherController);
+    .controller('PublisherDetailController', PublisherDetailController);
 
   /** @ngInject */
-  function PublisherController($stateParams, mdbAPI) {
+  function PublisherDetailController($stateParams, mdbAPI) {
     var vm = this;
     vm.update = update;
 

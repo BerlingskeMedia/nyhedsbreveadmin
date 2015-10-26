@@ -36,7 +36,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="publisher in vm.publishers | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="publisher({id:publisher.publisher_id})">
+        <tr ng-repeat="publisher in vm.publishers | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="publisher.detail({id:publisher.publisher_id})">
             <th>{{::publisher.publisher_id}}</th>
             <td>{{::publisher.publisher_navn}}</td>
             <td>{{::publisher.enabled ? 'True' : 'False'}}</td>
@@ -44,3 +44,4 @@
       </tbody>
   </table>
 </div>
+<ui-view />
