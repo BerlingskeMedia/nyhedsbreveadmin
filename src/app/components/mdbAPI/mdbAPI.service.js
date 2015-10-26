@@ -61,7 +61,7 @@
     }
 
     function _httpSuccessCallback(response) {
-      console.log('_httpSuccessCallback');
+      console.log(response.data);
       return response.data;
     }
 

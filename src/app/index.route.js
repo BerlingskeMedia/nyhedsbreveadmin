@@ -24,7 +24,7 @@
         url: '/nyhedsbreve',
         templateUrl: 'app/nyhedsbreve/nyhedsbreve.html',
         controller: 'NyhedsbreveController',
-        controllerAs: 'nyhedsbreveCtrl'
+        controllerAs: 'vm'
       })
       .state('interesser', {
         url: '/interesser',

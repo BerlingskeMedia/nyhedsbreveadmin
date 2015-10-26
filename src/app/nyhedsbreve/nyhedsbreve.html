@@ -1,15 +1,39 @@
 <div class="table-responsive">
+  <form>
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon">
+          <span class="glyphicon glyphicon-search"></span>
+        </div>
+        <input type="text" class="form-control" placeholder="Søg" ng-model="searchterm">
+      </div>
+    </div>
+  </form>
   <table class="table table-striped">
     <thead>
         <tr>
-          <th>ID</th>
-          <th>Navn</th>
+          <th>
+            <a href="" ng-click="sortType = 'nyhedsbrev_id'; sortReverse = !sortReverse">
+              ID
+              <span ng-show="sortType == 'nyhedsbrev_id' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+              <span ng-show="sortType == 'nyhedsbrev_id' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+            </a>
+          </th>
+          <th>
+            <a href="" ng-click="sortType = 'nyhedsbrev_navn'; sortReverse = !sortReverse">
+              Navn
+              <span ng-show="sortType == 'nyhedsbrev_navn' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+              <span ng-show="sortType == 'nyhedsbrev_navn' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+            </a>
+          </th>
+          <th>Indhold</th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="nyhedsbrev in nyhedsbreveCtrl.nyhedsbreve">
-          <th>{{nyhedsbrev.nyhedsbrev_id}}</th>
-          <td>{{nyhedsbrev.nyhedsbrev_navn}}</td>
+        <tr ng-repeat="nyhedsbrev in vm.nyhedsbreve | orderBy:sortType:sortReverse | filter:searchterm">
+          <th>{{::nyhedsbrev.nyhedsbrev_id}}</th>
+          <td>{{::nyhedsbrev.nyhedsbrev_navn}}</td>
+          <td>{{::nyhedsbrev.indhold}}</td>
         </tr>
       </tbody>
   </table>

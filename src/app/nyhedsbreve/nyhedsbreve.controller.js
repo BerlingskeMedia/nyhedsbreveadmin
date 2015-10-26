@@ -12,6 +12,7 @@
     activate();
 
     function activate() {
+      $scope.sortType = 'nyhedsbrev_id';
       mdbAPI.getNyhedsbreve().then(function(nyhedsbreve) {
         vm.nyhedsbreve = nyhedsbreve;
       })
