@@ -14,7 +14,6 @@ Dette er en simpelt liste, som viser alle publisher og med direkte adgang (inlin
 
 - Navn
 - BilledeURL (simpel tekststreng)
-- Hidden (boolean)
 - Enabled (boolean)
 
 Feltet `id`skal fremgå af listen (til hurtig reference.)
@@ -32,7 +31,6 @@ Ved redigering af nyhedsbrev, åbens et nyt view med følgende felter:
 - Publisher (drop down)
 - Beskrivelse (textarea - ikke HTML)
 - BilledeURL
-- Hidden (boolean)
 - Enabled (boolean)
 
 Det skal være muligt at oprette nyt nyhedsbrev fra dette view.
