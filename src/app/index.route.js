@@ -58,7 +58,7 @@
         url: '/smartlinkbuilder',
         templateUrl: 'app/smartlinkbuilder/smartlinkbuilder.html',
         controller: 'SmartlinkBuilderController',
-        controllerAs: 'smartlinkCtrl'
+        controllerAs: 'vm'
       });
 
     $urlRouterProvider.otherwise('/publisher');
