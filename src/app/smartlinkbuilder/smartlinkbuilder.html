@@ -28,6 +28,26 @@
         </select>
       </div>
     </div>
+    <div class="col-sm-offset-2 col-sm-3">
+      <h3>Flow</h3>
+      <div class="btn-group">
+          <label class="btn btn-primary" ng-model="flow" uib-btn-radio="'Simple'" uncheckable>Simpel</label>
+          <label class="btn btn-primary" ng-model="flow" uib-btn-radio="'double'" uncheckable>Double Optin</label>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <h3>Action</h3>
+      <div class="btn-group">
+          <label class="btn btn-primary" ng-model="action" uib-btn-radio="'subscribe'" uncheckable>Tilmeld</label>
+          <label class="btn btn-primary" ng-model="action" uib-btn-radio="'unsubscribe'" uncheckable>Afmeld</label>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <h3>Kundefelt</h3>
+      <div class="btn-group">
+          <label class="btn btn-primary" ng-model="flow" uib-btn-radio="'email'" uncheckable>Email</label>
+          <label class="btn btn-primary" ng-model="flow" uib-btn-radio="'eksternid'" uncheckable>Ekstern ID</label>
+      </div>
+    </div>
   </form>
-
 </div>

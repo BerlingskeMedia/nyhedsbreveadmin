@@ -16,7 +16,6 @@
         vm.nyhedsbreve = datas[0];
         vm.interesser = datas[1];
         vm.permissions = datas[2];
-        console.log('done');
       })
     }
 
