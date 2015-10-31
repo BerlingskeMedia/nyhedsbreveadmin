@@ -3,10 +3,10 @@
 
   angular
     .module('nyhedsbreveadmin')
-    .controller('LocationsController', LocationsController);
+    .controller('LocationController', LocationController);
 
   /** @ngInject */
-  function LocationsController($scope, mdbAPI) {
+  function LocationController($scope, mdbAPI) {
     var vm = this;
 
     activate();

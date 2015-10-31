@@ -46,9 +46,9 @@
       })
       .state('location', {
         url: '/location',
-        templateUrl: 'app/locations/locations.html',
-        controller: 'LocationsController',
-        controllerAs: 'locationsCtrl'
+        templateUrl: 'app/location/location.html',
+        controller: 'LocationController',
+        controllerAs: 'locationCtrl'
       })
       .state('kunde', {
         url: '/kunder',
