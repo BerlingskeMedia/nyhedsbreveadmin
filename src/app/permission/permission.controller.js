@@ -3,10 +3,10 @@
 
   angular
     .module('nyhedsbreveadmin')
-    .controller('PermissionsController', PermissionsController);
+    .controller('PermissionController', PermissionController);
 
   /** @ngInject */
-  function PermissionsController($scope, mdbAPI) {
+  function PermissionController($scope, mdbAPI) {
     var vm = this;
 
     activate();
