@@ -3,10 +3,10 @@
 
   angular
     .module('nyhedsbreveadmin')
-    .controller('InteresserController', InteresserController);
+    .controller('InteresseController', InteresseController);
 
   /** @ngInject */
-  function InteresserController($scope, mdbAPI) {
+  function InteresseController($scope, mdbAPI) {
     var vm = this;
 
     activate();
