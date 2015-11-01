@@ -6,8 +6,9 @@
     .controller('SmartlinkBuilderController', SmartlinkBuilderController);
 
   /** @ngInject */
-  function SmartlinkBuilderController($scope, $q, mdbAPI) {
+  function SmartlinkBuilderController($scope, $q, mdbAPI, nyhedsbreveadminConfig) {
     var vm = this;
+    var SMARTLINK_BASEURL = nyhedsbreveadminConfig.SMARTLINK_BASEURL
 
     activate();
 
@@ -20,7 +21,18 @@
     }
 
     function activate() {
+      $scope.minDate = new Date();
+      $scope.startdate = new Date();
       getData();
+    }
+
+    function build_smartlink() {
+
+      var url = SMARTLINK_BASEURL + 's';
+      //nids ints permissions flow action customer
+
+      $scope.smartlink = url;
+
     }
 
 

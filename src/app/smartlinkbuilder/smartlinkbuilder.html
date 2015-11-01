@@ -45,9 +45,30 @@
     <div class="col-sm-3">
       <h3>Kundefelt</h3>
       <div class="btn-group">
-          <label class="btn btn-primary" ng-model="flow" uib-btn-radio="'email'" uncheckable>Email</label>
-          <label class="btn btn-primary" ng-model="flow" uib-btn-radio="'eksternid'" uncheckable>Ekstern ID</label>
+          <label class="btn btn-primary" ng-model="customerfield" uib-btn-radio="'email'" uncheckable>Email</label>
+          <label class="btn btn-primary" ng-model="customerfield" uib-btn-radio="'eksternid'" uncheckable>Ekstern ID</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="name" class="col-sm-2 control-label">Gyldighedsperiode</label>
+      <div class="col-sm-5">
+        <h3>Startdato</h3>
+        <uib-datepicker ng-model="startdate" min-date="minDate" show-weeks="true" class="well well-sm"></uib-datepicker>
+        {{startdate}}
+
+      </div>
+      <div class="col-sm-5">
+        <h3>Eventuel Slutdato</h3>
+        <uib-datepicker ng-model="enddate" min-date="startdate" show-weeks="true" class="well well-sm"></uib-datepicker>
       </div>
     </div>
   </form>
+  <div class="col-sm-2">
+    Smartlink
+  </div>
+  <div class="result col-sm-10">
+    <pre>
+      {{smartlink}}
+    </pre>
+  </div>
 </div>
