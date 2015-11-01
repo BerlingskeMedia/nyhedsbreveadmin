@@ -34,9 +34,9 @@
       })
       .state('interesse', {
         url: '/interesse',
-        templateUrl: 'app/interesser/interesser.html',
-        controller: 'InteresserController',
-        controllerAs: 'interesserCtrl'
+        templateUrl: 'app/interesse/interesse.html',
+        controller: 'InteresseController',
+        controllerAs: 'interesseCtrl'
       })
       .state('permission', {
         url: '/permission',
@@ -50,9 +50,17 @@
         controller: 'LocationController',
         controllerAs: 'locationCtrl'
       })
-      .state('kunde', {
+      .state('user-list', {
         url: '/kunder',
-        template: 'TODO: Kundesøgning. Vis Stamdata + Historik, Ændring af stamdata'
+        templateUrl: 'app/user/user.list.html',
+        controller: 'UserListContoller',
+        controllerAs: 'vm'
+      })
+      .state('user-detail', {
+        url: '/kunder/:ekstern_id',
+        templateUrl: 'app/user/user.detail.html',
+        controller: 'UserDetailContoller',
+        controllerAs: 'vm'
       })
       .state('smartlinkbuilder', {
         url: '/smartlinkbuilder',
