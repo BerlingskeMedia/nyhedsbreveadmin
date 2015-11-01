@@ -51,15 +51,39 @@
         controllerAs: 'locationCtrl'
       })
       .state('user-list', {
-        url: '/kunder',
+        url: '/kunde',
         templateUrl: 'app/user/user.list.html',
         controller: 'UserListContoller',
         controllerAs: 'vm'
       })
       .state('user-detail', {
-        url: '/kunder/:ekstern_id',
+        url: '/kunde/:ekstern_id',
         templateUrl: 'app/user/user.detail.html',
         controller: 'UserDetailContoller',
+        controllerAs: 'vm'
+      })
+      .state('user-detail.core', {
+        url: '/stamdata',
+        templateUrl: 'app/user/user.detail.core.html',
+        controller: 'UserDetailCoreController',
+        controllerAs: 'vm'
+      })
+      .state('user-detail.interesse', {
+        url: '/interesse',
+        templateUrl: 'app/user/user.detail.interesse.html',
+        controller: 'UserDetailInteresseController',
+        controllerAs: 'vm'
+      })
+      .state('user-detail.permission', {
+        url: '/permission',
+        templateUrl: 'app/user/user.detail.permission.html',
+        controller: 'UserDetailPermissionController',
+        controllerAs: 'vm'
+      })
+      .state('user-detail.history', {
+        url: '/historik',
+        templateUrl: 'app/user/user.detail.history.html',
+        controller: 'UserDetailHistoryController',
         controllerAs: 'vm'
       })
       .state('smartlinkbuilder', {

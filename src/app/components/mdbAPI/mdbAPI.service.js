@@ -19,6 +19,7 @@
       getLocations: getLocations,
       putPublisher: putPublisher,
       userSearch: userSearch,
+      getUser: getUser
     };
 
     return service;
@@ -39,8 +40,6 @@
       return $http.put(APIBASEURL + "publishers/" + publisher.publisher_id, publisher)
       .then(_httpSuccessCallback);
     }
-
-
 
     function getInteresser() {
       return $http.get(APIBASEURL + "interesser")
@@ -71,6 +70,15 @@
       return $http.get(APIBASEURL + "users/", {params:params})
       .then(_httpSuccessCallback);
     }
+
+    function getUser(ekstern_id) {
+      var url = 'http://localhost:1337/profil.berlingskemedia.dk/backend/users/8cdaaeaa999b1205378ee8995c93b390'
+      return $http.get(url)
+      .then(_httpSuccessCallback);
+      // return $http.get(APIBASEURL + "users/" + ekstern_id)
+      // .then(_httpSuccessCallback);
+    }
+
 
     function _httpSuccessCallback(response) {
       console.log(response.data);
