@@ -1,1 +1,25 @@
 <h3>Permission</h3>
+<ul class="list-default">
+  <li ng-repeat="permission in permissions" class="col-lg-4 col-sm-6 col-xs-12">
+    <div class="checkbox">
+      <label>
+        <input checklist-model="$parent.user.nyhedsbreve" checklist-value="permission.nyhedsbrev_id" ng-change="$parent.checkbox_change(this, permission.nyhedsbrev_id, 'nyhedsbreve')" type="checkbox">
+        <small>
+          <strong class="xs-block">{{permission.nyhedsbrev_navn}}</strong>
+        </small>
+      </label>
+      <small>
+        <a class="show_permission_info" role="button" ng-click="permission.show_indhold = true" ng-hide="permission.show_indhold">Vis info <i class="fa fa-angle-down"></i></a>
+        <a class="show_permission_info" role="button" ng-click="permission.show_indhold = false" ng-show="permission.show_indhold">Skjul info <i class="fa fa-angle-up"></i></a>
+      </small>
+      <p class="permission_info">
+        <small>
+          <span ng-show="permission.show_indhold" ng-bind-html="permission.indhold_safe"></span>
+        </small>
+      </p>
+    </div>
+  </li>
+</ul>
+<p class="newsletter-notification">
+  <small class="alert alert-success" ng-show="permissionSaveSuccess">Dine kontaktsamtykker er blevet opdateret</small>
+</p>

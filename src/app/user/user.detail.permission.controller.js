@@ -11,7 +11,14 @@
 
     activate();
 
+    function getPermissions() {
+      mdbAPI.getPermissions().then(function(permissions) {
+        $scope.permissions = permissions;
+      })
+    }
+
     function activate() {
+      getPermissions();
     }
 
 
