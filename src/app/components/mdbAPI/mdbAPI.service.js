@@ -17,7 +17,8 @@
       getNyhedsbreve: getNyhedsbreve,
       getNyhedsbrev: getNyhedsbrev,
       getLocations: getLocations,
-      putPublisher: putPublisher
+      putPublisher: putPublisher,
+      userSearch: userSearch,
     };
 
     return service;
@@ -63,6 +64,11 @@
 
     function getLocations() {
       return $http.get(APIBASEURL + "locations")
+      .then(_httpSuccessCallback);
+    }
+
+    function userSearch(params) {
+      return $http.get(APIBASEURL + "users/", {params:params})
       .then(_httpSuccessCallback);
     }
 
