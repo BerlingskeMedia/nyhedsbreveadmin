@@ -15,11 +15,20 @@
       $state.go(state);
     }
 
-    function activate() {
-      $scope.goto = goto;
+    function getInteresser() {
+      // body...
+    }
+
+    function getUser() {
       mdbAPI.getUser($stateParams.ekstern_id).then(function(user) {
         $scope.user = user;
       });
+    }
+
+    function activate() {
+      getUser();
+      $scope.goto = goto;
+
     }
 
 

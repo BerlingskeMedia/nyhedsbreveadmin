@@ -1,1 +1,42 @@
-<h1>Interesser</h1>
+<h3>Interesser</h3>
+
+
+<div class="well clearfix" >
+  <h4>BEM</h4>
+  <div class="col-lg-4 col-sm-6 col-xs-12" ng-repeat="interesse in interesser.bem">
+    <label data-interesse-id="{{ interesse.interesse_id }}">
+      <input checklist-model="$parent.user.interesser" checklist-value="interesse.interesse_id" ng-change="$parent.checkbox_change(this, interesse.interesse_id, 'interesser')" type="checkbox"/>
+      {{interesse.interesse_navn}}
+    </label>
+  </div>
+</div>
+<div class="well clearfix" >
+  <h4>Godt Tip</h4>
+  <div class="col-lg-4 col-sm-6 col-xs-12" ng-repeat="interesse in interesser.godttip">
+    <label data-interesse-id="{{ interesse.interesse_id }}">
+      <input checklist-model="$parent.user.interesser" checklist-value="interesse.interesse_id" ng-change="$parent.checkbox_change(this, interesse.interesse_id, 'interesser')" type="checkbox"/>
+      {{interesse.interesse_navn}}
+    </label>
+  </div>
+</div>
+<div class="well clearfix" >
+  <h4>Ekstra</h4>
+  <div class="col-lg-4 col-sm-6 col-xs-12" ng-repeat="interesse in interesser.ekstra">
+    <label data-interesse-id="{{ interesse.interesse_id }}">
+      <input checklist-model="$parent.user.interesser" checklist-value="interesse.interesse_id" ng-change="$parent.checkbox_change(this, interesse.interesse_id, 'interesser')" type="checkbox"/>
+      {{interesse.interesse_navn}}
+    </label>
+  </div>
+</div>
+<div class="well clearfix" >
+  <h4>The Business Target</h4>
+  <div class="col-lg-4 col-sm-6 col-xs-12" ng-repeat="interesse in interesser.businesstarget">
+    <label data-interesse-id="{{ interesse.interesse_id }}">
+      <input checklist-model="$parent.user.interesser" checklist-value="interesse.interesse_id" ng-change="$parent.checkbox_change(this, interesse.interesse_id, 'interesser')" type="checkbox"/>
+      {{interesse.interesse_navn}}
+    </label>
+  </div>
+</div>
+<p class="newsletter-notification">
+  <small class="alert alert-success" ng-show="interestsSaveSuccess">Interesser er blevet opdateret</small>
+</p>

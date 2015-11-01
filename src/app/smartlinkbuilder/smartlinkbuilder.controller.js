@@ -13,7 +13,7 @@
     activate();
 
     function getData() {
-      $q.all([mdbAPI.getNyhedsbreve(), mdbAPI.getInteresser(), mdbAPI.getPermissions()]).then(function(datas) {
+      $q.all([mdbAPI.getNyhedsbreve(), mdbAPI.getAllInteresser(), mdbAPI.getPermissions()]).then(function(datas) {
         vm.nyhedsbreve = datas[0];
         vm.interesser = datas[1];
         vm.permissions = datas[2];

@@ -12,7 +12,7 @@
     activate();
 
     function activate() {
-      mdbAPI.getInteresser().then(function(interesser) {
+      mdbAPI.getAllInteresser().then(function(interesser) {
         vm.interesser = interesser;
       })
     }
