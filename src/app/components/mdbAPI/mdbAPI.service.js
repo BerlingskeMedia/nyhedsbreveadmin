@@ -87,7 +87,7 @@
     }
 
     function userSearch(params) {
-      return $http.get(APIBASEURL + "users/", {params:params})
+      return $http.get(APIBASEURL + "users", {params:params})
       .then(_httpSuccessCallback);
     }
 

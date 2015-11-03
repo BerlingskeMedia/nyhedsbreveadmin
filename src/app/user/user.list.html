@@ -54,32 +54,51 @@
   <thead>
       <tr>
         <th>
-          <a href="" ng-click="sortType = 'nyhedsbrev_id'; sortReverse = !sortReverse">
+          <a href="" ng-click="sortType = 'user_id'; sortReverse = !sortReverse">
             ID
-            <span ng-show="sortType == 'nyhedsbrev_id' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
-            <span ng-show="sortType == 'nyhedsbrev_id' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+            <span ng-show="sortType == 'user_id' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+            <span ng-show="sortType == 'user_id' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
           </a>
         </th>
         <th>
-          <a href="" ng-click="sortType = 'nyhedsbrev_navn'; sortReverse = !sortReverse">
+          <a href="" ng-click="sortType = 'ekstern_id'; sortReverse = !sortReverse">
+            Ekstern ID
+            <span ng-show="sortType == 'ekstern_id' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+            <span ng-show="sortType == 'ekstern_id' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+          </a>
+        </th>
+        <th>
+          <a href="" ng-click="sortType = 'email'; sortReverse = !sortReverse">
+            Email
+            <span ng-show="sortType == 'email' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+            <span ng-show="sortType == 'email' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+          </a>
+        </th>
+        <th>
+          <a href="" ng-click="sortType = 'fornavn'; sortReverse = !sortReverse">
             Fornavn
-            <span ng-show="sortType == 'nyhedsbrev_navn' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
-            <span ng-show="sortType == 'nyhedsbrev_navn' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+            <span ng-show="sortType == 'fornavn' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+            <span ng-show="sortType == 'fornavn' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
           </a>
         </th>
         <th>
-          <a href="" ng-click="sortType = 'nyhedsbrev_navn'; sortReverse = !sortReverse">
+          <a href="" ng-click="sortType = 'efternavn'; sortReverse = !sortReverse">
             Efternavn
-            <span ng-show="sortType == 'nyhedsbrev_navn' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
-            <span ng-show="sortType == 'nyhedsbrev_navn' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+            <span ng-show="sortType == 'efternavn' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+            <span ng-show="sortType == 'efternavn' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
           </a>
         </th>
-        <th>Indhold</th>
       </tr>
     </thead>
     <tbody>
-
+      <tbody>
+        <tr ng-repeat="user in vm.users | orderBy:sortType:sortReverse" ui-sref="user-detail({ekstern_id:user.ekstern_id})">
+            <th>{{::user.user_id}}</th>
+            <td>{{::user.ekstern_id}}</td>
+            <td>{{::user.email}}</td>
+            <td>{{::user.fornavn}}</td>
+            <td>{{::user.efternavn}}</td>
+        </tr>
+      </tbody>
     </tbody>
 </table>
-
-      <button type="button" name="button" ui-sref="user-detail({ekstern_id:'TODO'})">Redigér Bruger</button>

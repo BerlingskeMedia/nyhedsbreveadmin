@@ -32,6 +32,7 @@
         searchPayload.postnummer = $scope.postnummer;
       }
       mdbAPI.userSearch(searchPayload).then(function(users) {
+        vm.users = users;
       })
     }
     function activate() {
