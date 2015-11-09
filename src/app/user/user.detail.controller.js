@@ -25,9 +25,20 @@
       });
     }
 
+
+    function updateUser(user) {
+      return mdbAPI.updateUser(user)
+      .then(function(savedUser) {
+        $scope.user  = savedUser;
+      })
+    }
+
+
+
     function activate() {
       getUser();
       $scope.goto = goto;
+      $scope.updateUser = updateUser;
 
     }
 

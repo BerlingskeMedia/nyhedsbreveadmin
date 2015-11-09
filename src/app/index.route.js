@@ -66,7 +66,7 @@
         url: '/stamdata',
         templateUrl: 'app/user/user.detail.core.html',
         controller: 'UserDetailCoreController',
-        controllerAs: 'vm'
+        controllerAs: 'vmCore'
       })
       .state('user-detail.interesse', {
         url: '/interesse',

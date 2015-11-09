@@ -21,7 +21,8 @@
       putPublisher: putPublisher,
       userSearch: userSearch,
       getUser: getUser,
-      getUserInteresser: getUserInteresser
+      getUserInteresser: getUserInteresser,
+      updateUser: updateUser
     };
 
     return service;
@@ -92,12 +93,16 @@
     }
 
     function getUser(ekstern_id) {
-      // var url = 'http://178.62.139.225:1338/profil.berlingskemedia.dk/backend/users/8cdaaeaa999b1205378ee8995c93b390'
-      // return $http.get(url)
-      // .then(_httpSuccessCallback);
       return $http.get(APIBASEURL + "users/" + ekstern_id)
       .then(_httpSuccessCallback);
     }
+
+    function updateUser(user) {
+      return $http.put(APIBASEURL + "users/" + user.ekstern_id, user)
+      .then(_httpSuccessCallback);
+    }
+
+
 
     function getUserInteresser(ekstern_id) {
       var url = 'http://178.62.139.225:1338/profil.berlingskemedia.dk/backend/users/8cdaaeaa999b1205378ee8995c93b390/interesser'

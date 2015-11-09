@@ -1,6 +1,6 @@
 <form name="userform">
   <div class="form-group well clearfix">
-    <h3>IDs</h3>
+    <h3>Systemdata</h3>
     <div class="col-sm-6">
       <label for="userid">User ID</label>
       <input disabled type="text" ng-model="user.user_id" name="userid" class="form-control input-sm" id="user_id">
@@ -41,13 +41,23 @@
     </div>
 
     <div class="col-sm-6">
-      <label for="postnummer_dk">Postnr.</label>
+      <label for="postnummer_dk">Postnummer DK.</label>
       <input min="999" max="9999" ng-model="user.postnummer_dk" type="number" name="postnummer_dk" class="form-control input-sm" id="postnummer_dk">
+    </div>
+
+    <div class="col-sm-6">
+      <label for="postnummer">Postnummer</label>
+      <input class="form-control input-sm" ng-maxlength="70" id="postnummer" ng-model="user.postnummer" type="text">
     </div>
 
     <div class="col-sm-6">
       <label for="foedselsaar">Fødselsår</label>
       <input class="form-control input-sm" id="foedselsaar" ng-maxlength="255" ng-model="user.foedselsaar" type="text">
+    </div>
+
+    <div class="col-sm-6">
+      <label for="alder">Alder</label>
+      <input class="form-control input-sm" id="alder" min="0" max="1000" ng-model="user.alder" type="number">
     </div>
 
     <div class="col-sm-8">
@@ -87,88 +97,94 @@
     <h3 class="title">Yderligere data</h3>
     <div class="col-sm-6">
       <label for="">Adgangskode</label>
-      <input class="form-control input-sm" id="adgangskode" ng-model="user.adgangskode" type="text">
+      <input class="form-control input-sm" ng-maxlength="255" id="adgangskode" ng-model="user.adgangskode" type="text">
     </div>
-    <div class="col-sm-6">
-      <label for="alder">Alder</label>
-      <input class="form-control input-sm" id="alder" min="0" max="1000" ng-model="user.alder" type="number">
-    </div>
+
     <div class="col-sm-6">
       <label for="bbs_abo_nr">BBS Abo Nr.</label>
-      <input class="form-control input-sm" id="bbs_abo_nr" ng-model="user.bbs_abo_nr" type="text">
+      <input class="form-control input-sm" id="bbs_abo_nr" ng-model="user.bbs_abo_nr" type="number">
     </div>
+
     <div class="col-sm-6">
       <label for="mol_bbs_nr">MOL BBS Nr.</label>
-      <input class="form-control input-sm" id="mol_bbs_nr" ng-model="user.mol_bbs_nr" type="text">
+      <input class="form-control input-sm" id="mol_bbs_nr" ng-model="user.mol_bbs_nr" type="number">
     </div>
+
     <div class="col-sm-6">
       <label for="brugernavn">Brugernavn</label>
-      <input class="form-control input-sm" id="brugernavn" ng-model="user.brugernavn" type="text">
+      <input class="form-control input-sm" ng-maxlength="255" id="brugernavn" ng-model="user.brugernavn" type="text">
     </div>
-    <div class="col-sm-6">
-      <label for="bynavn">Bynavn</label>
-      <input class="form-control input-sm" id="bynavn" ng-model="user.bynavn" type="text">
-    </div>
+
     <div class="col-sm-6">
       <label for="co_navn">C/O Navn</label>
-      <input class="form-control input-sm" id="co_navn" ng-model="user.co_navn" type="text">
+      <input class="form-control input-sm" ng-maxlength="255" id="co_navn" ng-model="user.co_navn" type="text">
     </div>
-    <div class="col-sm-6">
-      <label for="etage">Etage</label>
-      <input class="form-control input-sm" id="etage" ng-model="user.etage" type="text">
-    </div>
+
     <div class="col-sm-6">
       <label for="firma">Firma</label>
-      <input class="form-control input-sm" id="firma" ng-model="user.firma" type="text">
+      <input class="form-control input-sm" ng-maxlength="255" id="firma" ng-model="user.firma" type="text">
     </div>
+
     <div class="col-sm-6">
       <label for="firma_adresse">Firma Adresse</label>
-      <input class="form-control input-sm" id="firma_adresse" ng-model="user.firma_adresse" type="text">
+      <input class="form-control input-sm" ng-maxlength="255" id="firma_adresse" ng-model="user.firma_adresse" type="text">
     </div>
+
     <div class="col-sm-6">
-      <label for="foedselsdato">Fødselsdato</label>
+      <label for="foedselsdato">Fødselsdato <small>Husk datepicker</small></label>
       <input class="form-control input-sm" id="foedselsdato" ng-model="user.foedselsdato" type="text">
     </div>
+
     <div class="col-sm-6">
       <label for="koen">Køn</label>
       <input class="form-control input-sm" ng-maxlength="8" id="koen" ng-model="user.koen" type="text">
     </div>
+
     <div class="col-sm-6">
       <label for="Komvej_kode">Komvej_kode</label>
-      <input class="form-control input-sm" id="komvej_kode" ng-model="user.komvej_kode" type="text">
+      <input class="form-control input-sm" ng-maxlength="18" id="komvej_kode" ng-model="user.komvej_kode" type="text">
     </div>
+
     <div class="col-sm-6">
       <label for="land">Land</label>
-      <input class="form-control input-sm" id="Land" ng-model="user.Land" type="text">
+      <input class="form-control input-sm" ng-maxlength="255" id="Land" ng-model="user.land" type="text">
     </div>
+
     <div class="col-sm-6">
       <label for="lande_kode">Landekode</label>
-      <input class="form-control input-sm" id="lande_kode" ng-model="user.lande_kode" type="text">
+      <input class="form-control input-sm" ng-maxlength="3" id="lande_kode" ng-model="user.lande_kode" type="text">
     </div>
+
     <div class="col-sm-6">
       <label for="mobil">Mobil</label>
-      <input class="form-control input-sm" id="mobil" ng-model="user.mobil" type="text">
+      <input class="form-control input-sm" ng-maxlength="255" id="mobil" ng-model="user.mobil" type="text">
     </div>
-    <div class="col-sm-6">
-      <label for="postnummer">Postnummer</label>
-      <input class="form-control input-sm" id="postnummer" ng-model="user.postnummer" type="text">
-    </div>
+
     <div class="col-sm-6">
       <label for="">Statuskode</label>
-      <input class="form-control input-sm" id="status_kode" ng-model="user.status_kode" type="text">
+      <input class="form-control input-sm" ng-maxlength="255" id="status_kode" ng-model="user.status_kode" type="text">
     </div>
+
     <div class="col-sm-6">
       <label for="stednavn">Stednavn</label>
-      <input class="form-control input-sm" id="stednavn" ng-model="user.stednavn" type="text">
+      <input class="form-control input-sm" ng-maxlength="40" id="stednavn" ng-model="user.stednavn" type="text">
     </div>
+
     <div class="col-sm-6">
       <label for="udland_flag">Udland_flag</label>
-      <input class="form-control input-sm" id="udland_flag" ng-model="user.udland_flag" type="text">
+      <input class="form-control input-sm" id="udland_flag" ng-model="user.udland_flag" type="checkbox">
     </div>
+
+    <div class="col-sm-6">
+      <label for="robinson_flag">Robinson</label>
+      <input class="form-control input-sm" id="robinson_flag" ng-model="user.robinson_flag" type="checkbox">
+    </div>
+
     <div class="col-sm-6">
       <label for="vilkaar">Vilkår</label>
-      <input class="form-control input-sm" id="vilkaar" ng-model="user.vilkaar" type="text">
+      <input class="form-control input-sm" ng-maxlength="20" id="vilkaar" ng-model="user.vilkaar" type="text">
     </div>
+
   </div>
 
   <div class="col-sm-10">
@@ -177,9 +193,10 @@
       <small class="alert alert-danger" ng-show="profileSaveError"><i class="fa fa-ban"></i> <strong>Fejl</strong> Dine oplysninger er ikke blevet opdateret</small>
     <p>
   </div>
+
   <div class="col-sm-2">
     <div class="module-top">
-      <button ng-class="{'btn-invalid ': userForm.$invalid, 'btn-success': userForm.$valid}" class="btn pull-right " ng-click="update(user)">Gem
+      <button ng-class="{'btn-invalid ': userForm.$invalid, 'btn-success': userForm.$valid}" class="btn pull-right " ng-click="updateUser(user)">Gem
         <i class="fa fa-angle-right"></i>
       </button>
     </div>
