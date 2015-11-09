@@ -1,4 +1,4 @@
-<form name="userform">
+<form name="userForm">
   <div class="form-group well clearfix">
     <h3>Systemdata</h3>
     <div class="col-sm-6">
@@ -11,15 +11,18 @@
     </div>
     <div class="col-sm-4 col-xs-6">
       <label for="insert_dato">Registreret</label>
-      <input class="form-control input-sm" disabled="true" id="insert_dato" ng-model="user.insert_dato" type="text">
+      <p>{{user.insert_dato | amDateFormat:'MM.DD.YYYY HH:mm:ss'}}</p>
     </div>
     <div class="col-sm-4 col-xs-6">
       <label for="opdatering_dato">Seneste Opdatering</label>
-      <input class="form-control input-sm" disabled="true" id="opdatering_dato" ng-model="user.opdatering_dato" type="text">
+      <p>{{user.opdatering_dato | amDateFormat:'MM.DD.YYYY HH:mm:ss'}}</p>
     </div>
     <div class="col-sm-4 col-xs-6">
       <label for="">Aktiveret</label>
-      <input class="form-control input-sm" disabled="true" id="activate_dato" ng-model="user.activate_dato" type="text">
+      <p ng-if="user.activate_dato">{{user.activate_dato | amDateFormat:'MM.DD.YYYY HH:mm:ss'}}</p>
+      <p ng-if="!user.activate_dato">
+        Ikke aktiveret
+      </p>
     </div>
   </div>
 
@@ -187,16 +190,10 @@
 
   </div>
 
-  <div class="col-sm-10">
-    <p class="newsletter-notification">
-      <small class="alert alert-success" ng-show="profileSaveSuccess">Dine oplysninger blev opdateret</small>
-      <small class="alert alert-danger" ng-show="profileSaveError"><i class="fa fa-ban"></i> <strong>Fejl</strong> Dine oplysninger er ikke blevet opdateret</small>
-    <p>
-  </div>
 
-  <div class="col-sm-2">
+  <div class="col-sm-offset-10 col-sm-2">
     <div class="module-top">
-      <button ng-class="{'btn-invalid ': userForm.$invalid, 'btn-success': userForm.$valid}" class="btn pull-right " ng-click="updateUser(user)">Gem
+      <button ng-class="{'btn-success ': userForm.$valid, 'btn-success': userForm.$valid}" class="btn pull-right " ng-click="updateUser(user)">Gem
         <i class="fa fa-angle-right"></i>
       </button>
     </div>

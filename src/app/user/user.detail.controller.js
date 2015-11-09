@@ -6,7 +6,7 @@
     .controller('UserDetailContoller', UserDetailContoller);
 
   /** @ngInject */
-  function UserDetailContoller($scope, $stateParams, $state, mdbAPI) {
+  function UserDetailContoller($scope, $stateParams, $state, toastr, mdbAPI) {
     var vm = this;
 
     activate();
@@ -30,7 +30,11 @@
       return mdbAPI.updateUser(user)
       .then(function(savedUser) {
         $scope.user  = savedUser;
+        toastr.success('Oplysningerne blev gemt');
       })
+      .catch(function(err) {
+        toastr.error('Der opstod en fejl');
+      });
     }
 
 
