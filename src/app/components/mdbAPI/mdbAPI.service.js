@@ -6,7 +6,8 @@
       .factory('mdbAPI', mdbAPI);
 
   function mdbAPI($http, $q, nyhedsbreveadminConfig) {
-    var APIBASEURL = nyhedsbreveadminConfig.APIBASEURL
+    var APIBASEURL = nyhedsbreveadminConfig.APIBASEURL;
+    var LOCATIONID = nyhedsbreveadminConfig.LOCATIONID;
 
     var service = {
       APIBASEURL: APIBASEURL,
@@ -45,7 +46,6 @@
     }
 
     function getInteresser(displayTypeId) {
-      console.log(displayTypeId);
       return $http.get(APIBASEURL + "interesser?displayTypeId=" + displayTypeId)
       .then(_httpSuccessCallback);
     }
@@ -98,6 +98,7 @@
     }
 
     function updateUser(user) {
+      user.location_id = LOCATIONID;
       return $http.put(APIBASEURL + "users/" + user.ekstern_id, user)
       .then(_httpSuccessCallback);
     }

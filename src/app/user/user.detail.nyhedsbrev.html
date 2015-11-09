@@ -1,0 +1,17 @@
+<h3>Permission</h3>
+<ul class="list-default">
+  <li ng-repeat="nyhedsbrev in nyhedsbreve" class="col-lg-4 col-sm-6 col-xs-12">
+    <div class="checkbox">
+      <label>
+        <input checklist-model="$parent.user.nyhedsbreve" checklist-value="nyhedsbrev.nyhedsbrev_id" ng-change="$parent.checkbox_change(this, nyhedsbrev.nyhedsbrev_id, 'nyhedsbreve')" type="checkbox">
+        <small>
+          <strong class="xs-block">{{nyhedsbrev.nyhedsbrev_navn}}</strong>
+        </small>
+      </label>
+    </div>
+  </li>
+</ul>
+<div class="col-sm-offset-10 col-sm-2">
+  <button ng-class="{'btn-success ': true, 'btn-success': userForm.$valid}" class="btn pull-right " ng-click="updateUser(user)">Gem
+  </button>
+</div>

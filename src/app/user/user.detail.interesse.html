@@ -37,6 +37,7 @@
     </label>
   </div>
 </div>
-<p class="newsletter-notification">
-  <small class="alert alert-success" ng-show="interestsSaveSuccess">Interesser er blevet opdateret</small>
-</p>
+<div class="col-sm-offset-10 col-sm-2">
+  <button ng-class="{'btn-success ': true, 'btn-success': userForm.$valid}" class="btn pull-right " ng-click="updateUser(user)">Gem
+  </button>
+</div>

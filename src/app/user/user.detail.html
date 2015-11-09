@@ -1,5 +1,9 @@
+<h2>Redigerer
+  <span>{{user.fornavn}} {{user.efternavn}}</span> <span ng-if="!user.fornavn && !user.efternavn">{{user.email}}</span>
+</h2>
 <uib-tabset>
   <uib-tab heading="Stamdata" select="goto('user-detail.core')"></uib-tab>
+  <uib-tab heading="Nyhedsbreve" select="goto('user-detail.nyhedsbrev')"></uib-tab>
   <uib-tab heading="Interesser" select="goto('user-detail.interesse')"></uib-tab>
   <uib-tab heading="Permissions" select="goto('user-detail.permission')"></uib-tab>
   <uib-tab heading="Historik" select="goto('user-detail.history')"></uib-tab>

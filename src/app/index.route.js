@@ -62,11 +62,17 @@
         controller: 'UserDetailContoller',
         controllerAs: 'vm'
       })
-      .state('user-detail.core', {
+        .state('user-detail.core', {
         url: '/stamdata',
         templateUrl: 'app/user/user.detail.core.html',
         controller: 'UserDetailCoreController',
         controllerAs: 'vmCore'
+      })
+      .state('user-detail.nyhedsbrev', {
+        url: '/interesse',
+        templateUrl: 'app/user/user.detail.nyhedsbrev.html',
+        controller: 'UserDetailNyhedsbrevController',
+        controllerAs: 'vm'
       })
       .state('user-detail.interesse', {
         url: '/interesse',
