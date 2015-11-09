@@ -9,6 +9,18 @@
       <label for="eksternid">Ekstern ID</label>
       <input disabled type="text" ng-model="user.ekstern_id" name="eksternid" class="form-control input-sm" id="eksternid">
     </div>
+    <div class="col-sm-4 col-xs-6">
+      <label for="insert_dato">Registreret</label>
+      <input class="form-control input-sm" disabled="true" id="insert_dato" ng-model="user.insert_dato" type="text">
+    </div>
+    <div class="col-sm-4 col-xs-6">
+      <label for="opdatering_dato">Seneste Opdatering</label>
+      <input class="form-control input-sm" disabled="true" id="opdatering_dato" ng-model="user.opdatering_dato" type="text">
+    </div>
+    <div class="col-sm-4 col-xs-6">
+      <label for="">Aktiveret</label>
+      <input class="form-control input-sm" disabled="true" id="activate_dato" ng-model="user.activate_dato" type="text">
+    </div>
   </div>
 
   <div class="form-group well clearfix">
@@ -74,10 +86,6 @@
   <div class="form-group well clearfix">
     <h3 class="title">Yderligere data</h3>
     <div class="col-sm-6">
-      <label for="">Activate Dato</label>
-      <input class="form-control input-sm" id="activate_dato" ng-model="user.activate_dato" type="text">
-    </div>
-    <div class="col-sm-6">
       <label for="">Adgangskode</label>
       <input class="form-control input-sm" id="adgangskode" ng-model="user.adgangskode" type="text">
     </div>
@@ -122,10 +130,6 @@
       <input class="form-control input-sm" id="foedselsdato" ng-model="user.foedselsdato" type="text">
     </div>
     <div class="col-sm-6">
-      <label for="">Insert Dato</label>
-      <input class="form-control input-sm" id="insert_dato" ng-model="user.insert_dato" type="text">
-    </div>
-    <div class="col-sm-6">
       <label for="koen">Køn</label>
       <input class="form-control input-sm" ng-maxlength="8" id="koen" ng-model="user.koen" type="text">
     </div>
@@ -144,10 +148,6 @@
     <div class="col-sm-6">
       <label for="mobil">Mobil</label>
       <input class="form-control input-sm" id="mobil" ng-model="user.mobil" type="text">
-    </div>
-    <div class="col-sm-6">
-      <label for=opdatering_dato"">Opdateringsdato</label>
-      <input class="form-control input-sm" id="opdatering_dato" ng-model="user.opdatering_dato" type="text">
     </div>
     <div class="col-sm-6">
       <label for="postnummer">Postnummer</label>
