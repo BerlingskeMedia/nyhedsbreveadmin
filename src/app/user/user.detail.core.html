@@ -11,15 +11,15 @@
     </div>
     <div class="col-sm-4 col-xs-6">
       <label for="insert_dato">Registreret</label>
-      <p>{{user.insert_dato | amDateFormat:'MM.DD.YYYY HH:mm:ss'}}</p>
+      <p>{{user.insert_dato | amDateFormat:'DD.MM.YYYY HH:mm:ss'}}</p>
     </div>
     <div class="col-sm-4 col-xs-6">
-      <label for="opdatering_dato">Seneste Opdatering</label>
-      <p>{{user.opdatering_dato | amDateFormat:'MM.DD.YYYY HH:mm:ss'}}</p>
+      <label for="opdatering_dato">Opdateret</label>
+      <p>{{user.opdatering_dato | amDateFormat:'DD.MM.YYYY HH:mm:ss'}}</p>
     </div>
     <div class="col-sm-4 col-xs-6">
       <label for="">Aktiveret</label>
-      <p ng-if="user.activate_dato">{{user.activate_dato | amDateFormat:'MM.DD.YYYY HH:mm:ss'}}</p>
+      <p ng-if="user.activate_dato">{{user.activate_dato | amDateFormat:'DD.MM.YYYY HH:mm:ss'}}</p>
       <p ng-if="!user.activate_dato">
         Ikke aktiveret
       </p>
