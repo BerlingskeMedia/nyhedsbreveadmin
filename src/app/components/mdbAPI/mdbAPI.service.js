@@ -24,6 +24,7 @@
       getUser: getUser,
       getUserInteresser: getUserInteresser,
       getUserHistory: getUserHistory,
+      sendProfileLink: sendProfileLink,
       updateUser: updateUser
     };
 
@@ -112,6 +113,15 @@
 
     function getUserHistory(ekstern_id) {
       return $http.get(APIBASEURL + "users/" + ekstern_id + '/actions')
+      .then(_httpSuccessCallback);
+    }
+
+    function sendProfileLink(email) {
+      var payload = {};
+      payload.email = email;
+      // TODO hvad skal dette være.
+      payload.publisher_id = 1;
+      return $http.post(APIBASEURL + 'mails/profile-page-link', payload)
       .then(_httpSuccessCallback);
     }
 

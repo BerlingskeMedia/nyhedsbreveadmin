@@ -2,20 +2,33 @@
   <thead>
     <tr>
       <th>
-        A
+        <a href="" ng-click="sortType = 'oprettet'; sortReverse = !sortReverse">
+          Oprettet
+          <span ng-show="sortType == 'oprettet' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+          <span ng-show="sortType == 'oprettet' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+        </a>
       </th>
       <th>
-        B
+        <a href="" ng-click="sortType = 'user_action_type_name'; sortReverse = !sortReverse">
+          Type
+          <span ng-show="sortType == 'user_action_type_name' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+          <span ng-show="sortType == 'user_action_type_name' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+        </a>
       </th>
       <th>
-        C
-      </th>
-      <th>
-        D
+        <a href="" ng-click="sortType = 'location_id'; sortReverse = !sortReverse">
+          Location
+          <span ng-show="sortType == 'location_id' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+          <span ng-show="sortType == 'location_id' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+        </a>
       </th>
     </tr>
   </thead>
   <tbody>
-
+    <tr ng-repeat="item in history.actions | orderBy:sortType:sortReverse">
+      <td>{{::item.oprettet | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</td>
+      <td>{{::item.user_action_type_name}}</td>
+      <td>{{::item.location_id}}</td>
+    </tr>
   </tbody>
 </table>
