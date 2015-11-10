@@ -19,7 +19,7 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
   padding: 0.2em 0;
 }
 
-table tr {
+table.linkable tr {
   cursor: pointer;
 }
 
@@ -48,7 +48,6 @@ body {
 ul {
   list-style-type: none;
 }
-
 
 /**
  *  Do not remove the comments below. It's the markers used by gulp-inject to inject
