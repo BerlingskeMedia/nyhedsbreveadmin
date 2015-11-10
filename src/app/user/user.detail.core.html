@@ -55,7 +55,7 @@
 
     <div class="col-sm-6">
       <label for="foedselsdato">Fødselsdato</label>
-      <input class="form-control" uib-datepicker-popup="{{format}}" ng-model="user.foedselsdato" />
+      <input input="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="user.foedselsdato" />
     </div>
 
     <div class="col-sm-6">
@@ -88,16 +88,38 @@
     </div>
 
     <div class="col-sm-6">
+      <label for="co_navn">C/O Navn</label>
+      <input class="form-control input-sm" ng-maxlength="255" id="co_navn" ng-model="user.co_navn" type="text">
+    </div>
+
+    <div class="col-sm-6">
+      <label for="land">Land</label>
+      <input class="form-control input-sm" ng-maxlength="255" id="Land" ng-model="user.land" type="text">
+    </div>
+
+    <div class="col-sm-6">
       <label for="bynavn">By</label>
       <input class="form-control input-sm" ng-maxlength="70" id="bynavn" ng-model="user.bynavn" placeholder="" type="text">
     </div>
+
     <div class="col-sm-6">
       <label for="telefon">Telefon</label>
       <input class="form-control input-sm" ng-maxlength="255"  id="telefon" ng-model="user.telefon" type="text">
     </div>
+
+    <div class="col-sm-6">
+      <label for="mobil">Mobil</label>
+      <input class="form-control input-sm" ng-maxlength="255" id="mobil" ng-model="user.mobil" type="text">
+    </div>
   </div>
   <div class="form-group well clearfix">
     <h3 class="title">Yderligere data</h3>
+
+    <div class="col-sm-6">
+      <label for="brugernavn">Brugernavn</label>
+      <input class="form-control input-sm" ng-maxlength="255" id="brugernavn" ng-model="user.brugernavn" type="text">
+    </div>
+
     <div class="col-sm-6">
       <label for="">Adgangskode</label>
       <input class="form-control input-sm" ng-maxlength="255" id="adgangskode" ng-model="user.adgangskode" type="text">
@@ -111,16 +133,6 @@
     <div class="col-sm-6">
       <label for="mol_bbs_nr">MOL BBS Nr.</label>
       <input class="form-control input-sm" id="mol_bbs_nr" ng-model="user.mol_bbs_nr" type="number">
-    </div>
-
-    <div class="col-sm-6">
-      <label for="brugernavn">Brugernavn</label>
-      <input class="form-control input-sm" ng-maxlength="255" id="brugernavn" ng-model="user.brugernavn" type="text">
-    </div>
-
-    <div class="col-sm-6">
-      <label for="co_navn">C/O Navn</label>
-      <input class="form-control input-sm" ng-maxlength="255" id="co_navn" ng-model="user.co_navn" type="text">
     </div>
 
     <div class="col-sm-6">
@@ -139,23 +151,13 @@
     </div>
 
     <div class="col-sm-6">
-      <label for="Komvej_kode">Komvej_kode</label>
+      <label for="Komvej_kode">Komvej kode</label>
       <input class="form-control input-sm" ng-maxlength="18" id="komvej_kode" ng-model="user.komvej_kode" type="text">
-    </div>
-
-    <div class="col-sm-6">
-      <label for="land">Land</label>
-      <input class="form-control input-sm" ng-maxlength="255" id="Land" ng-model="user.land" type="text">
     </div>
 
     <div class="col-sm-6">
       <label for="lande_kode">Landekode</label>
       <input class="form-control input-sm" ng-maxlength="3" id="lande_kode" ng-model="user.lande_kode" type="text">
-    </div>
-
-    <div class="col-sm-6">
-      <label for="mobil">Mobil</label>
-      <input class="form-control input-sm" ng-maxlength="255" id="mobil" ng-model="user.mobil" type="text">
     </div>
 
     <div class="col-sm-6">
@@ -173,27 +175,26 @@
       <input class="form-control input-sm" ng-maxlength="20" id="vilkaar" ng-model="user.vilkaar" type="text">
     </div>
 
+    <div class="col-sm-6">
+      <label for="foedselsaar">Fødselsår</label>
+      <input class="form-control input-sm" id="foedselsaar" ng-maxlength="255" ng-model="user.foedselsaar" type="text">
+    </div>
+
     <div class="col-sm-3">
-      <label for="udland_flag">Udland_flag</label>
+      <label for="udland_flag">Udland flag</label>
       <input class="form-control input-sm" id="udland_flag" ng-model="user.udland_flag" type="checkbox">
     </div>
 
     <div class="col-sm-3">
-      <label for="robinson_flag">Robinson</label>
+      <label for="robinson_flag">Tilmeldt Robinson</label>
       <input class="form-control input-sm" id="robinson_flag" ng-model="user.robinson_flag" type="checkbox">
     </div>
 
-
   </div>
-
-  <!-- <div class="col-sm-6">
-    <label for="foedselsaar">Fødselsår</label>
-    <input class="form-control input-sm" id="foedselsaar" ng-maxlength="255" ng-model="user.foedselsaar" type="text">
-  </div> -->
 
 
   <div class="col-sm-offset-10 col-sm-2">
-    <button ng-class="{'btn-success ': userForm.$valid, 'btn-success': userForm.$valid}" class="btn pull-right " ng-click="updateUser(user)">Gem
+    <button ng-class="{'btn-success ': true}" class="btn pull-right " ng-click="updateUser(user)">Gem
     </button>
   </div>
 </form>

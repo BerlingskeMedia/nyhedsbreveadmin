@@ -1,16 +1,13 @@
-<ul class="list-default">
-  <li ng-repeat="permission in permissions" class="col-lg-4 col-sm-6 col-xs-12">
-    <div class="checkbox">
-      <label>
-        <input checklist-model="$parent.user.nyhedsbreve" checklist-value="permission.nyhedsbrev_id" ng-change="$parent.checkbox_change(this, permission.nyhedsbrev_id, 'nyhedsbreve')" type="checkbox">
-        <small>
-          <strong class="xs-block">{{permission.nyhedsbrev_navn}}</strong>
-        </small>
-      </label>
-    </div>
-  </li>
-</ul>
+<div class="well clearfix" >
+  <div class="col-lg-4 col-sm-6 col-xs-12" ng-repeat="permission in permissions">
+    <label data-interesse-id="{{ interesse.interesse_id }}">
+      <input checklist-model="$parent.user.nyhedsbreve" checklist-value="permission.nyhedsbrev_id" ng-change="$parent.checkbox_change(this, interesse.interesse_id, 'interesser')" type="checkbox"/>
+      {{permission.nyhedsbrev_navn}}
+    </label>
+  </div>
+</div>
+
 <div class="col-sm-offset-10 col-sm-2">
-  <button ng-class="{'btn-success ': true, 'btn-success': userForm.$valid}" class="btn pull-right " ng-click="updateUser(user)">Gem
+  <button ng-class="{'btn-success ': true}" class="btn pull-right " ng-click="updateUser(user)">Gem
   </button>
 </div>
