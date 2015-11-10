@@ -14,6 +14,7 @@
       getPublishers: getPublishers,
       getPublisher: getPublisher,
       getInteresser: getInteresser,
+      getInteresserBranches: getInteresserBranches,
       getAllInteresser: getAllInteresser,
       getPermissions: getPermissions,
       getNyhedsbreve: getNyhedsbreve,
@@ -49,6 +50,11 @@
 
     function getInteresser(displayTypeId) {
       return $http.get(APIBASEURL + "interesser?displayTypeId=" + displayTypeId)
+      .then(_httpSuccessCallback);
+    }
+
+    function getInteresserBranches(displayTypeId) {
+      return $http.get(APIBASEURL + "interesser/branches?displayTypeId=" + displayTypeId)
       .then(_httpSuccessCallback);
     }
 

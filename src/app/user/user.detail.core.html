@@ -54,8 +54,8 @@
     </div>
 
     <div class="col-sm-6">
-      <label for="foedselsaar">Fødselsår</label>
-      <input class="form-control input-sm" id="foedselsaar" ng-maxlength="255" ng-model="user.foedselsaar" type="text">
+      <label for="foedselsdato">Fødselsdato</label>
+      <input class="form-control" uib-datepicker-popup="{{format}}" ng-model="user.foedselsdato" />
     </div>
 
     <div class="col-sm-6">
@@ -134,11 +134,6 @@
     </div>
 
     <div class="col-sm-6">
-      <label for="foedselsdato">Fødselsdato</label>
-      <input class="form-control input-sm" id="foedselsdato" ng-model="user.foedselsdato" type="text">
-    </div>
-
-    <div class="col-sm-6">
       <label for="koen">Køn</label>
       <input class="form-control input-sm" ng-maxlength="8" id="koen" ng-model="user.koen" type="text">
     </div>
@@ -174,21 +169,27 @@
     </div>
 
     <div class="col-sm-6">
-      <label for="udland_flag">Udland_flag</label>
-      <input class="form-control input-sm" id="udland_flag" ng-model="user.udland_flag" type="checkbox">
-    </div>
-
-    <div class="col-sm-6">
-      <label for="robinson_flag">Robinson</label>
-      <input class="form-control input-sm" id="robinson_flag" ng-model="user.robinson_flag" type="checkbox">
-    </div>
-
-    <div class="col-sm-6">
       <label for="vilkaar">Vilkår</label>
       <input class="form-control input-sm" ng-maxlength="20" id="vilkaar" ng-model="user.vilkaar" type="text">
     </div>
 
+    <div class="col-sm-3">
+      <label for="udland_flag">Udland_flag</label>
+      <input class="form-control input-sm" id="udland_flag" ng-model="user.udland_flag" type="checkbox">
+    </div>
+
+    <div class="col-sm-3">
+      <label for="robinson_flag">Robinson</label>
+      <input class="form-control input-sm" id="robinson_flag" ng-model="user.robinson_flag" type="checkbox">
+    </div>
+
+
   </div>
+
+  <!-- <div class="col-sm-6">
+    <label for="foedselsaar">Fødselsår</label>
+    <input class="form-control input-sm" id="foedselsaar" ng-maxlength="255" ng-model="user.foedselsaar" type="text">
+  </div> -->
 
 
   <div class="col-sm-offset-10 col-sm-2">

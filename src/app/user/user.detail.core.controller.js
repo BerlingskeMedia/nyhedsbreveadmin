@@ -13,8 +13,8 @@
 
 
     function activate() {
+      $scope.format = "dd/MM/yyyy";
     }
-
 
   }
 })();

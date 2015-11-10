@@ -18,16 +18,16 @@
       mdbAPI.getInteresser(3).then(function(bem) {
         $scope.interesser.bem = bem;
       });
-      mdbAPI.getInteresser(4).then(function(godttip) {
+      mdbAPI.getInteresserBranches(4).then(function(godttip) {
         $scope.interesser.godttip = godttip;
       });
       mdbAPI.getInteresser(5).then(function(ekstra) {
         $scope.interesser.ekstra = ekstra;
       });
-      mdbAPI.getInteresser(6).then(function(businesstarget) {
+      mdbAPI.getInteresserBranches(6).then(function(businesstarget) {
         $scope.interesser.businesstarget = businesstarget;
       });
-      
+
     }
 
     function activate() {
