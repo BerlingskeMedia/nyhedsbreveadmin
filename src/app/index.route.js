@@ -92,6 +92,18 @@
         controller: 'UserDetailHistoryController',
         controllerAs: 'vm'
       })
+      .state('user-detail.feedback', {
+        url: '/feedback',
+        templateUrl: 'app/user/user.detail.feedback.html',
+        controller: 'UserDetailFeedbackController',
+        controllerAs: 'vm'
+      })
+      .state('user-detail.actions', {
+        url: '/actions',
+        templateUrl: 'app/user/user.detail.actions.html',
+        controller: 'UserDetailActionsController',
+        controllerAs: 'vm'
+      })
       .state('smartlinkbuilder', {
         url: '/smartlinkbuilder',
         templateUrl: 'app/smartlinkbuilder/smartlinkbuilder.html',

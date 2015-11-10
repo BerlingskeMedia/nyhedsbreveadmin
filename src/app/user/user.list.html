@@ -91,14 +91,12 @@
       </tr>
     </thead>
     <tbody>
-      <tbody>
-        <tr ng-repeat="user in vm.users | orderBy:sortType:sortReverse" ui-sref="user-detail({ekstern_id:user.ekstern_id})">
-            <th>{{::user.user_id}}</th>
-            <td>{{::user.ekstern_id}}</td>
-            <td>{{::user.email}}</td>
-            <td>{{::user.fornavn}}</td>
-            <td>{{::user.efternavn}}</td>
-        </tr>
-      </tbody>
+      <tr ng-repeat="user in vm.users | orderBy:sortType:sortReverse" ui-sref="user-detail({ekstern_id:user.ekstern_id})">
+          <th>{{::user.user_id}}</th>
+          <td>{{::user.ekstern_id}}</td>
+          <td>{{::user.email}}</td>
+          <td>{{::user.fornavn}}</td>
+          <td>{{::user.efternavn}}</td>
+      </tr>
     </tbody>
 </table>

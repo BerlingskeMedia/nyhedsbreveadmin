@@ -3,10 +3,10 @@
 
   angular
     .module('nyhedsbreveadmin')
-    .controller('UserDetailHistoryController', UserDetailHistoryController);
+    .controller('UserDetailFeedbackController', UserDetailFeedbackController);
 
   /** @ngInject */
-  function UserDetailHistoryController($scope, $stateParams, mdbAPI) {
+  function UserDetailFeedbackController($scope, $stateParams, mdbAPI) {
     var vm = this;
 
     activate();
