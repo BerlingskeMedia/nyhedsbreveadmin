@@ -112,8 +112,7 @@
     }
 
     function getUserInteresser(ekstern_id) {
-      var url = 'http://178.62.139.225:1338/profil.berlingskemedia.dk/backend/users/8cdaaeaa999b1205378ee8995c93b390/interesser'
-      return $http.get(url)
+      return $http.get(APIBASEURL + "users/" + ekstern_id + '/interesser')
       .then(_httpSuccessCallback);
     }
 
