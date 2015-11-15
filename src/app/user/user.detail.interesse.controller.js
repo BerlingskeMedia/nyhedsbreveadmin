@@ -34,7 +34,7 @@
       loadSpecificInteresser();
       mdbAPI.getUserInteresser($stateParams.ekstern_id).then(function(user) {
 
-      })
+      });
     }
 
 
