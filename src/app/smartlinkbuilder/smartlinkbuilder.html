@@ -1,68 +1,65 @@
 <div class="view smartlinkbuilder">
   <h1>Smartlink Builder</h1>
-  <form class="form-horizontal" name="nyhedsbrev">
+  <div class="col-sm-4">
     <div class="form-group">
-      <label for="name" class="col-sm-2 control-label">Nyhedsbreve</label>
-      <div class="col-sm-10">
-        <select name="nyhedsbrevSelect" id="nyhedsbrevSelect" ng-model="selectedNyhedsbreve" multiple>
-          <option ng-repeat="nyhedsbrev in vm.nyhedsbreve" value="{{nyhedsbrev.nyhedsbrev_id}}">{{nyhedsbrev.nyhedsbrev_navn}}
-          </option>
-        </select>
-      </div>
+      <h4>Nyhedsbreve</h4>
+      <select name="nyhedsbrevSelect" id="nyhedsbrevSelect" ng-model="selectedNyhedsbreve" multiple>
+        <option ng-repeat="nyhedsbrev in vm.nyhedsbreve" value="{{nyhedsbrev.nyhedsbrev_id}}">{{nyhedsbrev.nyhedsbrev_navn}}
+        </option>
+      </select>
     </div>
+  </div>
+  <div class="col-sm-4">
     <div class="form-group">
-      <label for="name" class="col-sm-2 control-label">Interesser</label>
-      <div class="col-sm-10">
-        <select name="interesseSelect" id="interesseSelect" ng-model="selectedInteresser" multiple>
-          <option ng-repeat="interesse in vm.interesser" value="{{interesse.interesse_id}}">{{interesse.interesse_navn}}
-          </option>
-        </select>
-      </div>
+      <h4>Interesser</h4>
+      <select name="interesseSelect" id="interesseSelect" ng-model="selectedInteresser" multiple>
+        <option ng-repeat="interesse in vm.interesser" value="{{interesse.interesse_id}}">{{interesse.interesse_navn}}
+        </option>
+      </select>
     </div>
+  </div>
+  <div class="col-sm-4">
     <div class="form-group">
-      <label for="name" class="col-sm-2 control-label">Permissions</label>
-      <div class="col-sm-10">
-        <select name="permissionSelect" id="permissionSelect" ng-model="selectedPermissions" multiple>
-          <option ng-repeat="permission in vm.permissions" value="{{permission.nyhedsbrev_id}}">{{permission.nyhedsbrev_navn}}
-          </option>
-        </select>
-      </div>
+      <h4>Permissions</h4>
+      <select name="permissionSelect" id="permissionSelect" ng-model="selectedPermissions" multiple>
+        <option ng-repeat="permission in vm.permissions" value="{{permission.nyhedsbrev_id}}">{{permission.nyhedsbrev_navn}}
+        </option>
+      </select>
     </div>
-    <div class="col-sm-offset-2 col-sm-3">
-      <h3>Flow</h3>
-      <div class="btn-group">
-          <label class="btn btn-primary" ng-model="flow" uib-btn-radio="'Simple'" uncheckable>Simpel</label>
-          <label class="btn btn-primary" ng-model="flow" uib-btn-radio="'double'" uncheckable>Double Optin</label>
-      </div>
-    </div>
-    <div class="col-sm-3">
-      <h3>Action</h3>
-      <div class="btn-group">
-          <label class="btn btn-primary" ng-model="action" uib-btn-radio="'subscribe'" uncheckable>Tilmeld</label>
-          <label class="btn btn-primary" ng-model="action" uib-btn-radio="'unsubscribe'" uncheckable>Afmeld</label>
-      </div>
-    </div>
-    <div class="col-sm-3">
-      <h3>Kundefelt</h3>
-      <div class="btn-group">
-          <label class="btn btn-primary" ng-model="customerfield" uib-btn-radio="'email'" uncheckable>Email</label>
-          <label class="btn btn-primary" ng-model="customerfield" uib-btn-radio="'eksternid'" uncheckable>Ekstern ID</label>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="name" class="col-sm-2 control-label">Gyldighedsperiode</label>
-      <div class="col-sm-5">
-        <h3>Startdato</h3>
-        <uib-datepicker ng-model="startdate" min-date="minDate" show-weeks="true" class="well well-sm"></uib-datepicker>
-        {{startdate}}
+  </div>
 
-      </div>
-      <div class="col-sm-5">
-        <h3>Eventuel Slutdato</h3>
-        <uib-datepicker ng-model="enddate" min-date="startdate" show-weeks="true" class="well well-sm"></uib-datepicker>
-      </div>
+  <div class="col-sm-4">
+    <h3>Flow</h3>
+    <div class="btn-group">
+        <label class="btn btn-primary" ng-model="flow" uib-btn-radio="'Simple'" uncheckable>Simpel</label>
+        <label class="btn btn-primary" ng-model="flow" uib-btn-radio="'double'" uncheckable>Double Optin</label>
     </div>
-  </form>
+  </div>
+  <div class="col-sm-4">
+    <h3>Action</h3>
+    <div class="btn-group">
+        <label class="btn btn-primary" ng-model="action" uib-btn-radio="'subscribe'" uncheckable>Tilmeld</label>
+        <label class="btn btn-primary" ng-model="action" uib-btn-radio="'unsubscribe'" uncheckable>Afmeld</label>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <h3>Kundefelt</h3>
+    <div class="btn-group">
+        <label class="btn btn-primary" ng-model="customerfield" uib-btn-radio="'email'" uncheckable>Email</label>
+        <label class="btn btn-primary" ng-model="customerfield" uib-btn-radio="'eksternid'" uncheckable>Ekstern ID</label>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-6">
+      <h3>Startdato</h3>
+      <uib-datepicker ng-model="startdate" min-date="minDate" show-weeks="true" class="well well-sm"></uib-datepicker>
+
+    </div>
+    <div class="col-sm-6">
+      <h3>Eventuel Slutdato</h3>
+      <uib-datepicker ng-model="enddate" min-date="startdate" show-weeks="true" class="well well-sm"></uib-datepicker>
+    </div>
+  </div>
   <div class="col-sm-2">
     Smartlink
   </div>
