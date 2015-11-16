@@ -3,14 +3,12 @@
 
   angular
     .module('nyhedsbreveadmin')
-    .directive('nyhedsbreveNavbar', nyhedsbreveNavbar);
+    .directive('smartlinkFormPost', nyhedsbreveNavbar);
 
   function nyhedsbreveNavbar() {
     var directive = {
       restrict: 'E',
-      templateUrl: 'app/components/navbar/navbar.html',
-      controller: 'NavbarController',
-      controllerAs: 'vm',
+      templateUrl: 'app/components/smartlinkFormPost/smartlinkFormPost.html',
     };
     return directive;
   }
