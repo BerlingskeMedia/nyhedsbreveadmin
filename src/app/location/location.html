@@ -29,9 +29,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="location in locationCtrl.locations | orderBy:sortType:sortReverse | filter:searchterm ">
+        <tr ng-repeat="location in vm.locations | orderBy:sortType:sortReverse | filter:searchterm ">
           <td>{{::location.location_id}}</td>
-          <td>{{::location.location_tekst}}</td>
+          <td>
+            <input type="text" name="name" class="full-width" value="" ng-model="location.location_tekst" />
+          </td>
+          <td><button type="button" name="button" class="btn btn-success" ng-click="vm.save(location)">Gem</button></td>
         </tr>
       </tbody>
   </table>

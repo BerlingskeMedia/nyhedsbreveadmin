@@ -48,7 +48,7 @@
         url: '/location',
         templateUrl: 'app/location/location.html',
         controller: 'LocationController',
-        controllerAs: 'locationCtrl'
+        controllerAs: 'vm'
       })
       .state('user-list', {
         url: '/kunde',

@@ -20,6 +20,7 @@
       getNyhedsbreve: getNyhedsbreve,
       getNyhedsbrev: getNyhedsbrev,
       getLocations: getLocations,
+      putLocation: putLocation,
       putPublisher: putPublisher,
       userSearch: userSearch,
       getUser: getUser,
@@ -92,6 +93,11 @@
 
     function getLocations() {
       return $http.get(APIBASEURL + "locations")
+      .then(_httpSuccessCallback);
+    }
+
+    function putLocation(location) {
+      return $http.put(APIBASEURL + "locations/" + location.location_id, location)
       .then(_httpSuccessCallback);
     }
 
