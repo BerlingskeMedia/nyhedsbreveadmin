@@ -22,6 +22,7 @@
       getLocations: getLocations,
       putLocation: putLocation,
       putPublisher: putPublisher,
+      createLocation: createLocation,
       userSearch: userSearch,
       getUser: getUser,
       getUserInteresser: getUserInteresser,
@@ -60,7 +61,7 @@
     }
 
     function getAllInteresser() {
-      var interesser = []
+      var interesser = [];
       var promises = [];
       var displayTypeIds = [3, 4, 5, 6];
       for (var i = 0; i < displayTypeIds.length; i++) {
@@ -73,7 +74,7 @@
           }
         }
         return interesser;
-      })
+      });
     }
 
     function getPermissions() {
@@ -100,6 +101,12 @@
       return $http.put(APIBASEURL + "locations/" + location.location_id, location)
       .then(_httpSuccessCallback);
     }
+
+    function createLocation(location_tekst) {
+      return $http.post(APIBASEURL + "locations", {location_tekst: location_tekst})
+      .then(_httpSuccessCallback);
+    }
+
 
     function userSearch(params) {
       return $http.get(APIBASEURL + "users", {params:params})

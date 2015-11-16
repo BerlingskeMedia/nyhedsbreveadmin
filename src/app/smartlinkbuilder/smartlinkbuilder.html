@@ -53,19 +53,19 @@
     <div class="col-sm-6">
       <h3>Startdato</h3>
       <uib-datepicker ng-model="startdate" min-date="minDate" show-weeks="true" class="well well-sm"></uib-datepicker>
-
     </div>
     <div class="col-sm-6">
       <h3>Eventuel Slutdato</h3>
       <uib-datepicker ng-model="enddate" min-date="startdate" show-weeks="true" class="well well-sm"></uib-datepicker>
     </div>
   </div>
-  <div class="col-sm-2">
-    Smartlink
+  <div class="form-group">
+    <div class="col-sm-12">
+      <h3>Location</h3>
+      <input placeholder="Location tekst" ng-change="vm.updateLocation(location_tekst)" type="text" name="name" required class="full-width" ng-model="location_tekst" />
+    </div>
   </div>
-  <div class="result col-sm-10">
-    <pre>
-      {{smartlink}}
-    </pre>
-  </div>
+
+
+
 </div>
