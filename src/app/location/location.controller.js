@@ -14,7 +14,7 @@
     function activate() {
       mdbAPI.getLocations().then(function(locations) {
         vm.locations = locations;
-      })
+      });
     }
 
 

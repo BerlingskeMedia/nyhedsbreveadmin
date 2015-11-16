@@ -1,15 +1,37 @@
 <div class="table-responsive">
+  <form>
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon">
+          <span class="glyphicon glyphicon-search"></span>
+        </div>
+        <input type="text" class="form-control" placeholder="Søg" ng-model="searchterm">
+      </div>
+    </div>
+  </form>
   <table class="table table-striped">
     <thead>
         <tr>
-          <th>ID</th>
-          <th>Navn</th>
+          <th>
+            <a href="" ng-click="sortType = 'location_id'; sortReverse = !sortReverse">
+              ID
+              <span ng-show="sortType == 'location_id' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+              <span ng-show="sortType == 'location_id' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+            </a>
+          </th>
+          <th>
+            <a href="" ng-click="sortType = 'location_tekst'; sortReverse = !sortReverse">
+              Beskrivelse
+              <span ng-show="sortType == 'location_tekst' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+              <span ng-show="sortType == 'location_tekst' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+            </a>
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="location in locationCtrl.locations">
-          <th>Location</th>
-          <td>{{location}}</td>
+        <tr ng-repeat="location in locationCtrl.locations | orderBy:sortType:sortReverse | filter:searchterm ">
+          <td>{{::location.location_id}}</td>
+          <td>{{::location.location_tekst}}</td>
         </tr>
       </tbody>
   </table>
