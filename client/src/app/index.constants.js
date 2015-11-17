@@ -6,7 +6,7 @@
     .module('nyhedsbreveadmin')
     .constant('moment', moment)
     .constant("nyhedsbreveadminConfig", {
-      "APIBASEURL": "http://localhost:1337/localhost:8000/",
+      "APIBASEURL": "http://localhost:8001/backend/",
       "LOCATIONID": 1,
       "SMARTLINK_BASEURL": "http://profil.berlingskemedia.dk/smartlink"
     });
