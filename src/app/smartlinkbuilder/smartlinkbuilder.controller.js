@@ -42,19 +42,17 @@
       $scope.startdate = new Date();
 
       $scope.minDate = new Date();
-
-
     }
+
     function setWatchers() {
-      var to_watch = ['selectedNyhedsbreve', 'selectedInteresser', 'selectedPermissions', 'flow', 'action', 'customerfield', 'startdate', 'enddate', 'location', 'landing_page'];
+      var to_watch = ['selectedNyhedsbreve', 'selectedInteresser', 'selectedPermissions', 'flow', 'action', 'customerfield', 'startdate', 'enddate', 'location', 'landingpage'];
       for (var i = 0; i < to_watch.length; i++) {
-        $scope.$watch(to_watch[i], updateSmartlink);
+        $scope.$watch(to_watch[i], compileSmartlink );
       }
     }
 
-    function updateSmartlink() {
+    function compileSmartlink() {
       var smartlink = SMARTLINK_BASEURL + '?';
-      console.log($scope.selectedNyhedsbreve);
       smartlink = smartlink + 'nlids=' + $scope.selectedNyhedsbreve.join(',');
       smartlink = smartlink + '&intids=' + $scope.selectedInteresser.join(',');
       smartlink = smartlink + '&pids=' + $scope.selectedPermissions.join(',');
@@ -66,8 +64,8 @@
         smartlink = smartlink + '&enddate=' + moment($scope.enddate);
       }
       smartlink = smartlink + '&lid=' + $scope.location.location_id;
-      if ($scope.landing_page) {
-        smartlink = smartlink + '&landing_page=' + encodeURIComponent($scope.landing_page);
+      if ($scope.landingpage) {
+        smartlink = smartlink + '&landingpage=' + encodeURIComponent($scope.landingpage);
       }
 
       $scope.smartlink = smartlink;
