@@ -15,6 +15,7 @@
     activate();
 
     function debugLocation() {
+      //TODO: Remove when POST to mdbapi is available.
       $scope.location = {location_id:1728};
     }
 
@@ -29,20 +30,11 @@
 
 
     function compilePostForm() {
-      // console.log(angular.element(compiled[0])[0].innerHTML);
-
-
-      // var interpolated = $interpolate(formPostTemplate)($scope);
-      // $scope.postSource = angular.element(compiled[0]);
       var compiled = $compile(formPostTemplate)($scope);
-        console.log(compiled);
-
-      $timeout(function(){
-        //the code which needs to run after dom rendering
-
-              $scope.postSource = compiled[0].innerHTML;
-      }, 2000);
-
+      $timeout(function() {
+        // A minor hack, force $digest to complete.
+        $scope.postSource = compiled[0].outerHTML.replace(/<!--[\s\S]*?-->/g, '');
+      }, 1);
 
     }
 
@@ -55,7 +47,10 @@
       setDefaults();
     }
 
-    function doCompile() {
+    function onChange() {
+      $scope.unixStartdate = moment($scope.startdate).unix();
+      $scope.unixenddate = moment($scope.enddate).unix();
+
       compilePostForm();
       compileSmartlink();
     }
@@ -76,7 +71,7 @@
     function setWatchers() {
       var to_watch = ['selectedNyhedsbreve', 'selectedInteresser', 'selectedPermissions', 'flow', 'action', 'customerfield', 'startdate', 'enddate', 'location', 'landingpage'];
       for (var i = 0; i < to_watch.length; i++) {
-        $scope.$watch(to_watch[i], doCompile );
+        $scope.$watch(to_watch[i], onChange );
       }
     }
 
@@ -88,9 +83,9 @@
       smartlink = smartlink + '&flow=' + $scope.flow;
       smartlink = smartlink + '&action=' + $scope.action;
       smartlink = smartlink + '&customerfield=' + $scope.customerfield;
-      smartlink = smartlink + '&startdate=' + moment($scope.startdate);
+      smartlink = smartlink + '&startdate=' + $scope.unixStartdate;
       if ($scope.enddate) {
-        smartlink = smartlink + '&enddate=' + moment($scope.enddate);
+        smartlink = smartlink + '&enddate=' + $scope.unixenddate;
       }
       smartlink = smartlink + '&lid=' + $scope.location.location_id;
       if ($scope.landingpage) {
