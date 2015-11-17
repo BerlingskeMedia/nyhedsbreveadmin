@@ -69,7 +69,6 @@
       <input placeholder="Landing page" ng-change='updateSmartlink()' type="url" class="form-control full-width" ng-model="landingpage" />
     </div>
   </div>
-
   <div class="well col-xs-12">
     <div class="col-xs-12">
       <h3>Smartlink</h3>
@@ -77,10 +76,43 @@
     </div>
     <div class="col-xs-12">
       <h3>Smartlink Form</h3>
-      <smartlink-form-post></smartlink-form-post>
+<pre>
+      {{postSource}}
+    </pre>
     </div>
   </div>
-
-
-
 </div>
+
+<script type="text/ng-template" id="formPostTemplate.html">
+  <div class="placeholder">
+    <form action="http://asdas" method="POST">
+      {{landingpage}}
+      <h1 ng-repeat="n in selectedNyhedsbreve">{{n}}</h1>
+      <input name="lid" type="hidden" value="1799"/>
+      <input name="nlids" type="hidden" value="300"/>
+      <input name="intids" type="hidden" value=""/>
+      <input name="url" type="hidden" value=""/>
+      <input name="action" type="hidden" value="1"/>
+      <input name="email"/>
+      <input name="firma"/>
+      <input name="fornavn"/>
+      <input name="efternavn"/>
+      <input name="land"/>
+      <input name="postnummer"/>
+      <input name="bynavn"/>
+      <input name="vejnavn"/>
+      <input name="husnummer"/>
+      <input name="husbogstav"/>
+      <input name="etage"/>
+      <input name="sidedoer"/>
+      <input name="telefon"/>
+      <input name="mobil"/>
+      <input name="foedselsaar"/>
+      <input name="firma_adresse"/>
+      <input type="radio" name="koen" value="K">Kvinde</input>
+      <input type="radio" name="koen" value="M">Mand</input>
+      <input type="submit" value="Tilmeld" />
+    </form>
+  </div>
+
+</script>

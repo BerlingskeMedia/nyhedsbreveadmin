@@ -1,6 +1,6 @@
-<form action="{{POSTURL}}" method="POST">
-  <input name="lid" type="hidden" value="1799"/>
-  <input name="nlids" type="hidden" value="300"/>
+<form action="" method="POST">
+  <input name="lid" type="hidden" value="location.location_id"/>
+  <input ng-repeat="nb in selectedNyhedsbreve" name="nlids" type="hidden" value="{{n}}"/>
   <input name="intids" type="hidden" value=""/>
   <input name="url" type="hidden" value=""/>
   <input name="action" type="hidden" value="1"/>
