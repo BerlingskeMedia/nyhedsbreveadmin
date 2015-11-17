@@ -50,6 +50,7 @@
     function onChange() {
       $scope.unixStartdate = moment($scope.startdate).unix();
       $scope.unixenddate = moment($scope.enddate).unix();
+      $scope.encodedLandingpage = encodeURIComponent($scope.landingpage);
 
       compilePostForm();
       compileSmartlink();
@@ -89,7 +90,7 @@
       }
       smartlink = smartlink + '&lid=' + $scope.location.location_id;
       if ($scope.landingpage) {
-        smartlink = smartlink + '&landingpage=' + encodeURIComponent($scope.landingpage);
+        smartlink = smartlink + '&landingpage=' + $scope.encodedLandingpage;
       }
 
       $scope.smartlink = smartlink;

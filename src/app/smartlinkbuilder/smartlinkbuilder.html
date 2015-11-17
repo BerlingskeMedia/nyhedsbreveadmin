@@ -87,19 +87,19 @@
     <div class="alert alert-danger" role="alert">
       <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
       <span class="sr-only">Fejl:</span>
-      <div ng-messages="smartlinkForm.nyhedsbrevSelect.$error" style="color:maroon" role="alert">
+      <div ng-messages="smartlinkForm.nyhedsbrevSelect.$error" role="alert">
         <div ng-message="required">Du skal vælge mindst ét nyhedsbrev.</div>
       </div>
-      <div ng-messages="smartlinkForm.interesseSelect.$error" style="color:maroon" role="alert">
+      <div ng-messages="smartlinkForm.interesseSelect.$error" role="alert">
         <div ng-message="required">Du skal vælge mindst én interesse.</div>
       </div>
-      <div ng-messages="smartlinkForm.permissionSelect.$error" style="color:maroon" role="alert">
+      <div ng-messages="smartlinkForm.permissionSelect.$error" role="alert">
         <div ng-message="required">Du skal vælge mindst én permission.</div>
       </div>
-      <div ng-messages="smartlinkForm.location.$error" style="color:maroon" role="alert">
+      <div ng-messages="smartlinkForm.location.$error" role="alert">
         <div ng-message="required">Du skal indtaste en location.</div>
       </div>
-      <div ng-messages="smartlinkForm.landingpage.$error" style="color:maroon" role="alert">
+      <div ng-messages="smartlinkForm.landingpage.$error" role="alert">
         <div ng-message="url">Du skal indtaste en gyldig URL.</div>
       </div>
     </div>
@@ -109,7 +109,7 @@
 <script type="text/ng-template" id="formPostTemplate.html">
 <form action="http://profil.berlingskemedia.dk/smartlink" method="POST">
   <input type="hidden" ng-repeat="n in selectedNyhedsbreve" name="nlid" value="{{n}}"/>
-  <input type="hidden" ng-repeat="i in selectedInteresser" name="intid" value="{{i}}"/>
+  <input type="hidden" ng-repeat="i in selectedInteresser track by $index" name="intid" value="{{i}}"/>
   <input type="hidden" ng-repeat="p in selectedPermissions" name="pid" value="{{p}}"/>
   <input name="lid" type="hidden" value="{{location.location_id}}"/>
   <input name="startdate" type="hidden" value="{{unixStartdate}}"/>
@@ -117,6 +117,7 @@
   <input name="flow" type="hidden" value="{{flow}}"/>
   <input name="action" type="hidden" value="{{action}}"/>
   <input name="customerfield" type="hidden" value="{{customerfield}}"/>
+  <input ng-if="landingpage" name="landingpage" type="hidden" value="{{landingpage}}"/>
   <input name="email"/>
   <input name="firma"/>
   <input name="fornavn"/>
