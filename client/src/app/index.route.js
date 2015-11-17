@@ -18,8 +18,14 @@
         controller: 'PublishersListController',
         controllerAs: 'vm'
       })
-      .state('main.publisher.detail', {
-        url: '/:id',
+      .state('main.publisher-create', {
+        url: '/publisher/create',
+        templateUrl: 'app/publisher/publisher.detail.html',
+        controller: 'PublisherDetailController',
+        controllerAs: 'vm'
+      })
+      .state('main.publisher-detail', {
+        url: '/publisher/:id',
         templateUrl: 'app/publisher/publisher.detail.html',
         controller: 'PublisherDetailController',
         controllerAs: 'vm'

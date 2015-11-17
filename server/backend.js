@@ -52,7 +52,7 @@ var backend = {
     });
 
     plugin.route({
-      method: 'GET',
+      method: ['GET','POST'],
       path: '/publishers',
       handler: proxy
     });

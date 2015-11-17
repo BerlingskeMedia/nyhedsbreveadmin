@@ -12,7 +12,10 @@
     var service = {
       APIBASEURL: APIBASEURL,
       getPublishers: getPublishers,
+      deletePublisher: deletePublisher,
       getPublisher: getPublisher,
+      putPublisher: putPublisher,
+      createPublisher: createPublisher,
       getInteresser: getInteresser,
       getInteresserBranches: getInteresserBranches,
       getAllInteresser: getAllInteresser,
@@ -21,7 +24,7 @@
       getNyhedsbrev: getNyhedsbrev,
       getLocations: getLocations,
       putLocation: putLocation,
-      putPublisher: putPublisher,
+
       createLocation: createLocation,
       userSearch: userSearch,
       getUser: getUser,
@@ -47,6 +50,16 @@
 
     function putPublisher(publisher) {
       return $http.put(APIBASEURL + "publishers/" + publisher.publisher_id, publisher)
+      .then(_httpSuccessCallback);
+    }
+
+    function createPublisher(publisher) {
+      return $http.post(APIBASEURL + "publishers", publisher)
+      .then(_httpSuccessCallback);
+    }
+
+    function deletePublisher(publisher) {
+      return $http.delete(APIBASEURL + "publishers/" + publisher.publisher_id)
       .then(_httpSuccessCallback);
     }
 

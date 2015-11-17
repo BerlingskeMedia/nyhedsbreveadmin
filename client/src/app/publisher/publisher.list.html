@@ -1,8 +1,6 @@
-
-<div class="detail">
-  <ui-view>
-  </ui-view>
-</div>
+<a ui-sref="main.publisher-create">
+  <button type="submit" class="btn">Opret Publisher</button>
+</a>
 <div class="table-responsive">
   <form>
     <div class="form-group">
@@ -41,7 +39,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="publisher in vm.publishers | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="main.publisher.detail({id:publisher.publisher_id})">
+        <tr ng-repeat="publisher in vm.publishers | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="main.publisher-detail({id:publisher.publisher_id})">
             <th>{{::publisher.publisher_id}}</th>
             <td>{{::publisher.publisher_navn}}</td>
             <td>{{::publisher.enabled ? 'True' : 'False'}}</td>

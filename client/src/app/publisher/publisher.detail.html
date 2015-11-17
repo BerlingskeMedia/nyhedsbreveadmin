@@ -1,11 +1,11 @@
 <h1>{{vm.publisher.publisher_navn}}</h1>
 
-<form name="editForm">
+<form name="publisherForm">
   <div class="form-group">
     <label>Navn</label>
     <input type="text" name="name" required placeholder="Navn" ng-model="vm.publisher.publisher_navn"class="form-control">
   </div>
-  <div ng-messages="editForm.name.$error">
+  <div ng-messages="publisherForm.name.$error">
     <div ng-message="required">
       <nyhedsbreve-error-message message="Publisher navn er påkrævet">
       </nyhedsbreve-error-message>
@@ -15,7 +15,7 @@
     <label>Image URL</label>
     <input type="url" ng-model="vm.publisher.publisher_toppic" class="form-control" name="toppic" placeholder="Image URL" required>
   </div>
-  <div ng-messages="editForm.toppic.$error">
+  <div ng-messages="publisherForm.toppic.$error">
     <div ng-message="required">
       <nyhedsbreve-error-message message="Billede er påkrævet">
       </nyhedsbreve-error-message>
@@ -25,11 +25,12 @@
       </nyhedsbreve-error-message>
     </div>
   </div>
-  <img class="nyhedsbreve-image" ng-src="{{vm.publisher.publisher_toppic}}" />
-  <div class="checkbox">
-    <label>
-      <input ng-model="vm.publisher.enabled" type="checkbox" ng-true-value="1" ng-false-value="0" >Enabled
-    </label>
+  <div class="col-sm-12">
+    <img class="nyhedsbreve-image" ng-src="{{vm.publisher.publisher_toppic}}" />
+
   </div>
-  <button type="submit" class="btn" ng-class="{'btn-success' : editForm.$valid}" ng-disabled="editForm.$invalid" ng-click="vm.update(vm.publisher)">Gem</button>
+
+  <button ng-hide="vm.createMode" type="submit" class="btn" ng-class="{'btn-success' : publisherForm.$valid}" ng-disabled="publisherForm.$invalid" ng-click="vm.update(vm.publisher)">Gem</button>
+  <button ng-hide="vm.createMode" type="submit" class="btn" class="btn btn-danger" ng-click="vm.delete(vm.publisher)" >Slet</button>
+  <button ng-if="vm.createMode" type="submit" class="btn" class="btn btn-danger" ng-click="vm.create(vm.publisher)" >Opret</button>
 </form>
