@@ -6,7 +6,7 @@
     .controller('PublisherDetailController', PublisherDetailController);
 
   /** @ngInject */
-  function PublisherDetailController($stateParams, $state, mdbAPI) {
+  function PublisherDetailController($stateParams, $state, errorhandler, toastr, mdbAPI) {
     var vm = this;
     vm.update = update;
     vm.delete = deletePublisher;
@@ -29,20 +29,32 @@
     }
 
     function create(publisher) {
-      return mdbAPI.createPublisher(publisher).then(function(publisher) {
+      return mdbAPI.createPublisher(publisher)
+      .then(function(publisher) {
         toastr.success('Publisher oprettet');
         $state.go('main.publisher-detail', {id: publisher.publisher_id});
-      });
+      })
+      .catch(errorhandler.errorhandler);
     }
 
     function update(publisher) {
-      return mdbAPI.putPublisher(publisher);
+      return mdbAPI.putPublisher(publisher)
+      .then(function(publisher) {
+        toastr.success('Publisher opdateret');
+        vm.publisher = publisher;
+      })
+      .catch(errorhandler.errorhandler);
     }
 
     function deletePublisher(publisher) {
-      return mdbAPI.deletePublisher(publisher);
+      return mdbAPI.deletePublisher(publisher)
+      .then(function(publisher) {
+        toastr.success('Publisher slettet');
+        vm.publisher = publisher;
+        $state.go('main.publisher');
+      })
+      .catch(errorhandler.errorhandler);
     }
-
 
   }
 })();

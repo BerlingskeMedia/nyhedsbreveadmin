@@ -1,6 +1,10 @@
 <h1>{{vm.publisher.publisher_navn}}</h1>
 
 <form name="publisherForm">
+  <div class="form-group" ng-if="!vm.createMode">
+    <label>Publisher ID</label>
+    <input type="text" name="id" disabled placeholder="" ng-model="vm.publisher.publisher_id" class="form-control">
+  </div>
   <div class="form-group">
     <label>Navn</label>
     <input type="text" name="name" required placeholder="Navn" ng-model="vm.publisher.publisher_navn"class="form-control">
@@ -11,6 +15,91 @@
       </nyhedsbreve-error-message>
     </div>
   </div>
+
+  <div class="form-group">
+    <label>Wheel title</label>
+    <input type="text" name="wheeltitle" required placeholder="Wheel title" ng-model="vm.publisher.wheel_title" class="form-control">
+  </div>
+  <div ng-messages="publisherForm.wheeltitle.$error">
+    <div ng-message="required">
+      <nyhedsbreve-error-message message="Wheel title er påkrævet">
+      </nyhedsbreve-error-message>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Send from</label>
+    <input type="text" name="sendfrom" required placeholder="Send From" ng-model="vm.publisher.publisher_sendfrom" class="form-control">
+  </div>
+  <div ng-messages="publisherForm.sendfrom.$error">
+    <div ng-message="required">
+      <nyhedsbreve-error-message message="Send from er påkrævet">
+      </nyhedsbreve-error-message>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label>Brugernavn</label>
+        <input type="text" name="brugernavn" required placeholder="Brugernavn" ng-model="vm.publisher.publisher_brugernavn" class="form-control">
+      </div>
+      <div ng-messages="publisherForm.brugernavn.$error">
+        <div ng-message="required">
+          <nyhedsbreve-error-message message="Brugernavn er påkrævet">
+          </nyhedsbreve-error-message>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label>Kodeord</label>
+        <input type="text" name="kodeord" required placeholder="Kodeord" ng-model="vm.publisher.publisher_kodeord" class="form-control">
+      </div>
+      <div ng-messages="publisherForm.brugernavn.$error">
+        <div ng-message="required">
+          <nyhedsbreve-error-message message="Brugernavn er påkrævet">
+          </nyhedsbreve-error-message>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label>Lcolor</label>
+        <input type="text" name="lcolor" pattern="^#[0-9a-fA-F]+$" required placeholder="Lcolor" ng-model="vm.publisher.publisher_lcolor" class="form-control">
+      </div>
+      <div ng-messages="publisherForm.lcolor.$error">
+        <div ng-message="required">
+          <nyhedsbreve-error-message message="Lcolor er påkrævet">
+          </nyhedsbreve-error-message>
+        </div>
+        <div ng-message="pattern">
+          <nyhedsbreve-error-message message="Lcolor skal være hexadecimalt">
+          </nyhedsbreve-error-message>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label>Bcolor</label>
+        <input type="text" name="bcolor" pattern="^#[0-9a-fA-F]+$" required placeholder="Bcolor" ng-model="vm.publisher.publisher_bcolor" class="form-control">
+      </div>
+      <div ng-messages="publisherForm.bcolor.$error">
+        <div ng-message="required">
+          <nyhedsbreve-error-message message="Bcolor er påkrævet">
+          </nyhedsbreve-error-message>
+        </div>
+        <div ng-message="pattern">
+          <nyhedsbreve-error-message message="Bcolor skal være hexadecimalt">
+          </nyhedsbreve-error-message>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <div class="form-group">
     <label>Image URL</label>
     <input type="url" ng-model="vm.publisher.publisher_toppic" class="form-control" name="toppic" placeholder="Image URL" required>
@@ -25,12 +114,29 @@
       </nyhedsbreve-error-message>
     </div>
   </div>
+
+  <div class="form-group">
+    <label>Publisher URL</label>
+    <input type="url" ng-model="vm.publisher.publisher_url" class="form-control" name="publisherurl" placeholder="Publisher URL" required>
+  </div>
+  <div ng-messages="publisherForm.publisherurl.$error">
+    <div ng-message="required">
+      <nyhedsbreve-error-message message="Publisher URL er påkrævet">
+      </nyhedsbreve-error-message>
+    </div>
+    <div ng-message="url">
+      <nyhedsbreve-error-message message="URL'en er ugyldig">
+      </nyhedsbreve-error-message>
+    </div>
+  </div>
+
   <div class="col-sm-12">
     <img class="nyhedsbreve-image" ng-src="{{vm.publisher.publisher_toppic}}" />
-
   </div>
 
   <button ng-hide="vm.createMode" type="submit" class="btn" ng-class="{'btn-success' : publisherForm.$valid}" ng-disabled="publisherForm.$invalid" ng-click="vm.update(vm.publisher)">Gem</button>
-  <button ng-hide="vm.createMode" type="submit" class="btn" class="btn btn-danger" ng-click="vm.delete(vm.publisher)" >Slet</button>
-  <button ng-if="vm.createMode" type="submit" class="btn" class="btn btn-danger" ng-click="vm.create(vm.publisher)" >Opret</button>
+
+  <button ng-hide="vm.createMode" type="submit" class="btn btn-danger" ng-click="vm.delete(vm.publisher)">Slet</button>
+
+  <button ng-if="vm.createMode" type="submit" class="btn" class="btn" ng-class="{'btn-success' : publisherForm.$valid}" ng-click="vm.create(vm.publisher)">Opret</button>
 </form>
