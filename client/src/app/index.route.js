@@ -73,6 +73,18 @@
         controller: 'PermissionListController',
         controllerAs: 'vm'
       })
+      .state('main.permission-create', {
+        url: '/permission/create',
+        templateUrl: 'app/nyhedsbrev/nyhedsbrev.detail.html',
+        controller: 'PermissionDetailController',
+        controllerAs: 'vm'
+      })
+      .state('main.permission-detail', {
+        url: '/permission/:id',
+        templateUrl: 'app/nyhedsbrev/nyhedsbrev.detail.html',
+        controller: 'PermissionDetailController',
+        controllerAs: 'vm'
+      })
       .state('main.location', {
         url: '/location',
         templateUrl: 'app/location/location.html',

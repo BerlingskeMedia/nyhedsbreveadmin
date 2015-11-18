@@ -23,6 +23,7 @@
       getInteresserBranches: getInteresserBranches,
       getAllInteresser: getAllInteresser,
       getPermissions: getPermissions,
+      getPermission: getPermission,
       getNyhedsbreve: getNyhedsbreve,
       getNyhedsbrev: getNyhedsbrev,
       putNyhedsbrev: putNyhedsbrev,
@@ -126,6 +127,11 @@
     function getPermissions() {
       return $http.get(APIBASEURL + "nyhedsbreve?permission=1")
       .then(_httpSuccessCallback);
+    }
+
+    function getPermission(id) {
+      return $http.get(APIBASEURL + "nyhedsbreve?permission=1&nyhedsbrev_id=" + id)
+      .then(_httpArraySuccessCallback);
     }
 
     function getNyhedsbreve() {
