@@ -6,10 +6,12 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, toastrConfig) {
+  function config($logProvider, toastrConfig, $locationProvider) {
     // Enable log
     $logProvider.debugEnabled(true);
-
+    $locationProvider.html5Mode(true);
   }
+
+
 
 })();

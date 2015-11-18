@@ -12,7 +12,7 @@
         message: '@'
       },
       templateUrl: 'app/components/errormessage/errormessage.html',
-    }
+    };
     return directive;
   }
 })();

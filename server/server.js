@@ -71,7 +71,7 @@ var server = new Hapi.Server({
   }
 });
 
-server.connection({ port: process.env.PORT ? process.env.PORT : 8001 , routes: {cors:true}});
+server.connection({ port: process.env.PORT ? process.env.PORT : 7999 , routes: {cors:true}});
 
 server.route({
   method: 'GET',

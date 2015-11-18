@@ -9,8 +9,9 @@
   function routerConfig($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('main', {
-        templateUrl: '/app/main/main.html',
-        url: '/main'
+        templateUrl: 'app/main/main.html',
+        url: '/main',
+        abstract: true
       })
       .state('main.publisher', {
         url: '/publisher',
@@ -97,7 +98,7 @@
       .state('user.detail', {
         url: '/kunde/:ekstern_id',
         templateUrl: 'app/user/user.detail.html',
-        controller: 'UserDetailContoller',
+        controller: 'UserDetailController',
         controllerAs: 'vm'
       })
         .state('user.detail.core', {

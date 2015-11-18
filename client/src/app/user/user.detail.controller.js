@@ -3,10 +3,10 @@
 
   angular
     .module('nyhedsbreveadmin')
-    .controller('UserDetailContoller', UserDetailContoller);
+    .controller('UserDetailController', UserDetailController);
 
   /** @ngInject */
-  function UserDetailContoller($scope, $stateParams, $state, toastr, errorhandler, mdbAPI) {
+  function UserDetailController($scope, $stateParams, $state, toastr, errorhandler, mdbAPI) {
     var vm = this;
 
     activate();
