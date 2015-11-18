@@ -69,9 +69,9 @@
       })
       .state('main.permission', {
         url: '/permission',
-        templateUrl: 'app/permission/permission.html',
-        controller: 'PermissionController',
-        controllerAs: 'permissionCtrl'
+        templateUrl: 'app/permission/permission.list.html',
+        controller: 'PermissionListController',
+        controllerAs: 'vm'
       })
       .state('main.location', {
         url: '/location',

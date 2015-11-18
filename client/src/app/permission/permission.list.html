@@ -1,0 +1,44 @@
+<a ui-sref="main.permission-create">
+  <button type="submit" class="btn btn-success">Opret Permission</button>
+</a>
+
+<div class="table-responsive">
+  <form>
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon">
+          <span class="glyphicon glyphicon-search"></span>
+        </div>
+        <input type="text" class="form-control" placeholder="Søg" ng-model="searchterm">
+      </div>
+    </div>
+  </form>
+  <table class="table table-striped linkable">
+    <thead>
+      <tr>
+        <th>
+          <a href="" ng-click="sortType = 'nyhedsbrev_id'; sortReverse = !sortReverse">
+            ID
+            <span ng-show="sortType == 'nyhedsbrev_id' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+            <span ng-show="sortType == 'nyhedsbrev_id' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+          </a>
+        </th>
+        <th>
+          <a href="" ng-click="sortType = 'nyhedsbrev_navn'; sortReverse = !sortReverse">
+            Navn
+            <span ng-show="sortType == 'nyhedsbrev_navn' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+            <span ng-show="sortType == 'nyhedsbrev_navn' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+          </a>
+        </th>
+        <th>Indhold</th>
+      </tr>
+      </thead>
+      <tbody>
+          <tr ng-repeat="permission in vm.permissions | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="main.permission-detail({id:permission.nyhedsbrev_id})">
+          <th>{{::permission.nyhedsbrev_id}}</th>
+          <td>{{::permission.nyhedsbrev_navn}}</td>
+          <td>{{::permission.indhold}}</td>
+        </tr>
+      </tbody>
+  </table>
+</div>
