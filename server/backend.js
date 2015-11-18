@@ -76,6 +76,12 @@ var backend = {
     });
 
     plugin.route({
+      method: ['GET', 'POST'],
+      path: '/users',
+      handler: proxy
+    });
+
+    plugin.route({
       method: ['GET', 'PUT'],
       path: '/users/{user_id}',
       handler: proxy
