@@ -64,8 +64,14 @@ var backend = {
     });
 
     plugin.route({
-      method: 'GET',
+      method: ['GET', 'POST'],
       path: '/nyhedsbreve',
+      handler: proxy
+    });
+
+    plugin.route({
+      method: ['GET', 'PUT', 'DELETE'],
+      path: '/nyhedsbreve/{nyhedsbrev_id}',
       handler: proxy
     });
 

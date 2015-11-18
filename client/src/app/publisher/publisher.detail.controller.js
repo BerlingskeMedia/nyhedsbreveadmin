@@ -16,8 +16,6 @@
 
     function activate() {
       vm.createMode = $state.current.name === 'main.publisher-create';
-      console.log($state.current.name);
-      console.log('vm.createMode', vm.createMode);
       if (vm.createMode) {
         return;
       }

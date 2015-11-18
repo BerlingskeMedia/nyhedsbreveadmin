@@ -22,9 +22,11 @@
       getPermissions: getPermissions,
       getNyhedsbreve: getNyhedsbreve,
       getNyhedsbrev: getNyhedsbrev,
+      putNyhedsbrev: putNyhedsbrev,
+      deleteNyhedsbrev: deleteNyhedsbrev,
+      createNyhedsbrev: createNyhedsbrev,
       getLocations: getLocations,
       putLocation: putLocation,
-
       createLocation: createLocation,
       userSearch: userSearch,
       getUser: getUser,
@@ -103,6 +105,21 @@
     function getNyhedsbrev(id) {
       return $http.get(APIBASEURL + "nyhedsbreve?nyhedsbrev_id=" + id)
       .then(_httpArraySuccessCallback);
+    }
+
+    function putNyhedsbrev(nyhedsbrev) {
+      return $http.put(APIBASEURL + "nyhedsbreve/" + nyhedsbrev.nyhedsbrev_id, nyhedsbrev)
+      .then(_httpSuccessCallback);
+    }
+
+    function createNyhedsbrev(nyhedsbrev) {
+      return $http.post(APIBASEURL + "nyhedsbreve", nyhedsbrev)
+      .then(_httpSuccessCallback);
+    }
+
+    function deleteNyhedsbrev(nyhedsbrev) {
+      return $http.delete(APIBASEURL + "nyhedsbreve/" + nyhedsbrev.nyhedsbrev_id)
+      .then(_httpSuccessCallback);
     }
 
     function getLocations() {

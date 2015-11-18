@@ -1,46 +1,83 @@
-<h1>{{vm.nyhedsbrev.nyhedsbrev_navn}}</h1>
-<form class="form-horizontal" name="nyhedsbrev">
+<h1>{{vm.nyhedsbrev.nyhedsbrev}}</h1>
+
+<form name="nyhedsbrevForm">
+  <div class="form-group" ng-if="!vm.createMode">
+    <label>Nyhedsbrev ID</label>
+    <input type="text" name="id" disabled placeholder="" ng-model="vm.nyhedsbrev.nyhedsbrev_id" class="form-control">
+  </div>
   <div class="form-group">
-    <label for="name" class="col-sm-2 control-label">Nyhedsbrev Navn</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="name" placeholder="Nyhedsbrev Navn" ng-model="vm.nyhedsbrev.nyhedsbrev_navn" required>
+    <label>Navn</label>
+    <input type="text" name="name" required placeholder="Navn" ng-model="vm.nyhedsbrev.nyhedsbrev_navn" class="form-control">
+  </div>
+  <div ng-messages="nyhedsbrevForm.name.$error">
+    <div ng-message="required">
+      <nyhedsbreve-error-message message="Navn er påkrævet">
+      </nyhedsbreve-error-message>
     </div>
   </div>
   <div class="form-group">
-    <label for="publisher" class="col-sm-2 control-label">Publisher</label>
-    <div class="col-sm-10">
-      <select name="publisher" id="publisher" ng-model="vm.nyhedsbrev.publisher_id">
-        <option ng-selected="option.publisher_id === vm.nyhedsbrev.publisher_id" ng-repeat="option in vm.publishers" value="{{option.publisher_id}}">{{option.publisher_navn}}
-      </select>
+    <label>Publisher</label>
+    <select name="publisher" id="publisher" ng-model="vm.nyhedsbrev.publisher_id" required>
+      <option ng-selected="option.publisher_id == vm.nyhedsbrev.publisher_id" ng-repeat="option in vm.publishers" value="{{option.publisher_id}}">{{option.publisher_navn}}
+    </select>
+  </div>
+  <div ng-messages="nyhedsbrevForm.publisher.$error">
+    <div ng-message="required">
+      <nyhedsbreve-error-message message="Publisher er påkrævet">
+      </nyhedsbreve-error-message>
     </div>
   </div>
+
   <div class="form-group">
-    <label for="indhold" class="col-sm-2 control-label">Beskrivelse</label>
-    <div class="col-sm-10">
-      <textarea class="form-control" name="indhold" id="indhold" placeholder="Indhold" ng-model="vm.nyhedsbrev.indhold" required>
-      </textarea>
+    <label>Indhold</label>
+    <input type="text" name="indhold" required placeholder="Indhold" ng-model="vm.nyhedsbrev.indhold" class="form-control">
+  </div>
+  <div ng-messages="nyhedsbrevForm.indhold.$error">
+    <div ng-message="required">
+      <nyhedsbreve-error-message message="Indhold er påkrævet">
+      </nyhedsbreve-error-message>
     </div>
   </div>
+
   <div class="form-group">
-    <label for="name" class="col-sm-2 control-label">Billede URL</label>
-    <div class="col-sm-5">
-      <input type="text" class="form-control" id="name" placeholder="http://"  required>
-    </div>
-    <div class="col-sm-5">
-      <!-- <img ng-src="vm.nyhedsbrev.toppic" /> -->
-    </div>
+    <label>Tag</label>
+    <input type="text" name="tag" required placeholder="Tag" ng-model="vm.nyhedsbrev.nyhedsbrev_tag" class="form-control">
   </div>
+
   <div class="form-group">
-    <label for="hidden" class="col-sm-2 control-label">Hidden</label>
-    <div class="col-sm-10">
-      <input type="checkbox" class="form-control" id="hidden" ng-true-value="1" ng-false-value="0" ng-model="vm.nyhedsbrev.hidden" required>
+    <label>Tidspunkt</label>
+    <input type="text" name="tidspunkt" placeholder="Tidspunkt" ng-model="vm.nyhedsbrev.tidspunkt" class="form-control">
+  </div>
+
+  <div class="row">
+    <div class="col-sm-3">
+      <label>Skjult</label>
+      <input type="checkbox" class="form-control" name="hidden" ng-true-value="1" ng-false-value="0" ng-model="vm.nyhedsbrev.hidden">
+    </div>
+    <div class="col-sm-3">
+      <label>Highlight</label>
+      <input type="checkbox" class="form-control" name="highlight" ng-true-value="1" ng-false-value="0" ng-model="vm.nyhedsbrev.highlight">
+    </div>
+    <div class="col-sm-3">
+      <label>Makeret</label>
+      <input type="checkbox" class="form-control" name="markeret" ng-true-value="1" ng-false-value="0" ng-model="vm.nyhedsbrev.markeret">
+    </div>
+    <div class="col-sm-3">
+      <label>Nyt</label>
+      <input type="checkbox" class="form-control" name="nyt" ng-true-value="1" ng-false-value="0" ng-model="vm.nyhedsbrev.nyt">
     </div>
   </div>
+
+
   <div class="form-group">
-    <label for="enabled" class="col-sm-2 control-label">Enabled</label>
-    <div class="col-sm-10">
-      <input type="checkbox" class="form-control" id="enabled" ng-model="vm.nyhedsbrev.enabled" ng-true-value="1" ng-false-value="0"
-      required>
-    </div>
+    <label>Sort ID</label>
+    <input type="number" name="sortid" placeholder="Sort ID" ng-model="vm.nyhedsbrev.sort_id" class="form-control">
   </div>
+
+
+  <button ng-hide="vm.createMode" type="submit" class="btn" ng-class="{'btn-success' : nyhedsbrevForm.$valid}" ng-disabled="nyhedsbrevForm.$invalid" ng-click="vm.update(vm.nyhedsbrev)">Gem</button>
+
+  <button ng-hide="vm.createMode" type="submit" class="btn btn-danger" ng-click="vm.delete(vm.nyhedsbrev)">Slet</button>
+
+  <button ng-if="vm.createMode" type="submit" class="btn" class="btn" ng-class="{'btn-success' : nyhedsbrevForm.$valid}" ng-click="vm.create(vm.nyhedsbrev)">Opret</button>
 </form>

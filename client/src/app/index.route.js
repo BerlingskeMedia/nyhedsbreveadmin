@@ -36,6 +36,12 @@
         controller: 'NyhedsbrevListController',
         controllerAs: 'vm'
       })
+      .state('main.nyhedsbrev-create', {
+        url: '/nyhedsbrev/create',
+        templateUrl: 'app/nyhedsbrev/nyhedsbrev.detail.html',
+        controller: 'NyhedsbrevDetailController',
+        controllerAs: 'vm'
+      })
       .state('main.nyhedsbrev-detail', {
         url: '/nyhedsbrev/:id',
         templateUrl: 'app/nyhedsbrev/nyhedsbrev.detail.html',
