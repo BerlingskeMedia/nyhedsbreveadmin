@@ -5,10 +5,8 @@ var http = require('http');
 function proxy (request, reply) {
   var options = {
     method: request.method,
-    //hostname: process.env.MDBAPI_ADDRESS,
-    //port: process.env.MDBAPI_PORT,
-    hostname: 'localhost',
-    port: '8000',
+    hostname: process.env.MDBAPI_ADDRESS,
+    port: process.env.MDBAPI_PORT,
     path: request.url.path.replace('/backend', '')
   };
 
