@@ -24,7 +24,7 @@
     function save(location) {
       return mdbAPI.putLocation(location)
       .then(function() {
-        toastr.success('Location + (id: ' + location.location_id + ') blev gemt');
+        toastr.success('Location (id: ' + location.location_id + ') blev gemt');
       })
       .catch(function() {
         toastr.error('Der opstod en fejl');

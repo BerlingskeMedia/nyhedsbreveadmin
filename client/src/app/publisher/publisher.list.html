@@ -29,20 +29,12 @@
               <span ng-show="sortType == 'publisher_navn' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
             </a>
           </th>
-          <th>
-            <a href="" ng-click="sortType = 'enabled'; sortReverse = !sortReverse">
-              Enabled
-              <span ng-show="sortType == 'enabled' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
-              <span ng-show="sortType == 'enabled' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
-            </a>
-          </th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="publisher in vm.publishers | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="main.publisher-detail({id:publisher.publisher_id})">
             <th>{{::publisher.publisher_id}}</th>
             <td>{{::publisher.publisher_navn}}</td>
-            <td>{{::publisher.enabled ? 'True' : 'False'}}</td>
         </tr>
       </tbody>
   </table>
