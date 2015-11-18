@@ -50,9 +50,9 @@
       })
       .state('main.interesse', {
         url: '/interesse',
-        templateUrl: 'app/interesse/interesse.html',
-        controller: 'InteresseController',
-        controllerAs: 'interesseCtrl'
+        templateUrl: 'app/interesse/interesse.list.html',
+        controller: 'InteresseListController',
+        controllerAs: 'vm'
       })
       .state('main.permission', {
         url: '/permission',
