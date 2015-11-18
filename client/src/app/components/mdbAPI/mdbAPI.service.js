@@ -5,7 +5,7 @@
       .module('nyhedsbreveadmin')
       .factory('mdbAPI', mdbAPI);
 
-  function mdbAPI($http, $q, nyhedsbreveadminConfig) {
+  function mdbAPI($http, $q, $log, nyhedsbreveadminConfig) {
     var APIBASEURL = nyhedsbreveadminConfig.APIBASEURL;
     var LOCATIONID = nyhedsbreveadminConfig.LOCATIONID;
 
@@ -206,12 +206,12 @@
 
 
     function _httpSuccessCallback(response) {
-      console.log(response.data);
+      $log.log(response.data);
       return response.data;
     }
 
     function _httpArraySuccessCallback(response) {
-      console.log(response.data);
+      $log.log(response.data);
       return response.data[0];
     }
 
