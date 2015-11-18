@@ -130,6 +130,12 @@ var backend = {
     });
 
     plugin.route({
+      method: 'GET',
+      path: '/users/{user_id}/actions',
+      handler: proxy
+    });
+
+    plugin.route({
       method: 'POST',
       path: '/mails/profile-page-link',
       handler: proxy

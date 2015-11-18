@@ -51,9 +51,9 @@
     function deleteNyhedsbrev(nyhedsbrev) {
       return mdbAPI.deleteNyhedsbrev(nyhedsbrev)
       .then(function(nyhedsbrev) {
-        toastr.success('Nyhedsbrev slettet');
+        toastr.success('Permission slettet');
         vm.nyhedsbrev = nyhedsbrev;
-        $state.go('main.nyhedsbrev');
+        $state.go('main.permission');
       })
       .catch(errorhandler.errorhandler);
     }

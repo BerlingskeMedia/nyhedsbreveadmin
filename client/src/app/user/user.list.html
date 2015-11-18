@@ -1,4 +1,4 @@
-<form>
+<form class="clearfix">
   <div class="form-group">
     <div class="col-sm-6">
       <div class="input-group">
@@ -50,7 +50,7 @@
     </div>
   </div>
 </form>
-<table class="table table-striped linkable">
+<table class="table table-striped linkable" ng-if="vm.users.length > 0 && vm.didSearch">
   <thead>
       <tr>
         <th>
@@ -100,3 +100,9 @@
       </tr>
     </tbody>
 </table>
+<div class="clearfix">
+  <div class="alert alert-warning" role="alert" ng-if="vm.didSearch && vm.users.length === 0">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    Søgningen gav ingen resultater
+  </div>
+</div>

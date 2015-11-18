@@ -1,4 +1,4 @@
-<div class="well clearfix" >
+<div class="well clearfix">
   <h3>Tilmeldte nyhedsbreve</h3>
   <div class="col-lg-4 col-sm-6 col-xs-12" ng-repeat="nyhedsbrev in nyhedsbreve | filter: in_user_nyhedsbreve | orderBy: ['publisher_id','nyhedsbrev_navn']">
     <label data-interesse-id="{{ nyhedsbrev.nyhedsbrev_id }}">

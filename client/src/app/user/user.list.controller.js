@@ -31,11 +31,14 @@
       if ($scope.postnummer) {
         searchPayload.postnummer = $scope.postnummer;
       }
+
       mdbAPI.userSearch(searchPayload).then(function(users) {
         vm.users = users;
-      })
+        vm.didSearch = true;
+      });
     }
     function activate() {
+      vm.didSearch = false;
       $scope.search = search;
     }
 
