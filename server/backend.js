@@ -76,8 +76,14 @@ var backend = {
     });
 
     plugin.route({
-      method: 'GET',
+      method: ['GET', 'POST'],
       path: '/interesser',
+      handler: proxy
+    });
+
+    plugin.route({
+      method: ['GET', 'PUT', 'DELETE'],
+      path: '/interesser/{interesse_id}',
       handler: proxy
     });
 

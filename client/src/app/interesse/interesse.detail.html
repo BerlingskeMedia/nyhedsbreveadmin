@@ -1,0 +1,47 @@
+<h1>{{vm.interesse.interesse_navn}}</h1>
+<form name="interesseForm">
+  <div class="form-group" ng-if="!vm.createMode">
+    <label>Interesse ID</label>
+    <input type="text" name="id" disabled ng-model="vm.interesse.interesse_id" class="form-control">
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group" ng-if="!vm.createMode">
+        <label>Oprettet</label>
+        <input type="text" name="oprettet" disabled ng-model="vm.interesse.oprettet" class="form-control">
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group" ng-if="!vm.createMode">
+        <label>Rettet</label>
+        <input type="text" name="rettet" disabled ng-model="vm.interesse.rettet" class="form-control">
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <label>Navn</label>
+    <input type="text" name="name" required placeholder="Navn" ng-model="vm.interesse.interesse_navn" class="form-control">
+  </div>
+  <div ng-messages="interesseForm.name.$error">
+    <div ng-message="required">
+      <interessee-error-message message="Navn er påkrævet">
+      </interessee-error-message>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Beskrivelse</label>
+    <input type="text" name="beskrivelse" required placeholder="Beskrivelse" ng-model="vm.interesse.beskrivelse" class="form-control">
+  </div>
+  <div ng-messages="interesseForm.beskrivelse.$error">
+    <div ng-message="required">
+      <interessee-error-message message="Beskrivelse er påkrævet">
+      </interessee-error-message>
+    </div>
+  </div>
+
+  <button ng-hide="vm.createMode" type="submit" class="btn" ng-class="{'btn-success' : interesseForm.$valid}" ng-disabled="interesseForm.$invalid" ng-click="vm.update(vm.interesse)">Gem</button>
+
+  <button ng-if="vm.createMode" type="submit" class="btn" class="btn" ng-class="{'btn-success' : interesseForm.$valid}" ng-click="vm.create(vm.interesse)">Opret</button>
+</form>

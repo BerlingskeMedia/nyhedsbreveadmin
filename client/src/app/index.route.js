@@ -54,6 +54,18 @@
         controller: 'InteresseListController',
         controllerAs: 'vm'
       })
+      .state('main.interesse-create', {
+        url: '/interesse/create',
+        templateUrl: 'app/interesse/interesse.detail.html',
+        controller: 'InteresseDetailController',
+        controllerAs: 'vm'
+      })
+      .state('main.interesse-detail', {
+        url: '/interesse/:id',
+        templateUrl: 'app/interesse/interesse.detail.html',
+        controller: 'InteresseDetailController',
+        controllerAs: 'vm'
+      })
       .state('main.permission', {
         url: '/permission',
         templateUrl: 'app/permission/permission.html',

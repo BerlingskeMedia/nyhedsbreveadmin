@@ -12,7 +12,8 @@
     activate();
 
     function activate() {
-      mdbAPI.getAllInteresser().then(function(interesser) {
+      $scope.sortType = "interesse_id";
+      mdbAPI.getInteresser(4).then(function(interesser) {
         vm.interesser = interesser;
       });
     }
