@@ -6,10 +6,8 @@
     .controller('LocationController', LocationController);
 
   /** @ngInject */
-  function LocationController($scope, toastr, mdbAPI) {
+  function LocationController($scope, toastr, errorhandler, mdbAPI) {
     var vm = this;
-
-
 
     activate();
 
@@ -26,12 +24,9 @@
       .then(function() {
         toastr.success('Location (id: ' + location.location_id + ') blev gemt');
       })
-      .catch(function() {
-        toastr.error('Der opstod en fejl');
-      });
+      .catch(errorhandler.errorhandler);
 
     }
-
 
   }
 })();

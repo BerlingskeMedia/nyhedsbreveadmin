@@ -6,7 +6,7 @@
     .controller('UserDetailActionsController', UserDetailActionsController);
 
   /** @ngInject */
-  function UserDetailActionsController($scope, $stateParams, toastr, mdbAPI) {
+  function UserDetailActionsController($scope, $stateParams, toastr, errorhandler, mdbAPI) {
     var vm = this;
 
     activate();
@@ -15,9 +15,7 @@
         mdbAPI.sendProfileLink($scope.user.email).then(function() {
           toastr.success('Login email sendt');
         })
-        .catch(function(err) {
-          toastr.error('Der opstod en fejl. Login email ej sendt');
-        });
+        .catch(errorhandler.errorhandler);
     }
 
     function activate() {

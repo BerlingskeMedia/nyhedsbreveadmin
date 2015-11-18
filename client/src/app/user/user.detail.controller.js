@@ -6,7 +6,7 @@
     .controller('UserDetailContoller', UserDetailContoller);
 
   /** @ngInject */
-  function UserDetailContoller($scope, $stateParams, $state, toastr, mdbAPI) {
+  function UserDetailContoller($scope, $stateParams, $state, toastr, errorhandler, mdbAPI) {
     var vm = this;
 
     activate();
@@ -30,14 +30,12 @@
       return mdbAPI.updateUser(user)
       .then(function(savedUser) {
         if (savedUser.ekstern_id !== user.ekstern_id) {
-          $state.go('user-detail.core', {ekstern_id: savedUser.ekstern_id})
+          $state.go('user-detail.core', {ekstern_id: savedUser.ekstern_id});
         }
         $scope.user  = savedUser;
         toastr.success('Oplysningerne blev gemt');
       })
-      .catch(function(err) {
-        toastr.error('Der opstod en fejl');
-      });
+      .catch(errorhandler.errorhandler);
     }
 
 
