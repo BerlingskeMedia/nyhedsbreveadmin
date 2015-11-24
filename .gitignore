@@ -35,3 +35,8 @@ build/Release
 node_modules
 
 .DS_Store
+
+# Sublime Text 2
+*.sublime-*
+
+*config*

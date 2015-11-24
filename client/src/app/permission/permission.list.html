@@ -37,7 +37,7 @@
           <tr ng-repeat="permission in vm.permissions | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="main.permission-detail({id:permission.nyhedsbrev_id})">
           <th>{{::permission.nyhedsbrev_id}}</th>
           <td>{{::permission.nyhedsbrev_navn}}</td>
-          <td>{{::permission.indhold}}</td>
+          <td><span ng-bind-html="permission.indhold_safe"></span></td>
         </tr>
       </tbody>
   </table>
