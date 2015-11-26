@@ -14,7 +14,7 @@ var client = {
       path: '/scripts/{param*}',
       handler: {
         directory: {
-          path: '../dist/scripts'
+          path: 'dist/scripts'
         }
       }
     });
@@ -23,7 +23,7 @@ var client = {
       path: '/fonts/{param*}',
       handler: {
         directory: {
-          path: '../dist/fonts'
+          path: 'dist/fonts'
         }
       }
     });
@@ -32,7 +32,7 @@ var client = {
       path: '/assets/{param*}',
       handler: {
         directory: {
-          path: '../dist/assets'
+          path: 'dist/assets'
         }
       }
     });
@@ -41,7 +41,7 @@ var client = {
       path: '/styles/{param*}',
       handler: {
         directory: {
-          path: '../dist/styles'
+          path: 'dist/styles'
         }
       }
     });
@@ -50,7 +50,7 @@ var client = {
       method: 'get',
       path: '/{param*}',
       handler: {
-        file: '../dist/index.html'
+        file: 'dist/index.html'
       }
     });
 
