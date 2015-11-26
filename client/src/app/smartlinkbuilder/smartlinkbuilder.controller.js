@@ -31,11 +31,7 @@
 
     function compilePostForm() {
       var compiled = $compile(formPostTemplate)($scope);
-      $timeout(function() {
-        // A minor hack, force $digest to complete.
-        $scope.postSource = compiled[0].outerHTML.replace(/<!--[\s\S]*?-->/g, '');
-      }, 1);
-
+      $scope.postSource = compiled[0].outerHTML.replace(/<!--[\s\S]*?-->/g, '');
     }
 
     function activate() {
@@ -43,7 +39,7 @@
       vm.updateLocation = updateLocation;
       getData();
       debugLocation();
-      setWatchers();
+      // setWatchers();
       setDefaults();
     }
 
@@ -55,6 +51,7 @@
       compilePostForm();
       compileSmartlink();
     }
+    $scope.onChange = onChange;
 
     function setDefaults() {
       $scope.selectedNyhedsbreve = [];
@@ -69,12 +66,12 @@
       $scope.minDate = new Date();
     }
 
-    function setWatchers() {
-      var to_watch = ['selectedNyhedsbreve', 'selectedInteresser', 'selectedPermissions', 'flow', 'action', 'customerfield', 'startdate', 'enddate', 'location', 'landingpage'];
-      for (var i = 0; i < to_watch.length; i++) {
-        $scope.$watch(to_watch[i], onChange );
-      }
-    }
+    // function setWatchers() {
+    //   var to_watch = ['selectedNyhedsbreve', 'selectedInteresser', 'selectedPermissions', 'flow', 'action', 'customerfield', 'startdate', 'enddate', 'location', 'landingpage'];
+    //   for (var i = 0; i < to_watch.length; i++) {
+    //     $scope.$watch(to_watch[i], onChange );
+    //   }
+    // }
 
     function compileSmartlink() {
       var smartlink = SMARTLINK_BASEURL + '?';
