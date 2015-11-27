@@ -1,12 +1,14 @@
 {
   "name": "nyhedsbreveadmin",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "dependencies": {
     "hapi": "^9.3.0",
     "inert": "^3.0.1"
   },
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "build": "docker build -t berlingskemedia/$npm_package_name:$npm_package_version . && docker tag -f berlingskemedia/$npm_package_name:$npm_package_version berlingskemedia/$npm_package_name:latest",
+    "push": "docker push berlingskemedia/$npm_package_name:$npm_package_version && docker push berlingskemedia/$npm_package_name:latest"
   },
   "devDependencies": {
     "estraverse": "~4.1.0",

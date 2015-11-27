@@ -36,7 +36,7 @@ gulp.task('start_server', function() {
   if (node) {
     node.kill();
   }
-  node = spawn('node', ['server.js'], {stdio: 'inherit'});
+  node = spawn('node', ['server/server.js'], {stdio: 'inherit'});
 });
 
 gulp.task('server', ['start_server'], function () {

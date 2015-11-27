@@ -18,6 +18,7 @@ RUN wget -O - http://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION-linux-x64.
 WORKDIR /nyhedsbreveadmin
 
 COPY ./dist /nyhedsbreveadmin/dist
+COPY ./node_modules /nyhedsbreveadmin/node_modules
 COPY ./server /nyhedsbreveadmin/server
 
 EXPOSE 8000
