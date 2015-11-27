@@ -6,8 +6,11 @@
 
 'use strict';
 
-var gulp = require('gulp');
+var gulp = require('gulp'),
+    spawn = require('child_process').spawn,
+    path = require('path');
 var wrench = require('wrench');
+var node;
 
 /**
  *  This will load all js or coffee files in the gulp directory
@@ -24,6 +27,18 @@ wrench.readdirSyncRecursive('./gulp').filter(function(file) {
  *  Default task clean temporaries directories and launch the
  *  main optimization build task
  */
-gulp.task('default', ['clean'], function () {
+gulp.task('default', ['clean', 'server'], function () {
   gulp.start('build');
+});
+
+
+gulp.task('start_server', function() {
+  if (node) {
+    node.kill();
+  }
+  node = spawn('node', ['server.js'], {stdio: 'inherit'});
+});
+
+gulp.task('server', ['start_server'], function () {
+  gulp.watch(['./**.js'], ['start_server']);
 });
