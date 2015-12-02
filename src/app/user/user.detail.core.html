@@ -58,11 +58,6 @@
       <input input="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="user.foedselsdato" />
     </div>
 
-    <div class="col-sm-6">
-      <label for="alder">Alder</label>
-      <input class="form-control input-sm" id="alder" min="0" max="1000" ng-model="user.alder" type="number">
-    </div>
-
     <div class="col-sm-8">
       <label for="vejnavn">Vejnavn</label>
       <input class="form-control input-sm" ng-maxlength="255" id="vejnavn" ng-model="user.vejnavn" placeholder="" type="text">
@@ -116,31 +111,6 @@
     <h3 class="title">Yderligere data</h3>
 
     <div class="col-sm-6">
-      <label for="brugernavn">Brugernavn</label>
-      <input class="form-control input-sm" ng-maxlength="255" id="brugernavn" ng-model="user.brugernavn" type="text">
-    </div>
-
-    <div class="col-sm-6">
-      <label for="">Adgangskode</label>
-      <input class="form-control input-sm" ng-maxlength="255" id="adgangskode" ng-model="user.adgangskode" type="text">
-    </div>
-
-    <div class="col-sm-6">
-      <label for="bbs_abo_nr">BBS Abo Nr.</label>
-      <input class="form-control input-sm" id="bbs_abo_nr" ng-model="user.bbs_abo_nr" type="number">
-    </div>
-
-    <div class="col-sm-6">
-      <label for="mol_bbs_nr">MOL BBS Nr.</label>
-      <input class="form-control input-sm" id="mol_bbs_nr" ng-model="user.mol_bbs_nr" type="number">
-    </div>
-
-    <div class="col-sm-6">
-      <label for="firma">Firma</label>
-      <input class="form-control input-sm" ng-maxlength="255" id="firma" ng-model="user.firma" type="text">
-    </div>
-
-    <div class="col-sm-6">
       <label for="firma_adresse">Firma Adresse</label>
       <input class="form-control input-sm" ng-maxlength="255" id="firma_adresse" ng-model="user.firma_adresse" type="text">
     </div>
@@ -150,30 +120,6 @@
       <input class="form-control input-sm" ng-maxlength="8" id="koen" ng-model="user.koen" type="text">
     </div>
 
-    <div class="col-sm-6">
-      <label for="Komvej_kode">Komvej kode</label>
-      <input class="form-control input-sm" ng-maxlength="18" id="komvej_kode" ng-model="user.komvej_kode" type="text">
-    </div>
-
-    <div class="col-sm-6">
-      <label for="lande_kode">Landekode</label>
-      <input class="form-control input-sm" ng-maxlength="3" id="lande_kode" ng-model="user.lande_kode" type="text">
-    </div>
-
-    <div class="col-sm-6">
-      <label for="">Statuskode</label>
-      <input class="form-control input-sm" ng-maxlength="255" id="status_kode" ng-model="user.status_kode" type="text">
-    </div>
-
-    <div class="col-sm-6">
-      <label for="stednavn">Stednavn</label>
-      <input class="form-control input-sm" ng-maxlength="40" id="stednavn" ng-model="user.stednavn" type="text">
-    </div>
-
-    <div class="col-sm-6">
-      <label for="vilkaar">Vilkår</label>
-      <input class="form-control input-sm" ng-maxlength="20" id="vilkaar" ng-model="user.vilkaar" type="text">
-    </div>
 
     <div class="col-sm-6">
       <label for="foedselsaar">Fødselsår</label>
@@ -181,12 +127,7 @@
     </div>
 
     <div class="col-sm-3">
-      <label for="udland_flag">Udland flag</label>
-      <input class="form-control input-sm" id="udland_flag" ng-model="user.udland_flag" type="checkbox">
-    </div>
-
-    <div class="col-sm-3">
-      <label for="robinson_flag">Tilmeldt Robinson</label>
+      <label for="robinson_flag">Blacklistet</label>
       <input class="form-control input-sm" id="robinson_flag" ng-model="user.robinson_flag" type="checkbox">
     </div>
 
