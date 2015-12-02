@@ -11,7 +11,7 @@
       scope: {
         message: '@'
       },
-      templateUrl: 'app/components/errormessage/errormessage.html',
+      templateUrl: 'app/components/errormessage/errormessage.html'
     };
     return directive;
   }
