@@ -3,9 +3,9 @@
   'use strict';
 
   angular
-    .module('nyhedsbreveadmin')
+    .module('nyhedsbreveprofiladmin')
     .constant('moment', moment)
-    .constant("nyhedsbreveadminConfig", {
+    .constant("nyhedsbreveprofiladminConfig", {
       "APIBASEURL": "/backend/",
       "LOCATIONID": 1,
       "SMARTLINK_BASEURL": "http://profil.berlingskemedia.dk/smartlink"

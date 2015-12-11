@@ -1,5 +1,5 @@
 {
-  "name": "nyhedsbreveadmin",
+  "name": "nyhedsbreveprofiladmin",
   "version": "1.0.0",
   "dependencies": {
     "hapi": "^9.3.0",

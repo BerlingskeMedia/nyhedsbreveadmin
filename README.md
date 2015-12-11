@@ -1,4 +1,4 @@
-# nyhedsbreveadmin
+# nyhedsbreveprofiladmin
 
 Dette er en webapp som kan 1) administrere opsætning af nyhedsbreve i "hjulet", 2) oprette smartlinks samt 3) administrere kunder.
 De bygges alle i Angular 1.4 og hostes i samme statiske server (Node/S3 bucket).

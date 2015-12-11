@@ -15,11 +15,11 @@ RUN wget -O - http://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION-linux-x64.
     --exclude="ChangeLog" -C "/usr/local"
 
 # Mount current dir as a volume containing all source code.
-WORKDIR /nyhedsbreveadmin
+WORKDIR /nyhedsbreveprofiladmin
 
-COPY ./dist /nyhedsbreveadmin/dist
-COPY ./node_modules /nyhedsbreveadmin/node_modules
-COPY ./server /nyhedsbreveadmin/server
+COPY ./dist /nyhedsbreveprofiladmin/dist
+COPY ./node_modules /nyhedsbreveprofiladmin/node_modules
+COPY ./server /nyhedsbreveprofiladmin/server
 
 EXPOSE 8000
 
