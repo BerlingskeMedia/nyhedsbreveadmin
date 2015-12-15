@@ -38,7 +38,7 @@
       $scope.POSTURL = SMARTLINK_BASEURL;
       vm.updateLocation = updateLocation;
       getData();
-      debugLocation();
+      // debugLocation();
       // setWatchers();
       setDefaults();
     }
@@ -98,7 +98,8 @@
         $scope.location.location_tekst = location_tekst;
         return mdbAPI.putLocation($scope.location);
       }
-      return mdbAPI.createLocation(location_tekst).then(function(location) {
+      return mdbAPI.createLocation(location_tekst).then(function(location, headers) {
+        console.log('location', location, headers)
         $scope.location = location;
       });
 

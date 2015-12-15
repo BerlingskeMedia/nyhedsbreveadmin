@@ -44,7 +44,13 @@ var backend = {
     });
 
     plugin.route({
-      method: ['PUT', 'POST'],
+      method: 'POST',
+      path: '/locations',
+      handler: proxy
+    });
+
+    plugin.route({
+      method: 'PUT',
       path: '/locations/{location_id}',
       handler: proxy
     });

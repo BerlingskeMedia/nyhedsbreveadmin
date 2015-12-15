@@ -29,6 +29,14 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <div class="col-sm-12">
+        <h3>Location</h3>
+        <input placeholder="Location tekst" ng-change="" name="location" type="text" required class="form-control full-width" ng-model="location_tekst" />
+        <button class="btn btn-default" ng-click="vm.updateLocation(location_tekst)">Opret</button>
+      </div>
+    </div>
+
     <div class="col-sm-4">
       <h3>Flow</h3>
       <div class="btn-group">
@@ -51,21 +59,7 @@
       </div>
     </div>
     <div class="form-group">
-      <div class="col-sm-6">
-        <h3>Startdato</h3>
-        <uib-datepicker ng-model="startdate" ng-change="onChange()" min-date="minDate" show-weeks="true" class="well well-sm"></uib-datepicker>
-      </div>
-      <div class="col-sm-6">
-        <h3>Eventuel Slutdato</h3>
-        <uib-datepicker ng-model="enddate" ng-change="onChange()" min-date="startdate" show-weeks="true" class="well well-sm"></uib-datepicker>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-6">
-        <h3>Location</h3>
-        <input placeholder="Location tekst" ng-change="vm.updateLocation(location_tekst)" name="location" type="text" required class="form-control full-width" ng-model="location_tekst" />
-      </div>
-      <div class="col-sm-6">
+      <div class="col-sm-12">
         <h3>Landing page</h3>
         <input placeholder="Landing page" ng-change='updateSmartlink()' type="url" class="form-control full-width" name="landingpage" ng-model="landingpage" />
       </div>
