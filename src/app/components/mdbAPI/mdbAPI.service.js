@@ -2,12 +2,12 @@
   'use strict';
 
   angular
-      .module('nyhedsbreveadmin')
+      .module('nyhedsbreveprofiladmin')
       .factory('mdbAPI', mdbAPI);
 
-  function mdbAPI($http, $q, $log, nyhedsbreveadminConfig) {
-    var APIBASEURL = nyhedsbreveadminConfig.APIBASEURL;
-    var LOCATIONID = nyhedsbreveadminConfig.LOCATIONID;
+  function mdbAPI($http, $q, $log, nyhedsbreveprofiladminConfig) {
+    var APIBASEURL = nyhedsbreveprofiladminConfig.APIBASEURL;
+    var LOCATIONID = nyhedsbreveprofiladminConfig.LOCATIONID;
 
     var service = {
       APIBASEURL: APIBASEURL,

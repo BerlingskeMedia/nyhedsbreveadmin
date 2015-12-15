@@ -2,13 +2,13 @@
   'use strict';
 
   angular
-    .module('nyhedsbreveadmin')
+    .module('nyhedsbreveprofiladmin')
     .controller('SmartlinkBuilderController', SmartlinkBuilderController);
 
   /** @ngInject */
-  function SmartlinkBuilderController($scope, $q, $sanitize, $templateCache, $compile, $interpolate, $timeout, $element, moment, mdbAPI,  nyhedsbreveadminConfig) {
+  function SmartlinkBuilderController($scope, $q, $sanitize, $templateCache, $compile, $interpolate, $timeout, $element, moment, mdbAPI,  nyhedsbreveprofiladminConfig) {
     var vm = this;
-    var SMARTLINK_BASEURL = nyhedsbreveadminConfig.SMARTLINK_BASEURL;
+    var SMARTLINK_BASEURL = nyhedsbreveprofiladminConfig.SMARTLINK_BASEURL;
 
     var formPostTemplate = $templateCache.get('formPostTemplate.html');
 

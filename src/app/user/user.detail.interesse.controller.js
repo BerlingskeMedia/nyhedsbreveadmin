@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nyhedsbreveadmin')
+    .module('nyhedsbreveprofiladmin')
     .controller('UserDetailInteresseController', UserDetailInteresseController);
 
   /** @ngInject */

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-      .module('nyhedsbreveadmin')
+      .module('nyhedsbreveprofiladmin')
       .factory('errorhandler', errorhandler);
 
   function errorhandler($log, toastr) {
