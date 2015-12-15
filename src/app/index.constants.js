@@ -8,7 +8,7 @@
     .constant("nyhedsbreveprofiladminConfig", {
       "APIBASEURL": "/backend/",
       "LOCATIONID": 1,
-      "SMARTLINK_BASEURL": "http://profil.berlingskemedia.dk/smartlink"
+      "SMARTLINK_BASEURL": "http://profil.berlingskemedia.dk/smartlinks"
     });
 
 })();
