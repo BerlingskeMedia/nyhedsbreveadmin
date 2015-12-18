@@ -27,8 +27,12 @@ wrench.readdirSyncRecursive('./gulp').filter(function(file) {
  *  Default task clean temporaries directories and launch the
  *  main optimization build task
  */
-gulp.task('default', ['clean', 'server', 'watch'], function () {
-  gulp.start('build');
+gulp.task('default', ['server']);
+
+gulp.task('build', ['clean'], function () {
+  gulp.start('html');
+  gulp.start('fonts');
+  gulp.start('other');
 });
 
 
@@ -40,5 +44,5 @@ gulp.task('start_server', function() {
 });
 
 gulp.task('server', ['start_server'], function () {
-  gulp.watch(['./**.js'], ['start_server']);
+  gulp.watch(['./server/**.js'], ['start_server']);
 });
