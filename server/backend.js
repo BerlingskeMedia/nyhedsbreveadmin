@@ -62,7 +62,7 @@ var backend = {
     });
 
     plugin.route({
-      method: ['PUT', 'POST', 'DELETE'],
+      method: ['GET', 'PUT', 'POST', 'DELETE'],
       path: '/publishers/{publisher_id}',
       handler: proxy
     });

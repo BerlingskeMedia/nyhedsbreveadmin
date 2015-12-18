@@ -44,14 +44,14 @@
 
 
 
-    function getPublishers() {
-      return $http.get(APIBASEURL + "publishers")
+    function getPublishers(query) {
+      return $http.get(APIBASEURL + "publishers?".concat(query))
       .then(_httpSuccessCallback);
     }
 
     function getPublisher(id) {
-      return $http.get(APIBASEURL + "publishers?publisher_id=" + id)
-      .then(_httpArraySuccessCallback);
+      return $http.get(APIBASEURL + "publishers/" + id)
+      .then(_httpSuccessCallback);
     }
 
     function putPublisher(publisher) {
@@ -124,24 +124,24 @@
       });
     }
 
-    function getPermissions() {
-      return $http.get(APIBASEURL + "nyhedsbreve?permission=1")
+    function getPermissions(query) {
+      return $http.get(APIBASEURL + "nyhedsbreve?permission=1&".concat(query))
       .then(_httpSuccessCallback);
     }
 
     function getPermission(id) {
-      return $http.get(APIBASEURL + "nyhedsbreve?permission=1&nyhedsbrev_id=" + id)
-      .then(_httpArraySuccessCallback);
+      return $http.get(APIBASEURL + "nyhedsbreve/" + id)
+      .then(_httpSuccessCallback);
     }
 
-    function getNyhedsbreve() {
-      return $http.get(APIBASEURL + "nyhedsbreve")
+    function getNyhedsbreve(query) {
+      return $http.get(APIBASEURL + "nyhedsbreve?".concat(query))
       .then(_httpSuccessCallback);
     }
 
     function getNyhedsbrev(id) {
-      return $http.get(APIBASEURL + "nyhedsbreve?nyhedsbrev_id=" + id)
-      .then(_httpArraySuccessCallback);
+      return $http.get(APIBASEURL + "nyhedsbreve/" + id)
+      .then(_httpSuccessCallback);
     }
 
     function putNyhedsbrev(nyhedsbrev) {
