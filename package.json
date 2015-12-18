@@ -2,8 +2,8 @@
   "name": "nyhedsbreveprofiladmin",
   "version": "1.0.1",
   "dependencies": {
-    "hapi": "^9.3.0",
-    "inert": "^3.0.1"
+    "hapi": "^11.1.2",
+    "inert": "^3.2.0"
   },
   "scripts": {
     "test": "gulp test",
