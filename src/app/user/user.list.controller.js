@@ -8,6 +8,7 @@
   /** @ngInject */
   function UserListContoller($scope, mdbAPI) {
     var vm = this;
+    vm.searching = false;
 
     activate();
 
@@ -18,6 +19,9 @@
       }
       if ($scope.ekstern_id) {
         searchPayload.ekstern_id = $scope.ekstern_id;
+      }
+      if ($scope.user_id) {
+        searchPayload.user_id = $scope.user_id;
       }
       if ($scope.fornavn) {
         searchPayload.fornavn = $scope.fornavn;
@@ -32,9 +36,11 @@
         searchPayload.postnummer = $scope.postnummer;
       }
 
+      vm.searching = true;
       mdbAPI.userSearch(searchPayload).then(function(users) {
         vm.users = users;
         vm.didSearch = true;
+        vm.searching = false;
       });
     }
     function activate() {

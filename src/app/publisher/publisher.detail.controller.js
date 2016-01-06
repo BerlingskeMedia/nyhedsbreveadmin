@@ -15,7 +15,7 @@
     activate();
 
     function activate() {
-      vm.createMode = $state.current.name === 'main.publisher-create';
+      vm.createMode = $state.current.name === 'settings.publisher-create';
       if (vm.createMode) {
         return;
       }
@@ -30,7 +30,7 @@
       return mdbAPI.createPublisher(publisher)
       .then(function(publisher) {
         toastr.success('Publisher oprettet');
-        $state.go('main.publisher-detail', {id: publisher.publisher_id});
+        $state.go('settings.publisher-detail', {id: publisher.publisher_id});
       })
       .catch(errorhandler.errorhandler);
     }
@@ -49,7 +49,7 @@
       .then(function(publisher) {
         toastr.success('Publisher slettet');
         vm.publisher = publisher;
-        $state.go('main.publisher');
+        $state.go('settings.publisher');
       })
       .catch(errorhandler.errorhandler);
     }

@@ -13,14 +13,17 @@
 
     function activate() {
       $scope.sortType = 'nyhedsbrev_id';
-      mdbAPI.getPermissions().then(function(permissions) {
+      refreshList();
+    }
+
+    function refreshList() {
+      mdbAPI.getPermissions('enabled='.concat($scope.show_disabled ? '0' : '1')).then(function(permissions) {
         vm.permissions = permissions;
         vm.permissions.forEach(function (permission) {
           permission.indhold_safe = $sce.trustAsHtml(permission.indhold);
         });
       });
     }
-
-
+    $scope.refreshList = refreshList;
   }
 })();

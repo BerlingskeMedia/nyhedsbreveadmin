@@ -136,7 +136,7 @@
 
   <button ng-hide="vm.createMode" type="submit" class="btn" ng-class="{'btn-success' : publisherForm.$valid}" ng-disabled="publisherForm.$invalid" ng-click="vm.update(vm.publisher)">Gem</button>
 
-  <button ng-hide="vm.createMode" type="submit" class="btn btn-danger" ng-click="vm.delete(vm.publisher)">Slet</button>
+  <button ng-hide="vm.createMode" ng-if="vm.publisher.enabled" type="submit" class="btn btn-danger" ng-click="vm.delete(vm.publisher)">Deaktiver</button>
 
   <button ng-if="vm.createMode" type="submit" class="btn" class="btn" ng-class="{'btn-success' : publisherForm.$valid}" ng-click="vm.create(vm.publisher)">Opret</button>
 </form>

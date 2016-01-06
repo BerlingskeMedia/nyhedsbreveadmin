@@ -28,7 +28,7 @@
     <tr ng-repeat="item in history.actions | orderBy:sortType:sortReverse">
       <td>{{::item.oprettet | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</td>
       <td>{{::item.user_action_type_name}}</td>
-      <td>{{::item.location_id}}</td>
+      <td>{{::item.location_tekst}}</td>
     </tr>
   </tbody>
 </table>

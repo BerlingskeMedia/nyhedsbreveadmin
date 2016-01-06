@@ -16,7 +16,7 @@
     activate();
 
     function activate() {
-      vm.createMode = $state.current.name === 'main.nyhedsbrev-create';
+      vm.createMode = $state.current.name === 'settings.nyhedsbrev-create';
 
       mdbAPI.getPublishers().then(function(publishers) {
         vm.publishers = publishers;
@@ -34,7 +34,7 @@
       return mdbAPI.createNyhedsbrev(nyhedsbrev)
       .then(function(nyhedsbrev) {
         toastr.success('Nyhedsbrev oprettet');
-        $state.go('main.nyhedsbrev-detail', {id: nyhedsbrev.nyhedsbrev_id});
+        $state.go('settings.nyhedsbrev-detail', {id: nyhedsbrev.nyhedsbrev_id});
       })
       .catch(errorhandler.errorhandler);
     }
@@ -53,7 +53,7 @@
       .then(function(nyhedsbrev) {
         toastr.success('Nyhedsbrev slettet');
         vm.nyhedsbrev = nyhedsbrev;
-        $state.go('main.nyhedsbrev');
+        $state.go('settings.nyhedsbrev');
       })
       .catch(errorhandler.errorhandler);
     }

@@ -8,11 +8,16 @@
   /** @ngInject */
   function UserDetailInteresseController($scope, $stateParams, mdbAPI) {
     var vm = this;
+    vm.scope = $scope;
 
     activate();
 
-    function loadSpecificInteresser() {
+    $scope.user_has_interesse = function (interesse_id) {
+      return vm.scope.$parent.user.interesser.indexOf(interesse_id) > -1;
+    };
 
+    function activate() {
+      
       $scope.interesser = {};
 
       mdbAPI.getInteresser(3).then(function(bem) {
@@ -27,16 +32,6 @@
       mdbAPI.getInteresserBranches(6).then(function(businesstarget) {
         $scope.interesser.businesstarget = businesstarget;
       });
-
     }
-
-    function activate() {
-      loadSpecificInteresser();
-      mdbAPI.getUserInteresser($stateParams.ekstern_id).then(function(user) {
-
-      });
-    }
-
-
   }
 })();

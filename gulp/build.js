@@ -8,6 +8,12 @@ var $ = require('gulp-load-plugins')({
   pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
 });
 
+gulp.task('build', ['clean'], function () {
+  gulp.start('html');
+  gulp.start('fonts');
+  gulp.start('other');
+});
+
 gulp.task('partials', function () {
   return gulp.src([
     path.join(conf.paths.src, '/app/**/*.html'),

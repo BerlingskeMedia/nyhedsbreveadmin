@@ -45,7 +45,7 @@
 
 
     function getPublishers(query) {
-      return $http.get(APIBASEURL + "publishers?".concat(query))
+      return $http.get(APIBASEURL + "publishers?".concat(query !== undefined ? query : ''))
       .then(_httpSuccessCallback);
     }
 
@@ -125,7 +125,7 @@
     }
 
     function getPermissions(query) {
-      return $http.get(APIBASEURL + "nyhedsbreve?permission=1&".concat(query))
+      return $http.get(APIBASEURL + "nyhedsbreve?permission=1&".concat(query !== undefined ? query : ''))
       .then(_httpSuccessCallback);
     }
 
@@ -135,7 +135,7 @@
     }
 
     function getNyhedsbreve(query) {
-      return $http.get(APIBASEURL + "nyhedsbreve?".concat(query))
+      return $http.get(APIBASEURL + "nyhedsbreve?".concat(query !== undefined ? query : ''))
       .then(_httpSuccessCallback);
     }
 
@@ -174,7 +174,6 @@
       .then(_httpSuccessCallback);
     }
 
-
     function userSearch(params) {
       return $http.get(APIBASEURL + "users", {params:params})
       .then(_httpSuccessCallback);
@@ -210,17 +209,12 @@
       .then(_httpSuccessCallback);
     }
 
-
     function _httpSuccessCallback(response) {
-      $log.log(response.data);
       return response.data;
     }
 
     function _httpArraySuccessCallback(response) {
-      $log.log(response.data);
       return response.data[0];
     }
-
   }
-
 })();

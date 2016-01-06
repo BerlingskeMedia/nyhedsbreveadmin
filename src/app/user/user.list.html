@@ -1,55 +1,77 @@
 <form class="clearfix">
   <div class="form-group">
-    <div class="col-sm-6">
-      <div class="input-group">
-        <div class="input-group-addon">
-          <span class="glyphicon glyphicon-envelope"></span>
+    <div class="row clearfix">
+      <div class="col-sm-6">
+        <div class="input-group">
+          <div class="input-group-addon">
+            <span class="glyphicon glyphicon-link"></span>
+          </div>
+          <input type="text" id="user_id" name="user_id" class="form-control" placeholder="User ID" ng-model="user_id">
         </div>
-        <input type="email" id="email" name="email" class="form-control" placeholder="Email" ng-model="email" ng-change="search()">
+      </div>
+      <div class="col-sm-6">
+        <div class="input-group">
+          <div class="input-group-addon">
+            <span class="glyphicon glyphicon-link"></span>
+          </div>
+          <input type="text" id="ekstern_id" name="ekstern_id" class="form-control" placeholder="Ekstern ID" ng-model="ekstern_id">
+        </div>
       </div>
     </div>
-    <div class="col-sm-6">
-      <div class="input-group">
-        <div class="input-group-addon">
-          <span class="glyphicon glyphicon-link"></span>
+    <div class="row clearfix">
+      <div class="col-sm-6">
+        <div class="input-group">
+          <div class="input-group-addon">
+            <span class="glyphicon glyphicon-user"></span>
+          </div>
+          <input type="text" id="fornavn" name="fornavn" class="form-control" placeholder="Fornavn" ng-model="fornavn">
         </div>
-        <input type="text" id="ekstern_id" name="ekstern_id" class="form-control" placeholder="Ekstern Id" ng-model="ekstern_id" ng-change="search()">
+      </div>
+      <div class="col-sm-6">
+        <div class="input-group">
+          <div class="input-group-addon">
+            <span class="glyphicon glyphicon-user"></span>
+          </div>
+          <input type="text" id="efternavn" name="efternavn" class="form-control" placeholder="Efternavn" ng-model="efternavn">
+        </div>
       </div>
     </div>
-    <div class="col-sm-6">
-      <div class="input-group">
-        <div class="input-group-addon">
-          <span class="glyphicon glyphicon-user"></span>
+    <div class="row clearfix">
+      <div class="col-sm-6">
+        <div class="input-group">
+          <div class="input-group-addon">
+            <span class="glyphicon glyphicon-road"></span>
+          </div>
+          <input type="text" id="vejnavn" name="vejnavn" class="form-control" placeholder="Vejnavn" ng-model="vejnavn">
         </div>
-        <input type="text" id="fornavn" name="fornavn" class="form-control" placeholder="Fornavn" ng-model="fornavn" ng-change="search()">
+      </div>
+      <div class="col-sm-6">
+        <div class="input-group">
+          <div class="input-group-addon">
+            <span class="glyphicon glyphicon-home"></span>
+          </div>
+          <input type="number" id="postnummer" min="1000" max="9999" name="postnummer" class="form-control" placeholder="Postnummer" ng-model="postnummer">
+        </div>
       </div>
     </div>
-    <div class="col-sm-6">
-      <div class="input-group">
-        <div class="input-group-addon">
-          <span class="glyphicon glyphicon-user"></span>
+    <div class="row clearfix">
+      <div class="col-sm-6">
+        <div class="input-group">
+          <div class="input-group-addon">
+            <span class="glyphicon glyphicon-envelope"></span>
+          </div>
+          <input type="email" id="email" name="email" class="form-control" placeholder="Email" ng-model="email">
         </div>
-        <input type="text" id="efternavn" name="efternavn" class="form-control" placeholder="Efternavn" ng-model="efternavn" ng-change="search()">
       </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="input-group">
-        <div class="input-group-addon">
-          <span class="glyphicon glyphicon-road"></span>
-        </div>
-        <input type="text" id="vejnavn" name="vejnavn" class="form-control" placeholder="Vejnavn" ng-model="vejnavn" ng-change="search()">
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="input-group">
-        <div class="input-group-addon">
-          <span class="glyphicon glyphicon-home"></span>
-        </div>
-        <input type="number" id="postnummer" min="1000" max="9999" name="postnummer" class="form-control" placeholder="Postnummer" ng-model="postnummer" ng-change="search()">
+      <div class="col-sm-6">
+        <button ng-click="search()" class="btn btn-default">Søg</button>
       </div>
     </div>
   </div>
 </form>
+<div class="clearfix" ng-show="searching">
+  <div class="alert alert-info" role="alert">Søger</div>
+</div>
 <table class="table table-striped linkable" ng-if="vm.users.length > 0 && vm.didSearch">
   <thead>
       <tr>
@@ -91,12 +113,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="user in vm.users | orderBy:sortType:sortReverse" ui-sref="user.detail({ekstern_id:user.ekstern_id})">
-          <th>{{::user.user_id}}</th>
-          <td>{{::user.ekstern_id}}</td>
-          <td>{{::user.email}}</td>
-          <td>{{::user.fornavn}}</td>
-          <td>{{::user.efternavn}}</td>
+      <tr ng-repeat="user in vm.users | orderBy:sortType:sortReverse" ui-sref="user-detail({ekstern_id:user.ekstern_id})">
+        <td>{{::user.user_id}}</td>
+        <td><a href="" ui-sref="user-detail({ekstern_id:user.ekstern_id})">{{::user.ekstern_id}}</a></td>
+        <td>{{::user.email}}</td>
+        <td>{{::user.fornavn}}</td>
+        <td>{{::user.efternavn}}</td>
       </tr>
     </tbody>
 </table>

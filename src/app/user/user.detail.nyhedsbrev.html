@@ -1,25 +1,35 @@
-<div class="well clearfix">
-  <h3>Tilmeldte nyhedsbreve</h3>
-  <div class="col-lg-4 col-sm-6 col-xs-12" ng-repeat="nyhedsbrev in nyhedsbreve | filter: in_user_nyhedsbreve | orderBy: ['publisher_id','nyhedsbrev_navn']">
-    <label data-interesse-id="{{ nyhedsbrev.nyhedsbrev_id }}">
-      <input checklist-model="$parent.user.nyhedsbreve" checklist-value="nyhedsbrev.nyhedsbrev_id" type="checkbox"/>
-      {{nyhedsbrev.nyhedsbrev_navn}}
-    </label>
+<div class="clearfix">
+  <div class="row">
+    <div class="col-sm-12">
+      <button type="button" name="button" class="btn btn-default" ng-click="$parent.user.nyhedsbreve = []">Afmeld alle</button>
+      <button ng-class="{'btn-success ': true, 'btn-success': userForm.$valid}" class="btn" ng-click="updateUser(user)">Gem</button>
+    </div>
   </div>
-  <div class="col-sm-12">
-    <button type="button" name="button" class="btn" ng-click="$parent.user.nyhedsbreve = []">Afmeld alle</button>
-  </div>
-</div>
-<div class="well clearfix" >
-  <h3>Ikke tilmeldte nyhedsbreve</h3>
-  <div class="col-lg-4 col-sm-6 col-xs-12" ng-repeat="nyhedsbrev in nyhedsbreve | filter: not_in_user_nyhedsbreve | orderBy: ['publisher_id','nyhedsbrev_navn']">
-    <label data-interesse-id="{{ nyhedsbrev.nyhedsbrev_id }}">
-      <input checklist-model="$parent.user.nyhedsbreve" checklist-value="nyhedsbrev.nyhedsbrev_id" type="checkbox"/>
-      {{nyhedsbrev.nyhedsbrev_navn}}
-    </label>
-  </div>
-</div>
-<div class="col-sm-offset-10 col-sm-2">
-  <button ng-class="{'btn-success ': true, 'btn-success': userForm.$valid}" class="btn pull-right " ng-click="updateUser(user)">Gem
-  </button>
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th></th>
+        <th>ID</th>
+        <th>Nyhedsbrev</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="nyhedsbrev in nyhedsbreve | orderBy: ['publisher_id','nyhedsbrev_navn']" ng-class="{success: user_has_nyhedsbrev(nyhedsbrev.nyhedsbrev_id), _warning: nyhedsbrev.hidden}">
+        <td>
+          <input
+            checklist-model="$parent.user.nyhedsbreve"
+            checklist-value="nyhedsbrev.nyhedsbrev_id"
+            type="checkbox"
+            ng-disabled="!nyhedsbrev.enabled"/>
+        </td>
+        <td>{{nyhedsbrev.nyhedsbrev_id}}</td>
+        <td>{{nyhedsbrev.nyhedsbrev_navn}}</td>
+        <td>
+          <span class="label label-primary" ng-if="!nyhedsbrev.enabled">Inaktivt</span>
+          <span class="label label-default" ng-if="nyhedsbrev.hidden">Skjult</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

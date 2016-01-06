@@ -16,7 +16,7 @@
     activate();
 
     function activate() {
-      vm.createMode = $state.current.name === 'main.permission-create';
+      vm.createMode = $state.current.name === 'settings.permission-create';
 
       mdbAPI.getPublishers().then(function(publishers) {
         vm.publishers = publishers;
@@ -34,7 +34,7 @@
       return mdbAPI.createNyhedsbrev(nyhedsbrev)
       .then(function(nyhedsbrev) {
         toastr.success('Permission oprettet');
-        $state.go('main.permission-detail', {id: nyhedsbrev.nyhedsbrev_id});
+        $state.go('settings.permission-detail', {id: nyhedsbrev.nyhedsbrev_id});
       })
       .catch(errorhandler.errorhandler);
     }
@@ -53,7 +53,7 @@
       .then(function(nyhedsbrev) {
         toastr.success('Permission slettet');
         vm.nyhedsbrev = nyhedsbrev;
-        $state.go('main.permission');
+        $state.go('settings.permission');
       })
       .catch(errorhandler.errorhandler);
     }

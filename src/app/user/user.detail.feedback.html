@@ -30,8 +30,8 @@
   <tbody>
     <tr ng-repeat="item in history.feedback | orderBy:sortType:sortReverse">
       <td>{{::item.oprettet | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</td>
-      <td>{{::item.nyhedsbrev_id}}</td>
-      <td>{{::item.location_id}}</td>
+      <td>{{::item.nyhedsbrev_navn}}</td>
+      <td>{{::item.location_tekst}}</td>
       <td>{{::item.user_feedback}}</td>
     </tr>
   </tbody>

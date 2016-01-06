@@ -1,93 +1,77 @@
 <form name="userForm">
-  <div class="form-group well clearfix">
-    <h3>Systemdata</h3>
-    <div class="col-sm-6">
-      <label for="userid">User ID</label>
-      <input disabled type="text" ng-model="user.user_id" name="userid" class="form-control input-sm" id="user_id">
-    </div>
-    <div class="col-sm-6">
-      <label for="eksternid">Ekstern ID</label>
-      <input disabled type="text" ng-model="user.ekstern_id" name="eksternid" class="form-control input-sm" id="eksternid">
-    </div>
-    <div class="col-sm-4 col-xs-6">
-      <label for="insert_dato">Registreret</label>
-      <p>{{user.insert_dato | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</p>
-    </div>
-    <div class="col-sm-4 col-xs-6">
-      <label for="opdatering_dato">Opdateret</label>
-      <p>{{user.opdatering_dato | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</p>
-    </div>
-    <div class="col-sm-4 col-xs-6">
-      <label for="">Aktiveret</label>
-      <p ng-if="user.activate_dato">{{user.activate_dato | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</p>
-      <p ng-if="!user.activate_dato">
-        Ikke aktiveret
-      </p>
+  <div class="row">
+    <div class="col-sm-12">
+      <button type="button" name="button" class="btn btn-default" ng-click="$parent.user.nyhedsbreve = []">Afmeld alle</button>
+      <button ng-class="{'btn-success ': true, 'btn-success': userForm.$valid}" class="btn" ng-click="updateUser(user)">Gem</button>
     </div>
   </div>
-
-  <div class="form-group well clearfix">
-    <h3 class="title">Stamdata</h3>
-    <div class="col-sm-12">
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
       <label for="email">Email</label>
       <input type="email" ng-required="true" ng-model="user.email" class="form-control input-sm" id="email" name="email">
-    </div>
-
-    <div class="col-sm-6">
       <label for="">Fornavn</label>
       <input type="text" ng-maxlength="255" ng-model="user.fornavn" name="fornavn" class="form-control input-sm" id="fornavn">
-    </div>
-
-    <div class="col-sm-6">
       <label for="">Efternavn</label>
       <input type="text" ng-maxlength="255" ng-model="user.efternavn" name="lastname" class="form-control input-sm" id="lastname">
     </div>
+    <div class="col-sm-12 col-md-6">
+      <dl class="dl-horizontal">
+        <dt>User ID</dt>
+        <dd>{{::user.user_id}}</dd>
+        <dt>Ekstern ID</dt>
+        <dd>{{::user.ekstern_id}}</dd>
+        <dt>Registreret</dt>
+        <dd>{{user.insert_dato | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</dd>
+        <dt>Opdateret</dt>
+        <dd>{{user.opdatering_dato | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</dd>
+        <dt>Aktiveret</dt>
+        <dd>
+          <span ng-if="user.activate_dato">{{user.activate_dato | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</span>
+          <span ng-if="!user.activate_dato">Ikke aktiveret</span>
+        </dd>
+        <dt>Blacklistet</dt>
+        <dd><input type="checkbox" ng-model="user.robinson_flag"></dd>
+      </dl>
+    </div>
+  </div>
+  <div class="row">
 
-    <div class="col-sm-6">
+    <div class="col-sm-3 col-md-2">
       <label for="postnummer_dk">Postnummer DK.</label>
-      <input min="999" max="9999" ng-model="user.postnummer_dk" type="number" name="postnummer_dk" class="form-control input-sm" id="postnummer_dk">
+      <input min="0" max="9999" ng-model="user.postnummer_dk" type="number" name="postnummer_dk" class="form-control input-sm" id="postnummer_dk">
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-3 col-md-2">
       <label for="postnummer">Postnummer</label>
       <input class="form-control input-sm" ng-maxlength="70" id="postnummer" ng-model="user.postnummer" type="text">
     </div>
 
-    <div class="col-sm-6">
-      <label for="foedselsdato">Fødselsdato</label>
-      <input input="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="user.foedselsdato" />
-    </div>
-
-    <div class="col-sm-8">
+    <div class="col-sm-4 col-md-3">
       <label for="vejnavn">Vejnavn</label>
       <input class="form-control input-sm" ng-maxlength="255" id="vejnavn" ng-model="user.vejnavn" placeholder="" type="text">
     </div>
-    <div class="col-sm-4">
+
+    <div class="col-sm-4 col-md-2">
       <label for="husnummer">Husnr.</label>
       <input class="form-control input-sm" ng-maxlength="10" id="husnummer" ng-model="user.husnummer" type="text">
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-sm-4 col-md-2">
       <label for="husbogstav">Bogstav</label>
       <input class="form-control input-sm" ng-maxlength="10" id="husbogstav" ng-model="user.husbogstav" type="text">
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-sm-4 col-md-2">
       <label for="etage">Etage</label>
       <input class="form-control input-sm" ng-maxlength="10" id="etage" ng-model="user.etage" type="text">
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-sm-4 col-md-2">
       <label for="">Side</label>
       <input class="form-control input-sm" ng-maxlength="10" id="sideoer" ng-model="user.sidedoer" type="text">
     </div>
 
-    <div class="col-sm-6">
-      <label for="co_navn">C/O Navn</label>
-      <input class="form-control input-sm" ng-maxlength="255" id="co_navn" ng-model="user.co_navn" type="text">
-    </div>
-
-    <div class="col-sm-6">
+    <div class="col-sm-6 col-md-3">
       <label for="land">Land</label>
       <input class="form-control input-sm" ng-maxlength="255" id="Land" ng-model="user.land" type="text">
     </div>
@@ -106,36 +90,30 @@
       <label for="mobil">Mobil</label>
       <input class="form-control input-sm" ng-maxlength="255" id="mobil" ng-model="user.mobil" type="text">
     </div>
-  </div>
-  <div class="form-group well clearfix">
-    <h3 class="title">Yderligere data</h3>
 
-    <div class="col-sm-6">
+    <div class="col-sm-6 col-md-4">
       <label for="firma_adresse">Firma Adresse</label>
       <input class="form-control input-sm" ng-maxlength="255" id="firma_adresse" ng-model="user.firma_adresse" type="text">
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-3">
+      <label for="co_navn">C/O Navn</label>
+      <input class="form-control input-sm" ng-maxlength="255" id="co_navn" ng-model="user.co_navn" type="text">
+    </div>
+
+    <div class="col-sm-3 col-md-2">
       <label for="koen">Køn</label>
       <input class="form-control input-sm" ng-maxlength="8" id="koen" ng-model="user.koen" type="text">
     </div>
 
+    <div class="col-sm-3 col-md-2">
+      <label for="foedselsdato">Fødselsdato</label>
+      <input input="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="user.foedselsdato" />
+    </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-3 col-md-2">
       <label for="foedselsaar">Fødselsår</label>
       <input class="form-control input-sm" id="foedselsaar" ng-maxlength="255" ng-model="user.foedselsaar" type="text">
     </div>
-
-    <div class="col-sm-3">
-      <label for="robinson_flag">Blacklistet</label>
-      <input class="form-control input-sm" id="robinson_flag" ng-model="user.robinson_flag" type="checkbox">
-    </div>
-
-  </div>
-
-
-  <div class="col-sm-offset-10 col-sm-2">
-    <button ng-class="{'btn-success ': true}" class="btn pull-right " ng-click="updateUser(user)">Gem
-    </button>
   </div>
 </form>

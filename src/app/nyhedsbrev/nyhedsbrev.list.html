@@ -1,44 +1,54 @@
-<a ui-sref="main.nyhedsbrev-create">
-  <button type="submit" class="btn btn-success">Opret Nyhedsbrev</button>
-</a>
-
-<div class="table-responsive">
-  <form>
-    <div class="form-group">
-      <div class="input-group">
-        <div class="input-group-addon">
-          <span class="glyphicon glyphicon-search"></span>
-        </div>
-        <input type="text" class="form-control" placeholder="Søg" ng-model="searchterm">
+<div class="row">
+  <div class="col-sm-8 form-group">
+    <div class="input-group">
+      <div class="input-group-addon">
+        <span class="glyphicon glyphicon-search"></span>
       </div>
+      <input type="text" class="form-control" placeholder="Søg" ng-model="searchterm">
     </div>
-  </form>
+  </div>
+  <div class="col-sm-2">
+    <button type="button" class="btn btn-default" ng-class="{active: show_disabled}" ng-click="show_disabled = !show_disabled; refreshList()">Vis deaktiverede</button>
+  </div>
+  <div class="col-sm-2">
+    <a ui-sref="settings.nyhedsbrev-create" type="button" class="btn btn-success">Opret ny</a>
+  </div>
+</div>
+<div class="table-responsive">
   <table class="table table-striped linkable">
     <thead>
-        <tr>
-          <th>
-            <a href="" ng-click="sortType = 'nyhedsbrev_id'; sortReverse = !sortReverse">
-              ID
-              <span ng-show="sortType == 'nyhedsbrev_id' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
-              <span ng-show="sortType == 'nyhedsbrev_id' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
-            </a>
-          </th>
-          <th>
-            <a href="" ng-click="sortType = 'nyhedsbrev_navn'; sortReverse = !sortReverse">
-              Navn
-              <span ng-show="sortType == 'nyhedsbrev_navn' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
-              <span ng-show="sortType == 'nyhedsbrev_navn' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
-            </a>
-          </th>
-          <th>Indhold</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="nyhedsbrev in vm.nyhedsbreve | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="main.nyhedsbrev-detail({id:nyhedsbrev.nyhedsbrev_id})">
-          <th>{{::nyhedsbrev.nyhedsbrev_id}}</th>
-          <td>{{::nyhedsbrev.nyhedsbrev_navn}}</td>
-          <td><span ng-bind-html="nyhedsbrev.indhold_safe"></span></td>
-        </tr>
-      </tbody>
+      <tr>
+        <th>
+          <a href="" ng-click="sortType = 'nyhedsbrev_id'; sortReverse = !sortReverse">
+            ID
+            <span ng-show="sortType == 'nyhedsbrev_id' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+            <span ng-show="sortType == 'nyhedsbrev_id' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+          </a>
+        </th>
+        <th>
+          <a href="" ng-click="sortType = 'hidden'; sortReverse = !sortReverse">
+            Skjult
+            <span ng-show="sortType == 'hidden' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+            <span ng-show="sortType == 'hidden' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+          </a>
+        </th>
+        <th>
+          <a href="" ng-click="sortType = 'nyhedsbrev_navn'; sortReverse = !sortReverse">
+            Navn
+            <span ng-show="sortType == 'nyhedsbrev_navn' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+            <span ng-show="sortType == 'nyhedsbrev_navn' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+          </a>
+        </th>
+        <th>Indhold</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="nyhedsbrev in vm.nyhedsbreve | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="settings.nyhedsbrev-detail({id:nyhedsbrev.nyhedsbrev_id})" ng-class="{warning: nyhedsbrev.enabled === 0}">
+        <td>{{::nyhedsbrev.nyhedsbrev_id}}</td>
+        <td><span class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-if="nyhedsbrev.hidden"></span></td>
+        <td>{{::nyhedsbrev.nyhedsbrev_navn}}</td>
+        <td><span ng-bind-html="nyhedsbrev.indhold_safe"></span></td>
+      </tr>
+    </tbody>
   </table>
 </div>

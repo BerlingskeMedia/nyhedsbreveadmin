@@ -1,13 +1,20 @@
-<h2>Kunde:
-  <span>{{user.fornavn}} {{user.efternavn}}</span> <span ng-if="!user.fornavn && !user.efternavn">{{user.email}}</span>
-</h2>
-<uib-tabset>
-  <uib-tab heading="Stamdata" select="goto('user.detail.core')"></uib-tab>
-  <uib-tab heading="Nyhedsbreve" select="goto('user.detail.nyhedsbrev')"></uib-tab>
-  <uib-tab heading="Interesser" select="goto('user.detail.interesse')"></uib-tab>
-  <uib-tab heading="Permissions" select="goto('user.detail.permission')"></uib-tab>
-  <uib-tab heading="Historik" select="goto('user.detail.history')"></uib-tab>
-  <uib-tab heading="Feedback" select="goto('user.detail.feedback')"></uib-tab>
-  <uib-tab heading="Funktioner" select="goto('user.detail.actions')"></uib-tab>
-</uib-tabset>
+<div class="user_details_top">
+  <a ui-sref="user">
+    <span  class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+    Tilbage til søg
+  </a>
+  <div class="lead">
+    Kunde:
+    <span>{{user.fornavn}} {{user.efternavn}}</span> <span ng-if="!user.fornavn && !user.efternavn">{{user.email}}</span>
+  </div>
+  <uib-tabset>
+    <uib-tab heading="Stamdata" select="goto('user-detail.core')"></uib-tab>
+    <uib-tab heading="Nyhedsbreve" select="goto('user-detail.nyhedsbrev')"></uib-tab>
+    <uib-tab heading="Permissions" select="goto('user-detail.permission')"></uib-tab>
+    <uib-tab heading="Interesser" select="goto('user-detail.interesse')"></uib-tab>
+    <uib-tab heading="Historik" select="goto('user-detail.history')"></uib-tab>
+    <uib-tab heading="Feedback" select="goto('user-detail.feedback')"></uib-tab>
+    <uib-tab heading="Funktioner" select="goto('user-detail.actions')"></uib-tab>
+  </uib-tabset>
+</div>
 <ui-view class="inner"></ui-view>

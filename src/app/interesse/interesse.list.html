@@ -1,42 +1,41 @@
-<a ui-sref="main.interesse-create">
-  <button type="submit" class="btn btn-success">Opret Interesse</button>
-</a>
-
-<div class="table-responsive">
-  <form>
-    <div class="form-group">
-      <div class="input-group">
-        <div class="input-group-addon">
-          <span class="glyphicon glyphicon-search"></span>
-        </div>
-        <input type="text" class="form-control" placeholder="Søg" ng-model="searchterm">
+<div class="row">
+  <div class="col-sm-10 form-group">
+    <div class="input-group">
+      <div class="input-group-addon">
+        <span class="glyphicon glyphicon-search"></span>
       </div>
+      <input type="text" class="form-control" placeholder="Søg" ng-model="searchterm">
     </div>
-  </form>
+  </div>
+  <div class="col-sm-2">
+    <a ui-sref="settings.interesse-create" type="button" class="btn btn-success">Opret Interesse</a>
+  </div>
+</div>
+<div class="table-responsive">
   <table class="table table-striped linkable">
     <thead>
-        <tr>
-          <th>
-            <a href="" ng-click="sortType = 'interesse_id'; sortReverse = !sortReverse">
-              ID
-              <span ng-show="sortType == 'interesse_id' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
-              <span ng-show="sortType == 'interesse_id' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
-            </a>
-          </th>
-          <th>
-            <a href="" ng-click="sortType = 'interesse_navn'; sortReverse = !sortReverse">
-              Navn
-              <span ng-show="sortType == 'interesse_navn' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
-              <span ng-show="sortType == 'interesse_navn' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
-            </a>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="interesse in vm.interesser | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="main.interesse-detail({id:interesse.interesse_id})">
-          <th>{{::interesse.interesse_id}}</th>
-          <td>{{::interesse.interesse_navn}}</td>
-        </tr>
-      </tbody>
+      <tr>
+        <th>
+          <a href="" ng-click="sortType = 'interesse_id'; sortReverse = !sortReverse">
+            ID
+            <span ng-show="sortType == 'interesse_id' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+            <span ng-show="sortType == 'interesse_id' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+          </a>
+        </th>
+        <th>
+          <a href="" ng-click="sortType = 'interesse_navn'; sortReverse = !sortReverse">
+            Navn
+            <span ng-show="sortType == 'interesse_navn' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+            <span ng-show="sortType == 'interesse_navn' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+          </a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="interesse in vm.interesser | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="settings.interesse-detail({id:interesse.interesse_id})">
+        <td>{{::interesse.interesse_id}}</td>
+        <td>{{::interesse.interesse_navn}}</td>
+      </tr>
+    </tbody>
   </table>
 </div>

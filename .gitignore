@@ -39,4 +39,4 @@ node_modules
 # Sublime Text 2
 *.sublime-*
 
-*config*
+config.sh

@@ -15,7 +15,7 @@
     activate();
 
     function activate() {
-      vm.createMode = $state.current.name === 'main.interesse-create';
+      vm.createMode = $state.current.name === 'settings.interesse-create';
 
       if (vm.createMode) {
         return;
@@ -30,7 +30,7 @@
       return mdbAPI.createInteresse(interesse)
       .then(function(interesse) {
         toastr.success('Interesse oprettet');
-        $state.go('main.interesse-detail', {id: interesse.interesse_id});
+        $state.go('settings.interesse-detail', {id: interesse.interesse_id});
       })
       .catch(errorhandler.errorhandler);
     }

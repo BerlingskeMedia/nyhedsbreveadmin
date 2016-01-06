@@ -1,13 +1,35 @@
-<div class="well clearfix" >
-  <div class="col-lg-4 col-sm-6 col-xs-12" ng-repeat="permission in permissions">
-    <label data-interesse-id="{{ interesse.interesse_id }}">
-      <input checklist-model="$parent.user.nyhedsbreve" checklist-value="permission.nyhedsbrev_id" ng-change="$parent.checkbox_change(this, interesse.interesse_id, 'interesser')" type="checkbox"/>
-      {{permission.nyhedsbrev_navn}}
-    </label>
+<div class="clearfix" >
+  <div class="row">
+    <div class="col-sm-12">
+      <button type="button" name="button" class="btn btn-default" ng-click="$parent.user.nyhedsbreve = []">Afmeld alle</button>
+      <button ng-class="{'btn-success ': true, 'btn-success': userForm.$valid}" class="btn" ng-click="updateUser(user)">Gem</button>
+    </div>
   </div>
-</div>
-
-<div class="col-sm-offset-10 col-sm-2">
-  <button ng-class="{'btn-success ': true}" class="btn pull-right " ng-click="updateUser(user)">Gem
-  </button>
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th></th>
+        <th>ID</th>
+        <th>Nyhedsbrev</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="permission in permissions | orderBy: ['publisher_id','nyhedsbrev_navn']" ng-class="{success: user_has_permission(permission.nyhedsbrev_id), _warning: permission.hidden}">
+        <td>
+          <input
+            checklist-model="$parent.user.nyhedsbreve"
+            checklist-value="permission.nyhedsbrev_id"
+            type="checkbox"
+            ng-disabled="!permission.enabled"/>
+        </td>
+        <td>{{permission.nyhedsbrev_id}}</td>
+        <td>{{permission.nyhedsbrev_navn}}</td>
+        <td>
+          <span class="label label-primary" ng-if="!permission.enabled">Inaktivt</span>
+          <span class="label label-default" ng-if="permission.hidden">Skjult</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

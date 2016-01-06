@@ -82,7 +82,7 @@
 
   <button ng-hide="vm.createMode" type="submit" class="btn" ng-class="{'btn-success' : nyhedsbrevForm.$valid}" ng-disabled="nyhedsbrevForm.$invalid" ng-click="vm.update(vm.nyhedsbrev)">Gem</button>
 
-  <button ng-hide="vm.createMode" type="submit" class="btn btn-danger" ng-click="vm.delete(vm.nyhedsbrev)">Slet</button>
+  <button ng-hide="vm.createMode" type="submit" class="btn btn-danger" ng-click="vm.delete(vm.nyhedsbrev)">Deaktiver</button>
 
   <button ng-if="vm.createMode" type="submit" class="btn" class="btn" ng-class="{'btn-success' : nyhedsbrevForm.$valid}" ng-click="vm.create(vm.nyhedsbrev)">Opret</button>
 </form>
