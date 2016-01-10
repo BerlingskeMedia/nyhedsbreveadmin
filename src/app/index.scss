@@ -58,6 +58,14 @@ ul {
 }
 
 .user_details_top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 3px 10px;
+}
+
+.user_details_nav {
   margin-bottom: 5px;
 }
 

@@ -13,14 +13,23 @@
     activate();
 
     $scope.in_user_nyhedsbreve = function(value, index, array) {
+      if (vm.scope.$parent.user === undefined) {
+        return false;
+      }
       return vm.scope.$parent.user.nyhedsbreve.indexOf(value.nyhedsbrev_id) > -1;
     };
 
     $scope.not_in_user_nyhedsbreve = function(value, index, array) {
+      if (vm.scope.$parent.user === undefined) {
+        return false;
+      }
       return vm.scope.$parent.user.nyhedsbreve.indexOf(value.nyhedsbrev_id) === -1;
     };
 
     $scope.user_has_nyhedsbrev = function (nyhedsbrev_id) {
+      if (vm.scope.$parent.user === undefined) {
+        return false;
+      }
       return vm.scope.$parent.user.nyhedsbreve.indexOf(nyhedsbrev_id) > -1;
     };
 

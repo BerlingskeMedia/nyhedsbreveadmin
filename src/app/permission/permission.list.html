@@ -28,16 +28,6 @@
           </a>
         </th>
         <th>
-          <a href="" ng-click="sortType = 'hidden'; sortReverse = !sortReverse">
-            Skjult
-            <span class="sorter">
-              <span ng-show="sortType == 'hidden' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
-              <span ng-show="sortType == 'hidden' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
-            </span>
-          </a>
-        </th>
-
-        <th>
           <a href="" ng-click="sortType = 'nyhedsbrev_navn'; sortReverse = !sortReverse">
             Navn
             <span class="sorter">
@@ -47,14 +37,18 @@
           </a>
         </th>
         <th>Indhold</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="permission in vm.permissions | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="settings.permission-detail({id:permission.nyhedsbrev_id})" ng-class="{warning: permission.enabled === 0}">
-        <td>{{::permission.nyhedsbrev_id}}</td>
-        <td><span class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-if="permission.hidden"></span></td>
-        <td>{{::permission.nyhedsbrev_navn}}</td>
-        <td><span ng-bind-html="permission.indhold_safe"></span></td>
+        <td class="col-sm-1">{{::permission.nyhedsbrev_id}}</td>
+        <td class="col-sm-3">{{::permission.nyhedsbrev_navn}}</td>
+        <td class="col-sm-7"><span ng-bind-html="permission.indhold_safe"></span></td>
+        <td class="col-sm-1">
+          <abbr title="Skjult"><span class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-if="permission.hidden"></span></abbr>
+          <abbr title="Inaktivt"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" ng-if="!permission.enabled"></span></abbr>
+        </td>
       </tr>
     </tbody>
   </table>

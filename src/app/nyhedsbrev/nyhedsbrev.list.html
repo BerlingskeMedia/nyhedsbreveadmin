@@ -1,5 +1,10 @@
 <div class="row">
-  <div class="col-sm-8 form-group">
+  <div class="col-sm-2">
+    <select class="form-control" ng-model="selected_publisher" ng-options="publisher.publisher_id as publisher.publisher_navn for publisher in publishers">
+      <option value="">(alle)</option>
+    </select>
+  </div>
+  <div class="col-sm-6 form-group">
     <div class="input-group">
       <div class="input-group-addon">
         <span class="glyphicon glyphicon-search"></span>
@@ -26,13 +31,6 @@
           </a>
         </th>
         <th>
-          <a href="" ng-click="sortType = 'hidden'; sortReverse = !sortReverse">
-            Skjult
-            <span ng-show="sortType == 'hidden' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
-            <span ng-show="sortType == 'hidden' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
-          </a>
-        </th>
-        <th>
           <a href="" ng-click="sortType = 'nyhedsbrev_navn'; sortReverse = !sortReverse">
             Navn
             <span ng-show="sortType == 'nyhedsbrev_navn' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
@@ -40,14 +38,18 @@
           </a>
         </th>
         <th>Indhold</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="nyhedsbrev in vm.nyhedsbreve | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="settings.nyhedsbrev-detail({id:nyhedsbrev.nyhedsbrev_id})" ng-class="{warning: nyhedsbrev.enabled === 0}">
-        <td>{{::nyhedsbrev.nyhedsbrev_id}}</td>
-        <td><span class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-if="nyhedsbrev.hidden"></span></td>
-        <td>{{::nyhedsbrev.nyhedsbrev_navn}}</td>
-        <td><span ng-bind-html="nyhedsbrev.indhold_safe"></span></td>
+      <tr ng-repeat="nyhedsbrev in vm.nyhedsbreve | orderBy:sortType:sortReverse | publisher:selected_publisher | filter:searchterm track by nyhedsbrev.nyhedsbrev_id" ui-sref="settings.nyhedsbrev-detail({id:nyhedsbrev.nyhedsbrev_id})" ng-class="{warning: nyhedsbrev.enabled === 0}">
+        <td class="col-sm-1">{{::nyhedsbrev.nyhedsbrev_id}}</td>
+        <td class="col-sm-3">{{::nyhedsbrev.nyhedsbrev_navn}}</td>
+        <td class="col-sm-7"><span ng-bind-html="nyhedsbrev.indhold_safe"></span></td>
+        <td class="col-sm-1">
+          <abbr title="Skjult"><span class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-if="nyhedsbrev.hidden"></span></abbr>
+          <abbr title="Inaktivt"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" ng-if="!nyhedsbrev.enabled"></span></abbr>
+        </td>
       </tr>
     </tbody>
   </table>

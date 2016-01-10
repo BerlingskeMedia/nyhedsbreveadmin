@@ -69,8 +69,8 @@
     </div>
   </div>
 </form>
-<div class="clearfix" ng-show="searching">
-  <div class="alert alert-info" role="alert">Søger</div>
+<div class="clearfix row" ng-show="vm.searching">
+  <div class="lead text-center" role="alert">Søger</div>
 </div>
 <table class="table table-striped linkable" ng-if="vm.users.length > 0 && vm.didSearch">
   <thead>

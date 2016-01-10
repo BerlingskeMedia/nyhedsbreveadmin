@@ -3,18 +3,26 @@
     <span  class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
     Tilbage til søg
   </a>
-  <div class="lead">
+  <span class="pull-right">
     Kunde:
     <span>{{user.fornavn}} {{user.efternavn}}</span> <span ng-if="!user.fornavn && !user.efternavn">{{user.email}}</span>
-  </div>
-  <uib-tabset>
-    <uib-tab heading="Stamdata" select="goto('user-detail.core')"></uib-tab>
-    <uib-tab heading="Nyhedsbreve" select="goto('user-detail.nyhedsbrev')"></uib-tab>
-    <uib-tab heading="Permissions" select="goto('user-detail.permission')"></uib-tab>
-    <uib-tab heading="Interesser" select="goto('user-detail.interesse')"></uib-tab>
-    <uib-tab heading="Historik" select="goto('user-detail.history')"></uib-tab>
-    <uib-tab heading="Feedback" select="goto('user-detail.feedback')"></uib-tab>
-    <uib-tab heading="Funktioner" select="goto('user-detail.actions')"></uib-tab>
-  </uib-tabset>
+  </span>
+</div>
+<div class="user_details_nav">
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div>
+        <ul class="nav navbar-nav">
+          <li ui-sref-active="active"><a ui-sref="user-detail.core">Stamdata</a></li>
+          <li ui-sref-active="active"><a ui-sref="user-detail.nyhedsbrev">Nyhedsbreve</a></li>
+          <li ui-sref-active="active"><a ui-sref="user-detail.permission">Permissions</a></li>
+          <li ui-sref-active="active"><a ui-sref="user-detail.interesse">Interesser</a></li>
+          <li ui-sref-active="active"><a ui-sref="user-detail.history">Historik</a></li>
+          <li ui-sref-active="active"><a ui-sref="user-detail.feedback">Feedback</a></li>
+          <li ui-sref-active="active"><a ui-sref="user-detail.actions">Funktioner</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 </div>
 <ui-view class="inner"></ui-view>

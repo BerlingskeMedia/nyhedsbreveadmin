@@ -1,33 +1,57 @@
 <div class="clearfix" >
   <div class="row">
     <div class="col-sm-12">
-      <button type="button" name="button" class="btn btn-default" ng-click="$parent.user.nyhedsbreve = []">Afmeld alle</button>
       <button ng-class="{'btn-success ': true, 'btn-success': userForm.$valid}" class="btn" ng-click="updateUser(user)">Gem</button>
     </div>
   </div>
   <table class="table table-condensed">
     <thead>
       <tr>
-        <th></th>
         <th>ID</th>
         <th>Nyhedsbrev</th>
+        <th></th>
         <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="permission in permissions | orderBy: ['publisher_id','nyhedsbrev_navn']" ng-class="{success: user_has_permission(permission.nyhedsbrev_id), _warning: permission.hidden}">
-        <td>
-          <input
-            checklist-model="$parent.user.nyhedsbreve"
-            checklist-value="permission.nyhedsbrev_id"
-            type="checkbox"
-            ng-disabled="!permission.enabled"/>
+      <tr>
+        <td colspan="99">
+          <div class="lead text-center">Tilmeldte<div>
         </td>
-        <td>{{permission.nyhedsbrev_id}}</td>
-        <td>{{permission.nyhedsbrev_navn}}</td>
-        <td>
-          <span class="label label-primary" ng-if="!permission.enabled">Inaktivt</span>
-          <span class="label label-default" ng-if="permission.hidden">Skjult</span>
+      </tr>
+      <tr ng-repeat="permission in permissions | filter:in_user_permissions | orderBy: ['publisher_id','nyhedsbrev_navn']" ng-class="{success: user_has_permission(permission.nyhedsbrev_id), _warning: permission.hidden}">
+        <td class="col-sm-1">{{permission.nyhedsbrev_id}}</td>
+        <td class="col-sm-9">{{permission.nyhedsbrev_navn}}</td>
+        <td class="col-sm-1">
+          <abbr title="Skjult"><span class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-if="permission.hidden"></span></abbr>
+          <abbr title="Inaktivt"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" ng-if="!permission.enabled"></span></abbr>
+        </td>
+        <td class="col-sm-1">
+          <input
+          checklist-model="$parent.user.nyhedsbreve"
+          checklist-value="permission.nyhedsbrev_id"
+          type="checkbox"
+          ng-disabled="!permission.enabled"/>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="99">
+          <div class="lead text-center">Ikke tilmeldte</div>
+        </td>
+      </tr>
+      <tr ng-repeat="permission in permissions | filter:not_in_user_permissions | orderBy: ['publisher_id','nyhedsbrev_navn']" ng-class="{success: user_has_permission(permission.nyhedsbrev_id), _warning: permission.hidden}">
+        <td class="col-sm-1">{{permission.nyhedsbrev_id}}</td>
+        <td class="col-sm-9">{{permission.nyhedsbrev_navn}}</td>
+        <td class="col-sm-1">
+          <abbr title="Skjult"><span class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-if="permission.hidden"></span></abbr>
+          <abbr title="Inaktivt"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" ng-if="!permission.enabled"></span></abbr>
+        </td>
+        <td class="col-sm-1">
+          <input
+          checklist-model="$parent.user.nyhedsbreve"
+          checklist-value="permission.nyhedsbrev_id"
+          type="checkbox"
+          ng-disabled="!permission.enabled"/>
         </td>
       </tr>
     </tbody>

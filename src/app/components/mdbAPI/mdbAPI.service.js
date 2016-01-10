@@ -18,10 +18,11 @@
       createPublisher: createPublisher,
       getInteresser: getInteresser,
       getInteresse: getInteresse,
+      getInteresseTypes: getInteresseTypes,
       putInteresse: putInteresse,
       createInteresse: createInteresse,
-      getInteresserBranches: getInteresserBranches,
-      getAllInteresser: getAllInteresser,
+      // getInteresserBranches: getInteresserBranches,
+      // getAllInteresser: getAllInteresser,
       getPermissions: getPermissions,
       getPermission: getPermission,
       getNyhedsbreve: getNyhedsbreve,
@@ -69,8 +70,18 @@
       .then(_httpSuccessCallback);
     }
 
+    function getInteresseTypes() {
+      return $http.get(APIBASEURL + "interesser/types")
+      .then(_httpSuccessCallback);
+    }
+
     function getInteresser(displayTypeId) {
-      return $http.get(APIBASEURL + "interesser?displayTypeId=" + displayTypeId)
+      return $http.get(APIBASEURL + "interesser" + (displayTypeId !== undefined ? "?displayTypeId=" + displayTypeId : ""))
+      .then(_httpSuccessCallback);
+    }
+
+    function getInteresseSiblings(displayTypeId, parent_id) {
+      return $http.get(APIBASEURL + "interesser?displayTypeId=" + displayTypeId + "&parent_id=" + parent_id)
       .then(_httpSuccessCallback);
     }
 
@@ -79,7 +90,7 @@
       // return $http.get(APIBASEURL + "interesser?interesse_id=" + id)
 
       //Workaround:
-      return getAllInteresser().then(function(interesser) {
+      return getInteresser().then(function(interesser) {
         for (var i = 0; i < interesser.length; i++) {
           if (interesser[i].interesse_id == id) {
             return interesser[i];
@@ -102,27 +113,27 @@
       .then(_httpSuccessCallback);
     }
 
-    function getInteresserBranches(displayTypeId) {
-      return $http.get(APIBASEURL + "interesser/branches?displayTypeId=" + displayTypeId)
-      .then(_httpSuccessCallback);
-    }
-
-    function getAllInteresser() {
-      var interesser = [];
-      var promises = [];
-      var displayTypeIds = [3, 4, 5, 6];
-      for (var i = 0; i < displayTypeIds.length; i++) {
-        promises.push(getInteresser(displayTypeIds[i]));
-      }
-      return $q.all(promises).then(function(results) {
-        for (var u = 0; u < results.length; u++) {
-          for (var v = 0; v < results[u].length; v++) {
-            interesser.push(results[u][v]);
-          }
-        }
-        return interesser;
-      });
-    }
+    // function getInteresserBranches(displayTypeId) {
+    //   return $http.get(APIBASEURL + "interesser/branches?displayTypeId=" + displayTypeId)
+    //   .then(_httpSuccessCallback);
+    // }
+    //
+    // function getAllInteresser() {
+    //   var interesser = [];
+    //   var promises = [];
+    //   var displayTypeIds = [3, 4, 5, 6];
+    //   for (var i = 0; i < displayTypeIds.length; i++) {
+    //     promises.push(getInteresser(displayTypeIds[i]));
+    //   }
+    //   return $q.all(promises).then(function(results) {
+    //     for (var u = 0; u < results.length; u++) {
+    //       for (var v = 0; v < results[u].length; v++) {
+    //         interesser.push(results[u][v]);
+    //       }
+    //     }
+    //     return interesser;
+    //   });
+    // }
 
     function getPermissions(query) {
       return $http.get(APIBASEURL + "nyhedsbreve?permission=1&".concat(query !== undefined ? query : ''))

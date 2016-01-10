@@ -1,5 +1,14 @@
 <div class="row">
-  <div class="col-sm-10 form-group">
+  <div class="col-sm-2">
+    <select
+    class="form-control"
+    ng-model="displayTypeId"
+    ng-options="interesseType.interesse_display_type_id as interesseType.interesse_display_type_navn for interesseType in interesseTypes"
+    _ng-change="getInteresser(displayTypeId)">
+    <option value="">-- vælg --</option>
+  </select>
+</div>
+  <div class="col-sm-8 form-group">
     <div class="input-group">
       <div class="input-group-addon">
         <span class="glyphicon glyphicon-search"></span>

@@ -1,33 +1,57 @@
 <div class="clearfix">
   <div class="row">
     <div class="col-sm-12">
-      <button type="button" name="button" class="btn btn-default" ng-click="$parent.user.nyhedsbreve = []">Afmeld alle</button>
       <button ng-class="{'btn-success ': true, 'btn-success': userForm.$valid}" class="btn" ng-click="updateUser(user)">Gem</button>
     </div>
   </div>
   <table class="table table-condensed">
     <thead>
       <tr>
-        <th></th>
         <th>ID</th>
-        <th>Nyhedsbrev</th>
+        <th>Navn</th>
+        <th></th>
         <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="nyhedsbrev in nyhedsbreve | orderBy: ['publisher_id','nyhedsbrev_navn']" ng-class="{success: user_has_nyhedsbrev(nyhedsbrev.nyhedsbrev_id), _warning: nyhedsbrev.hidden}">
-        <td>
-          <input
-            checklist-model="$parent.user.nyhedsbreve"
-            checklist-value="nyhedsbrev.nyhedsbrev_id"
-            type="checkbox"
-            ng-disabled="!nyhedsbrev.enabled"/>
+      <tr>
+        <td colspan="99">
+          <div class="lead text-center">Tilmeldte<div>
         </td>
-        <td>{{nyhedsbrev.nyhedsbrev_id}}</td>
-        <td>{{nyhedsbrev.nyhedsbrev_navn}}</td>
-        <td>
-          <span class="label label-primary" ng-if="!nyhedsbrev.enabled">Inaktivt</span>
-          <span class="label label-default" ng-if="nyhedsbrev.hidden">Skjult</span>
+      </tr>
+      <tr ng-repeat="nyhedsbrev in nyhedsbreve | filter:in_user_nyhedsbreve | orderBy: ['publisher_id','nyhedsbrev_navn']" ng-class="{success: user_has_nyhedsbrev(nyhedsbrev.nyhedsbrev_id), _warning: nyhedsbrev.hidden}">
+        <td class="col-sm-1">{{nyhedsbrev.nyhedsbrev_id}}</td>
+        <td class="col-sm-9">{{nyhedsbrev.nyhedsbrev_navn}}</td>
+        <td class="col-sm-1">
+          <abbr title="Skjult"><span class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-if="nyhedsbrev.hidden"></span></abbr>
+          <abbr title="Inaktivt"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" ng-if="!nyhedsbrev.enabled"></span></abbr>
+        </td>
+        <td class="col-sm-1">
+          <input
+          checklist-model="$parent.user.nyhedsbreve"
+          checklist-value="nyhedsbrev.nyhedsbrev_id"
+          type="checkbox"
+          ng-disabled="!nyhedsbrev.enabled"/>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="99">
+          <div class="lead text-center">Ikke tilmeldte</div>
+        </td>
+      </tr>
+      <tr ng-repeat="nyhedsbrev in nyhedsbreve | filter:not_in_user_nyhedsbreve | orderBy: ['publisher_id','nyhedsbrev_navn']" ng-class="{success: user_has_nyhedsbrev(nyhedsbrev.nyhedsbrev_id), _warning: nyhedsbrev.hidden}">
+        <td class="col-sm-1">{{nyhedsbrev.nyhedsbrev_id}}</td>
+        <td class="col-sm-9">{{nyhedsbrev.nyhedsbrev_navn}}</td>
+        <td class="col-sm-1">
+          <abbr title="Skjult"><span class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-if="nyhedsbrev.hidden"></span></abbr>
+          <abbr title="Inaktivt"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" ng-if="!nyhedsbrev.enabled"></span></abbr>
+        </td>
+        <td class="col-sm-1">
+          <input
+          checklist-model="$parent.user.nyhedsbreve"
+          checklist-value="nyhedsbrev.nyhedsbrev_id"
+          type="checkbox"
+          ng-disabled="!nyhedsbrev.enabled"/>
         </td>
       </tr>
     </tbody>
