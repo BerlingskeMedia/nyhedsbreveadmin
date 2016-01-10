@@ -18,7 +18,7 @@
           '</ul>'
       })
       .state('settings', {
-        templateUrl: 'app/settings/main.html',
+        templateUrl: 'app/settings/menu.html',
         url: '/settings'
       })
       .state('settings.publisher', {
@@ -105,10 +105,6 @@
         controller: 'SmartlinkBuilderController',
         controllerAs: 'vm'
       })
-      // .state('user', {
-      //   templateUrl: 'app/user/user.main.html',
-      //   url: '/kundeservice'
-      // })
       .state('user', {
         url: '/kundeservice',
         templateUrl: 'app/user/user.list.html',
@@ -117,7 +113,7 @@
       })
       .state('user-detail', {
         url: '/kundeservice/:ekstern_id',
-        templateUrl: 'app/user/user.detail.html',
+        templateUrl: 'app/user/user.detail.menu.html',
         controller: 'UserDetailController',
         controllerAs: 'vm'
       })
