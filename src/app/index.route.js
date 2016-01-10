@@ -19,7 +19,8 @@
       })
       .state('settings', {
         templateUrl: 'app/settings/menu.html',
-        url: '/settings'
+        url: '/settings',
+        redirectTo: 'settings.publisher',
       })
       .state('settings.publisher', {
         url: '/publisher',
@@ -115,7 +116,8 @@
         url: '/kundeservice/:ekstern_id',
         templateUrl: 'app/user/user.detail.menu.html',
         controller: 'UserDetailController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        redirectTo: 'user-detail.core',
       })
         .state('user-detail.core', {
         url: '/stamdata',
