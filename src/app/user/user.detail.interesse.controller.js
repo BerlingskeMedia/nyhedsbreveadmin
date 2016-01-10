@@ -12,26 +12,33 @@
 
     activate();
 
-    $scope.user_has_interesse = function (interesse_id) {
-      return vm.scope.$parent.user.interesser.indexOf(interesse_id) > -1;
+    $scope.user_has_interesse = function (value) {
+      if (vm.scope.$parent.user === undefined) {
+        return false;
+      }
+      return vm.scope.$parent.user.interesser.indexOf(value.interesse_id) > -1;
+    };
+
+    $scope.user_has_not_interesse = function(value, index, array) {
+      if (vm.scope.$parent.user === undefined) {
+        return false;
+      }
+      return vm.scope.$parent.user.interesser.indexOf(value.interesse_id) === -1;
     };
 
     function activate() {
 
       $scope.interesser = {};
 
-      mdbAPI.getInteresser(3).then(function(bem) {
-        console.log(bem);
-        $scope.interesser.bem = bem;
-      });
-      mdbAPI.getInteresser(4).then(function(godttip) {
-        $scope.interesser.godttip = godttip;
-      });
-      mdbAPI.getInteresser(5).then(function(ekstra) {
-        $scope.interesser.ekstra = ekstra;
-      });
-      mdbAPI.getInteresser(6).then(function(businesstarget) {
-        $scope.interesser.businesstarget = businesstarget;
+      mdbAPI.getInteresserFull().then(function(all) {
+        $scope.interesserFull = [];
+        all.forEach(function (interesse) {
+          $scope.interesserFull.push(interesse);
+          interesse.subinterests.forEach(function (subinterest) {
+            subinterest.interesse_navn = interesse.interesse_navn + ' > ' + subinterest.interesse_navn;
+            $scope.interesserFull.push(subinterest);
+          });
+        });
       });
     }
   }

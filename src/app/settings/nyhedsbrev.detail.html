@@ -18,7 +18,7 @@
   <div class="form-group">
     <label>Publisher</label>
     <select name="publisher" id="publisher" ng-model="vm.nyhedsbrev.publisher_id" required>
-      <option ng-selected="option.publisher_id == vm.nyhedsbrev.publisher_id" ng-repeat="option in vm.publishers" value="{{option.publisher_id}}">{{option.publisher_navn}}
+      <option ng-selected="option.publisher_id == vm.nyhedsbrev.publisher_id" ng-repeat="option in vm.publishers | orderBy:'publisher_navn'" value="{{option.publisher_id}}">{{option.publisher_navn}}
     </select>
   </div>
   <div ng-messages="nyhedsbrevForm.publisher.$error">
@@ -82,7 +82,7 @@
 
   <button ng-hide="vm.createMode" type="submit" class="btn" ng-class="{'btn-success' : nyhedsbrevForm.$valid}" ng-disabled="nyhedsbrevForm.$invalid" ng-click="vm.update(vm.nyhedsbrev)">Gem</button>
 
-  <button ng-hide="vm.createMode" type="submit" class="btn btn-danger" ng-click="vm.delete(vm.nyhedsbrev)">Deaktiver</button>
+  <button ng-hide="vm.createMode" type="submit" class="btn btn-danger" ng-click="vm.delete(vm.nyhedsbrev)">Deaktivér</button>
 
   <button ng-if="vm.createMode" type="submit" class="btn" class="btn" ng-class="{'btn-success' : nyhedsbrevForm.$valid}" ng-click="vm.create(vm.nyhedsbrev)">Opret</button>
 </form>

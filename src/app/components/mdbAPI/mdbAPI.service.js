@@ -16,6 +16,7 @@
       getPublisher: getPublisher,
       putPublisher: putPublisher,
       createPublisher: createPublisher,
+      getInteresserFull: getInteresserFull,
       getInteresser: getInteresser,
       getInteresse: getInteresse,
       getInteresseTypes: getInteresseTypes,
@@ -75,6 +76,11 @@
       .then(_httpSuccessCallback);
     }
 
+    function getInteresserFull(displayTypeId) {
+      return $http.get(APIBASEURL + "interesser/full" + (displayTypeId !== undefined && displayTypeId !== null ? "?displayTypeId=" + displayTypeId : ""))
+      .then(_httpSuccessCallback);
+    }
+
     function getInteresser(displayTypeId) {
       return $http.get(APIBASEURL + "interesser" + (displayTypeId !== undefined ? "?displayTypeId=" + displayTypeId : ""))
       .then(_httpSuccessCallback);
@@ -85,19 +91,9 @@
       .then(_httpSuccessCallback);
     }
 
-    function getInteresse(id) {
-      //TODO: This endpoint does not exist.
-      // return $http.get(APIBASEURL + "interesser?interesse_id=" + id)
-
-      //Workaround:
-      return getInteresser().then(function(interesser) {
-        for (var i = 0; i < interesser.length; i++) {
-          if (interesser[i].interesse_id == id) {
-            return interesser[i];
-          }
-        }
-
-      });
+    function getInteresse(interesse_id) {
+      return $http.get(APIBASEURL + "interesser/" + interesse_id)
+      .then(_httpSuccessCallback);
     }
 
     function putInteresse(interesse) {

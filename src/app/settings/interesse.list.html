@@ -5,7 +5,7 @@
     ng-model="displayTypeId"
     ng-options="interesseType.interesse_display_type_id as interesseType.interesse_display_type_navn for interesseType in interesseTypes"
     _ng-change="getInteresser(displayTypeId)">
-    <option value="">-- vælg --</option>
+    <option value="">-- alle --</option>
   </select>
 </div>
   <div class="col-sm-8 form-group">
@@ -38,12 +38,16 @@
             <span ng-show="sortType == 'interesse_navn' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
           </a>
         </th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="interesse in vm.interesser | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="settings.interesse-detail({id:interesse.interesse_id})">
-        <td>{{::interesse.interesse_id}}</td>
-        <td>{{::interesse.interesse_navn}}</td>
+      <tr ng-repeat="interesse in vm.interesser | orderBy:'interesse_navn' | filter:searchterm" ui-sref="settings.interesse-detail({id:interesse.interesse_id})">
+        <td class="col-sm-1">{{::interesse.interesse_id}}</td>
+        <td class="col-sm-7">{{::interesse.interesse_navn}}</td>
+        <td class="col-sm-4">
+          <span ng-repeat="topLevel in interesse.topLevels"><span class="label label-default">{{topLevel.interesse_display_type_navn}}</span>&nbsp;</span>
+        </td>
       </tr>
     </tbody>
   </table>
