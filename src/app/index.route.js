@@ -18,84 +18,84 @@
           '</ul>'
       })
       .state('settings', {
-        templateUrl: 'app/main/main.html',
+        templateUrl: 'app/settings/main.html',
         url: '/settings'
       })
       .state('settings.publisher', {
         url: '/publisher',
-        templateUrl: 'app/publisher/publisher.list.html',
+        templateUrl: 'app/settings/publisher.list.html',
         controller: 'PublishersListController',
         controllerAs: 'vm'
       })
       .state('settings.publisher-create', {
         url: '/publisher/create',
-        templateUrl: 'app/publisher/publisher.detail.html',
+        templateUrl: 'app/settings/publisher.detail.html',
         controller: 'PublisherDetailController',
         controllerAs: 'vm'
       })
       .state('settings.publisher-detail', {
         url: '/publisher/:id',
-        templateUrl: 'app/publisher/publisher.detail.html',
+        templateUrl: 'app/settings/publisher.detail.html',
         controller: 'PublisherDetailController',
         controllerAs: 'vm'
       })
       .state('settings.nyhedsbrev', {
         url: '/nyhedsbrev',
-        templateUrl: 'app/nyhedsbrev/nyhedsbrev.list.html',
+        templateUrl: 'app/settings/nyhedsbrev.list.html',
         controller: 'NyhedsbrevListController',
         controllerAs: 'vm'
       })
       .state('settings.nyhedsbrev-create', {
         url: '/nyhedsbrev/create',
-        templateUrl: 'app/nyhedsbrev/nyhedsbrev.detail.html',
+        templateUrl: 'app/settings/nyhedsbrev.detail.html',
         controller: 'NyhedsbrevDetailController',
         controllerAs: 'vm'
       })
       .state('settings.nyhedsbrev-detail', {
         url: '/nyhedsbrev/:id',
-        templateUrl: 'app/nyhedsbrev/nyhedsbrev.detail.html',
+        templateUrl: 'app/settings/nyhedsbrev.detail.html',
         controller: 'NyhedsbrevDetailController',
         controllerAs: 'vm'
       })
       .state('settings.interesse', {
         url: '/interesse',
-        templateUrl: 'app/interesse/interesse.list.html',
+        templateUrl: 'app/settings/interesse.list.html',
         controller: 'InteresseListController',
         controllerAs: 'vm'
       })
       .state('settings.interesse-create', {
         url: '/interesse/create',
-        templateUrl: 'app/interesse/interesse.detail.html',
+        templateUrl: 'app/settings/interesse.detail.html',
         controller: 'InteresseDetailController',
         controllerAs: 'vm'
       })
       .state('settings.interesse-detail', {
         url: '/interesse/:id',
-        templateUrl: 'app/interesse/interesse.detail.html',
+        templateUrl: 'app/settings/interesse.detail.html',
         controller: 'InteresseDetailController',
         controllerAs: 'vm'
       })
       .state('settings.permission', {
         url: '/permission',
-        templateUrl: 'app/permission/permission.list.html',
+        templateUrl: 'app/settings/permission.list.html',
         controller: 'PermissionListController',
         controllerAs: 'vm'
       })
       .state('settings.permission-create', {
         url: '/permission/create',
-        templateUrl: 'app/nyhedsbrev/nyhedsbrev.detail.html',
+        templateUrl: 'app/settings/nyhedsbrev.detail.html',
         controller: 'PermissionDetailController',
         controllerAs: 'vm'
       })
       .state('settings.permission-detail', {
         url: '/permission/:id',
-        templateUrl: 'app/nyhedsbrev/nyhedsbrev.detail.html',
+        templateUrl: 'app/settings/nyhedsbrev.detail.html',
         controller: 'PermissionDetailController',
         controllerAs: 'vm'
       })
       .state('settings.location', {
         url: '/location',
-        templateUrl: 'app/location/location.html',
+        templateUrl: 'app/settings/location.html',
         controller: 'LocationController',
         controllerAs: 'vm'
       })
