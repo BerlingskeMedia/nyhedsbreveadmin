@@ -18,8 +18,9 @@
       createPublisher: createPublisher,
       getInteresserFull: getInteresserFull,
       getInteresser: getInteresser,
-      getInteresse: getInteresse,
       getInteresseTypes: getInteresseTypes,
+      getInteresseToplevels: getInteresseToplevels,
+      getInteresse: getInteresse,
       putInteresse: putInteresse,
       createInteresse: createInteresse,
       // getInteresserBranches: getInteresserBranches,
@@ -78,6 +79,11 @@
 
     function getInteresserFull(displayTypeId) {
       return $http.get(APIBASEURL + "interesser/full" + (displayTypeId !== undefined && displayTypeId !== null ? "?displayTypeId=" + displayTypeId : ""))
+      .then(_httpSuccessCallback);
+    }
+
+    function getInteresseToplevels(displayTypeId) {
+      return $http.get(APIBASEURL + "interesser/toplevels")
       .then(_httpSuccessCallback);
     }
 

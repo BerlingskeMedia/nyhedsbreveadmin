@@ -30,6 +30,7 @@
             <span ng-show="sortType == 'nyhedsbrev_id' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
           </a>
         </th>
+        <th>Publisher</th>
         <th>
           <a href="" ng-click="sortType = 'nyhedsbrev_navn'; sortReverse = !sortReverse">
             Navn
@@ -44,8 +45,9 @@
     <tbody>
       <tr ng-repeat="nyhedsbrev in vm.nyhedsbreve | orderBy:sortType:sortReverse | publisher:selected_publisher | filter:searchterm track by nyhedsbrev.nyhedsbrev_id" ui-sref="settings.nyhedsbrev-detail({id:nyhedsbrev.nyhedsbrev_id})" ng-class="{warning: nyhedsbrev.enabled === 0}">
         <td class="col-sm-1">{{::nyhedsbrev.nyhedsbrev_id}}</td>
-        <td class="col-sm-3">{{::nyhedsbrev.nyhedsbrev_navn}}</td>
-        <td class="col-sm-7"><span ng-bind-html="nyhedsbrev.indhold_safe"></span></td>
+        <td class="col-sm-2"><span class="label label-default">{{::nyhedsbrev.publisher_navn}}</span></td>
+        <td class="col-sm-2">{{::nyhedsbrev.nyhedsbrev_navn}}</td>
+        <td class="col-sm-6"><span ng-bind-html="nyhedsbrev.indhold_safe"></span></td>
         <td class="col-sm-1">
           <abbr title="Skjult"><span class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-if="nyhedsbrev.hidden"></span></abbr>
           <abbr title="Inaktivt"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" ng-if="!nyhedsbrev.enabled"></span></abbr>

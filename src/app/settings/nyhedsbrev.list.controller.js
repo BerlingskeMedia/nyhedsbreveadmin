@@ -17,7 +17,7 @@
     });
 
   /** @ngInject */
-  function NyhedsbrevListController($scope, mdbAPI, $sce) {
+  function NyhedsbrevListController($scope, mdbAPI, $sce, $q) {
     var vm = this;
 
     activate();
@@ -28,17 +28,29 @@
     }
 
     function refreshList() {
-      mdbAPI.getNyhedsbreve('enabled='.concat($scope.show_disabled ? '0' : '1')).then(function(nyhedsbreve) {
+      var a = mdbAPI.getNyhedsbreve('enabled='.concat($scope.show_disabled ? '0' : '1')).then(function(nyhedsbreve) {
         vm.nyhedsbreve = nyhedsbreve;
         vm.nyhedsbreve.forEach(function (nyhedsbrev) {
           nyhedsbrev.indhold_safe = $sce.trustAsHtml(nyhedsbrev.indhold);
         });
       });
 
-      mdbAPI.getPublishers('enabled='.concat($scope.show_disabled ? '0' : '1')).then(function(publishers) {
+      var b = mdbAPI.getPublishers('enabled='.concat($scope.show_disabled ? '0' : '1')).then(function(publishers) {
         $scope.publishers = publishers;
       });
+
+      $q.all([a,b]).then(function () {
+        console.log('sdsds');
+        $scope.publishers.forEach(function (publisher) {
+          vm.nyhedsbreve.forEach(function (nyhedsbrev) {
+            if (nyhedsbrev.publisher_id === publisher.publisher_id) {
+              nyhedsbrev.publisher_navn = publisher.publisher_navn;
+            }
+          })
+        });
+      });
     }
+
     $scope.refreshList = refreshList;
   }
 })();

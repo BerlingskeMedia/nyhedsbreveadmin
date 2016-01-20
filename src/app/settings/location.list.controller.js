@@ -3,7 +3,7 @@
 
   angular
     .module('nyhedsbreveprofiladmin')
-    .controller('LocationController', LocationController);
+    .controller('LocationListController', LocationController);
 
   /** @ngInject */
   function LocationController($scope, toastr, errorhandler, mdbAPI) {

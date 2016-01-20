@@ -17,6 +17,7 @@
 
     function activate() {
       vm.createMode = $state.current.name === 'settings.permission-create';
+      $scope.state = 'permission'
 
       mdbAPI.getPublishers().then(function(publishers) {
         vm.publishers = publishers;

@@ -8,7 +8,7 @@
   /** @ngInject */
   function NyhedsbrevDetailController($scope, $stateParams, $state, errorhandler, toastr,  mdbAPI) {
     var vm = this;
-
+console.log($stateParams);
     vm.update = update;
     vm.delete = deleteNyhedsbrev;
     vm.create = create;
@@ -17,6 +17,7 @@
 
     function activate() {
       vm.createMode = $state.current.name === 'settings.nyhedsbrev-create';
+      $scope.state = 'nyhedsbrev'
 
       mdbAPI.getPublishers().then(function(publishers) {
         vm.publishers = publishers;

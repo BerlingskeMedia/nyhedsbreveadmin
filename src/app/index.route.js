@@ -96,8 +96,8 @@
       })
       .state('settings.location', {
         url: '/location',
-        templateUrl: 'app/settings/location.html',
-        controller: 'LocationController',
+        templateUrl: 'app/settings/location.list.html',
+        controller: 'LocationListController',
         controllerAs: 'vm'
       })
       .state('smartlinkbuilder', {

@@ -2,7 +2,8 @@
 
 <form name="nyhedsbrevForm">
   <div class="form-group" ng-if="!vm.createMode">
-    <label>Nyhedsbrev ID</label>
+    <label ng-if="state === 'nyhedsbrev'">Nyhedsbrev ID</label>
+    <label ng-if="state === 'permission'">Permission ID</label>
     <input type="text" name="id" disabled placeholder="" ng-model="vm.nyhedsbrev.nyhedsbrev_id" class="form-control">
   </div>
   <div class="form-group">
@@ -73,11 +74,17 @@
     </div>
   </div>
 
+  <div class="form-group">
+    <label>Logo</label>
+    <input type="text" name="nyhedsbrev_image" placeholder="Logo URL" ng-model="vm.nyhedsbrev.nyhedsbrev_image" class="form-control">
+    <img ng-src="{{vm.nyhedsbrev.nyhedsbrev_image}}" alt="" class="img-thumbnail">
+  </div>
 
   <div class="form-group">
     <label>Sort ID</label>
     <input type="number" name="sortid" placeholder="Sort ID" ng-model="vm.nyhedsbrev.sort_id" class="form-control">
   </div>
+
 
 
   <button ng-hide="vm.createMode" type="submit" class="btn" ng-class="{'btn-success' : nyhedsbrevForm.$valid}" ng-disabled="nyhedsbrevForm.$invalid" ng-click="vm.update(vm.nyhedsbrev)">Gem</button>

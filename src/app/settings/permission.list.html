@@ -46,8 +46,8 @@
         <td class="col-sm-3">{{::permission.nyhedsbrev_navn}}</td>
         <td class="col-sm-7"><span ng-bind-html="permission.indhold_safe"></span></td>
         <td class="col-sm-1">
-          <abbr title="Skjult"><span class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-if="permission.hidden"></span></abbr>
-          <abbr title="Inaktivt"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" ng-if="!permission.enabled"></span></abbr>
+          <abbr title="Skjult" class="no_dots"><span class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-if="permission.hidden"></span></abbr>
+          <abbr title="Inaktivt" class="no_dots"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" ng-if="!permission.enabled"></span></abbr>
         </td>
       </tr>
     </tbody>

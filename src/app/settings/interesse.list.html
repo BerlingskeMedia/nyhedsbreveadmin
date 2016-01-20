@@ -39,14 +39,25 @@
           </a>
         </th>
         <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="interesse in vm.interesser | orderBy:'interesse_navn' | filter:searchterm" ui-sref="settings.interesse-detail({id:interesse.interesse_id})">
-        <td class="col-sm-1">{{::interesse.interesse_id}}</td>
-        <td class="col-sm-7">{{::interesse.interesse_navn}}</td>
-        <td class="col-sm-4">
-          <span ng-repeat="topLevel in interesse.topLevels"><span class="label label-default">{{topLevel.interesse_display_type_navn}}</span>&nbsp;</span>
+      <tr ng-repeat="interesse in vm.interesser | orderBy:'interesse_navn' | filter:searchterm">
+        <td class="col-sm-1" ui-sref="settings.interesse-detail({id:interesse.interesse_id})">{{::interesse.interesse_id}}</td>
+        <td class="col-sm-5" ui-sref="settings.interesse-detail({id:interesse.interesse_id})">{{::interesse.interesse_navn}}</td>
+        <td class="col-sm-3">
+          <span ng-repeat="type in interesse.types">
+            <span class="label label-default">
+              {{::type.interesse_display_type_navn}}
+              <abbr ng-if="type.display_text" title="{{::type.display_text}}"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></abbr>
+            </span>&nbsp;
+          </span>
+        </td>
+        <td class="col-sm-1">
+          <abbr ng-if="interesse.beskrivelse" title="{{::interesse.beskrivelse}}" class="no_dots">
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+          </abbr>
         </td>
       </tr>
     </tbody>
