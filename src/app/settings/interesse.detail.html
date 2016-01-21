@@ -24,93 +24,99 @@
   </div>
 
 
-  <div class="form-group">
-    <label>Navn</label>
-    <input type="text" name="name" required placeholder="Navn" ng-model="vm.interesse.interesse_navn" class="form-control">
-  </div>
-  <div ng-messages="interesseForm.name.$error">
-    <div ng-message="required">
-      <interessee-error-message message="Navn er påkrævet">
-      </interessee-error-message>
-    </div>
-  </div>
-  <div class="form-group">
-    <label>Beskrivelse</label>
-    <input type="text" name="beskrivelse" required placeholder="Beskrivelse" ng-model="vm.interesse.beskrivelse" class="form-control">
-  </div>
-  <div ng-messages="interesseForm.beskrivelse.$error">
-    <div ng-message="required">
-      <interessee-error-message message="Beskrivelse er påkrævet">
-      </interessee-error-message>
-    </div>
-  </div>
-
   <div class="row">
-    <div class="col-sm-12">
-      <label>Overinteresse</label>
-      <small>Interesse <em>{{vm.interesse.interesse_navn}}</em> er underinteresse til interessen du vælger i nedenstående felt.</small>
-      <select
-        class="form-control"
-        ng-model="active_parent"
-        ng-change="setParent(active_parent)"
-        ng-options="toplevel as toplevel.interesse_navn for toplevel in vm.toplevels">
-        <option value="">-- ingen --</option>
-      </select>
+    <div class="col-sm-12 col-md-6">
+      <label>Navn</label>
+      <input type="text" name="name" required placeholder="Navn" ng-model="vm.interesse.interesse_navn" class="form-control">
     </div>
-  </div>
-  <!-- <div class="row" ng-if="vm.interesse.parent_relations.length > 0">
-    <div class="col-sm-5">
+    <div ng-messages="interesseForm.name.$error">
+      <div ng-message="required">
+        <interessee-error-message message="Navn er påkrævet">
+        </interessee-error-message>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
       <label>Beskrivelse</label>
-      <input type="text" name="beskrivelse" placeholder="Beskrivelse" ng-model="vm.interesse.parent_relations[0].beskrivelse" class="form-control">
+      <input type="text" name="beskrivelse" required placeholder="Beskrivelse" ng-model="vm.interesse.beskrivelse" class="form-control">
     </div>
-    <div class="col-sm-5">
-      <label>Display</label>
-      <input type="text" name="display_text" placeholder="Display" ng-model="vm.interesse.parent_relations[0].display_text" class="form-control">
+    <div ng-messages="interesseForm.beskrivelse.$error">
+      <div ng-message="required">
+        <interessee-error-message message="Beskrivelse er påkrævet">
+        </interessee-error-message>
+      </div>
     </div>
-    <div class="col-sm-2">
-      <label>Sort</label>
-      <input type="number" name="sort" placeholder="Sort" ng-model="vm.interesse.parent_relations[0].sort" class="form-control">
-    </div>
-  </div> -->
-
-  <div class="row">
-    <div class="col-sm-4">
-      <label>Typer</label>
-      <small>Interesse <em>{{vm.interesse.interesse_navn}}</em> er toplevel på nedenstående typer.</small>
-      <select
-        class="form-control"
-        ng-model="add_type"
-        ng-change="addType(add_type)"
-        ng-options="type as type.interesse_display_type_navn for type in vm.types">
-        <option value="">-- vælg --</option>
-      </select>
-    </div>
-    <!-- <div class="col-sm-2">
-      <label></label>
-      <button ng-disabled="!add_type" class="btn btn-default" ng-click="addType(add_type)">Tilføj type</button>
-    </div> -->
   </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <table class="table table-condensed">
-        <tr ng-repeat="type in vm.interesse.types">
-          <td>{{::type.interesse_display_type_navn}}</td>
-          <td>
-            <input type="text" name="beskrivelse" placeholder="Beskrivelse" ng-model="type.beskrivelse" class="form-control">
-          </td>
-          <td>
-            <input type="text" name="display_text" placeholder="Display" ng-model="type.display_text" class="form-control">
-          </td>
-          <td>
-            <input type="number" name="sort" placeholder="Sort" ng-model="type.sort" class="form-control">
-          </td>
-          <td>
-            <button class="btn btn-warning" ng-click="removeType(type.interesse_display_type_id)">
-              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            </button>
-          </td>
-        </tr>
-      </table>
+
+  <div ng-if="!vm.createMode">
+    <h3>Overinteresse</h3>
+    <div class="row">
+      <div class="col-sm-12 col-md-6">
+        <label>Overinteresse</label>
+        <small>Interesse <em>{{vm.interesse.interesse_navn}}</em> er underinteresse til interessen du vælger i nedenstående felt.</small>
+        <select
+          class="form-control"
+          ng-model="active_parent"
+          ng-change="setParent(active_parent)"
+          ng-options="toplevel as (toplevel.interesse_navn + ' / ' + toplevel.interesse_display_type_navn) for toplevel in vm.toplevels">
+          <option value="">(ingen)</option>
+        </select>
+      </div>
+    </div>
+    <div class="row" ng-if="vm.interesse.parent_relations.length > 0">
+      <div class="col-sm-5">
+        <label>Beskrivelse</label>
+        <input type="text" name="beskrivelse" placeholder="Beskrivelse" ng-model="vm.interesse.parent_relations[0].beskrivelse" class="form-control">
+      </div>
+      <div class="col-sm-5">
+        <label>Display</label>
+        <input type="text" name="display_text" placeholder="Display" ng-model="vm.interesse.parent_relations[0].display_text" class="form-control">
+      </div>
+      <div class="col-sm-2">
+        <label>Sort</label>
+        <input type="number" name="sort" placeholder="Sort" ng-model="vm.interesse.parent_relations[0].sort" class="form-control">
+      </div>
+    </div>
+
+    <h3>Typer / toplevel</h3>
+    <div class="row">
+      <div class="col-sm-12 col-md-6">
+        <label>Typer</label>
+        <small>Interesse <em>{{vm.interesse.interesse_navn}}</em> er toplevel på nedenstående typer.</small>
+        <select
+          class="form-control"
+          ng-model="add_type"
+          ng-change="addType(add_type)"
+          ng-options="type as type.interesse_display_type_navn for type in vm.types">
+          <option disabled value="">-- vælg --</option>
+        </select>
+      </div>
+      <!-- <div class="col-sm-2">
+        <label></label>
+        <button ng-disabled="!add_type" class="btn btn-default" ng-click="addType(add_type)">Tilføj type</button>
+      </div> -->
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <table class="table table-condensed">
+          <tr ng-repeat="type in vm.interesse.types">
+            <td><span class="label label-default">{{::type.interesse_display_type_navn}}</span></td>
+            <td>
+              <input type="text" name="beskrivelse" placeholder="Beskrivelse" ng-model="type.beskrivelse" class="form-control">
+            </td>
+            <td>
+              <input type="text" name="display_text" placeholder="Display" ng-model="type.display_text" class="form-control">
+            </td>
+            <td>
+              <input type="number" name="sort" placeholder="Sort" ng-model="type.sort" class="form-control">
+            </td>
+            <td>
+              <button class="btn btn-warning" ng-click="removeType(type.interesse_display_type_id)">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
 </form>

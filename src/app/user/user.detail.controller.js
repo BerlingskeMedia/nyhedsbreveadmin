@@ -6,7 +6,7 @@
     .controller('UserDetailController', UserDetailController);
 
   /** @ngInject */
-  function UserDetailController($scope, $stateParams, $state, toastr, errorhandler, mdbAPI) {
+  function UserDetailController($scope, $stateParams, $state, toastr, errorhandler, mdbAPI, $q) {
     var vm = this;
 
     activate();
@@ -20,7 +20,7 @@
     }
 
     function getUser() {
-      mdbAPI.getUser($stateParams.ekstern_id).then(function(user) {
+      $scope.user_promise = mdbAPI.getUser($stateParams.ekstern_id).then(function(user) {
         $scope.user = user;
       });
     }
@@ -32,13 +32,17 @@
         if (savedUser.ekstern_id !== user.ekstern_id) {
           $state.go('user-detail.core', {ekstern_id: savedUser.ekstern_id});
         }
-        $scope.user  = savedUser;
+        $scope.user = savedUser;
         toastr.success('Oplysningerne blev gemt');
-      })
-      .catch(errorhandler.errorhandler);
+      }, function (error) {
+        console.log('error', error);
+        if (error.status === 409) {
+          toastr.error('Email adresse findes');
+        } else {
+          toastr.error('Noget gik galt');
+        }
+      }).catch(errorhandler.errorhandler);
     }
-
-
 
     function activate() {
       getUser();
@@ -46,7 +50,5 @@
       $scope.updateUser = updateUser;
 
     }
-
-
   }
 })();

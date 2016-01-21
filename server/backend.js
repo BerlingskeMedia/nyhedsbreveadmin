@@ -92,6 +92,18 @@ var backend = {
     });
 
     plugin.route({
+      method: 'GET',
+      path: '/optouts/types',
+      handler: proxy
+    });
+
+    plugin.route({
+      method: ['POST', 'DELETE'],
+      path: '/optouts',
+      handler: proxy
+    });
+
+    plugin.route({
       method: ['GET', 'POST'],
       path: '/users',
       handler: proxy
@@ -136,6 +148,18 @@ var backend = {
     plugin.route({
       method: 'GET',
       path: '/users/{user_id}/actions',
+      handler: proxy
+    });
+
+    plugin.route({
+      method: 'GET',
+      path: '/users/{user_id}/optouts',
+      handler: proxy
+    });
+
+    plugin.route({
+      method: ['GET','POST','PUT','PATCH'],
+      path: '/users/{user_id}/optouts/{type}',
       handler: proxy
     });
 

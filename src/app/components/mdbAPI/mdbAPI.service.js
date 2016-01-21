@@ -23,6 +23,9 @@
       getInteresse: getInteresse,
       putInteresse: putInteresse,
       createInteresse: createInteresse,
+      getOptoutTypes: getOptoutTypes,
+      createOptout: createOptout,
+      deleteOptout: deleteOptout,
       // getInteresserBranches: getInteresserBranches,
       // getAllInteresser: getAllInteresser,
       getPermissions: getPermissions,
@@ -36,11 +39,15 @@
       putLocation: putLocation,
       createLocation: createLocation,
       userSearch: userSearch,
+      createUser: createUser,
       getUser: getUser,
+      getUserOptouts: getUserOptouts,
       getUserInteresser: getUserInteresser,
       getUserHistory: getUserHistory,
       sendProfileLink: sendProfileLink,
-      updateUser: updateUser
+      updateUser: updateUser,
+      addUserOptout: addUserOptout,
+      deleteUserOptout: deleteUserOptout
     };
 
     return service;
@@ -112,6 +119,21 @@
 
     function createInteresse(interesse) {
       return $http.post(APIBASEURL + "interesser", interesse)
+      .then(_httpSuccessCallback);
+    }
+
+    function getOptoutTypes() {
+      return $http.get(APIBASEURL + "optouts/types")
+      .then(_httpSuccessCallback);
+    }
+
+    function createOptout(email, type) {
+      return $http.post(APIBASEURL + "optouts", {email: email, type: type})
+      .then(_httpSuccessCallback);
+    }
+
+    function deleteOptout(email, type) {
+      return $http.delete(APIBASEURL + "optouts", {email: email, type: type})
       .then(_httpSuccessCallback);
     }
 
@@ -192,6 +214,11 @@
       .then(_httpSuccessCallback);
     }
 
+    function createUser(email) {
+      return $http.post(APIBASEURL + "users", {email: email, location_id: LOCATIONID})
+      .then(_httpSuccessCallback);
+    }
+
     function getUser(ekstern_id) {
       return $http.get(APIBASEURL + "users/" + ekstern_id)
       .then(_httpSuccessCallback);
@@ -200,6 +227,21 @@
     function updateUser(user) {
       user.location_id = LOCATIONID;
       return $http.put(APIBASEURL + "users/" + user.ekstern_id, user)
+      .then(_httpSuccessCallback);
+    }
+
+    function getUserOptouts(ekstern_id) {
+      return $http.get(APIBASEURL + "users/" + ekstern_id + '/optouts')
+      .then(_httpSuccessCallback);
+    }
+
+    function addUserOptout(user, type) {
+      return $http.post(APIBASEURL + "users/" + user.ekstern_id + "/optouts/" + type)
+      .then(_httpSuccessCallback);
+    }
+
+    function deleteUserOptout(user, type) {
+      return $http.delete(APIBASEURL + "users/" + user.ekstern_id + "/optouts/" + type)
       .then(_httpSuccessCallback);
     }
 

@@ -6,7 +6,7 @@
     .controller('UserDetailNyhedsbrevController', UserDetailNyhedsbrevController);
 
   /** @ngInject */
-  function UserDetailNyhedsbrevController($scope, $stateParams, mdbAPI) {
+  function UserDetailNyhedsbrevController($scope, $stateParams, mdbAPI, $q) {
     var vm = this;
     vm.scope = $scope;
 
@@ -34,8 +34,25 @@
     };
 
     function getNyhedsbreve() {
-      mdbAPI.getNyhedsbreve().then(function(nyhedsbreve) {
+      var nyhedsbreve_promise = mdbAPI.getNyhedsbreve().then(function(nyhedsbreve) {
         $scope.nyhedsbreve = nyhedsbreve;
+      });
+
+      var deaktivatedNyhedsbreve = [];
+      var deaktivatedNyhedsbreve_promise = mdbAPI.getNyhedsbreve('enabled=0').then(function(result) {
+        deaktivatedNyhedsbreve = result;
+      });
+
+      $q.all([vm.scope.$parent.user_promise, nyhedsbreve_promise, deaktivatedNyhedsbreve_promise]).then(function () {
+        console.log('FUNKY');
+        var b = deaktivatedNyhedsbreve.filter(function (da) {
+          console.log(da);
+          return vm.scope.$parent.user.nyhedsbreve.indexOf(da.nyhedsbrev_id) > -1;
+        });
+        console.log('1', b);
+        console.log('a', $scope.nyhedsbreve);
+        $scope.nyhedsbreve = $scope.nyhedsbreve.concat(b);
+        console.log('b', $scope.nyhedsbreve);
       });
     }
 

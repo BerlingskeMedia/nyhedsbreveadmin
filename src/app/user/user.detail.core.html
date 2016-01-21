@@ -23,12 +23,7 @@
         <dd>{{user.insert_dato | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</dd>
         <dt>Opdateret</dt>
         <dd>{{user.opdatering_dato | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</dd>
-        <dt>Aktiveret</dt>
-        <dd>
-          <span ng-if="user.activate_dato">{{user.activate_dato | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</span>
-          <span ng-if="!user.activate_dato">Ikke aktiveret</span>
-        </dd>
-        <dt>Blacklistet</dt>
+        <dt>Blacklistet/Robinson</dt>
         <dd><input type="checkbox" ng-model="user.robinson_flag"></dd>
       </dl>
     </div>
@@ -116,3 +111,15 @@
     </div>
   </div>
 </form>
+<div class="row">
+  <div class="col-sm-12">
+    <table class="table table-condensed">
+      <tbody>
+        <tr ng-repeat="optout in userOptouts">
+          <td>{{::optout.insert_ts}}</td>
+          <td>{{::optout.type_desc}}</td>
+        </tr>
+      </tbody
+    </table>
+  </div>
+</div>

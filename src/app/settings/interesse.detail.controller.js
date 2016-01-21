@@ -15,18 +15,6 @@
     activate();
 
     function activate() {
-      vm.createMode = $state.current.name === 'settings.interesse-create';
-
-      if (vm.createMode) {
-        return;
-      }
-
-      var a = mdbAPI.getInteresse($stateParams.id).then(function(interesse) {
-        vm.interesse = interesse;
-        console.log(vm.interesse);
-
-      });
-
       mdbAPI.getInteresseTypes().then(function(types) {
         vm.types = types;
       });
@@ -35,14 +23,21 @@
         vm.toplevels = toplevels;
       });
 
-      $q.all([a,b]).then(function () {
-        console.log('s');
-        if (vm.interesse.parent_relations !== undefined && vm.interesse.parent_relations.length > 0) {
-          $scope.active_parent = vm.toplevels.find(function (toplevel) {
-            return toplevel.interesse_id === vm.interesse.parent_relations[0].interesse_id;
-          });
-        }
-      });
+      vm.createMode = $state.current.name === 'settings.interesse-create';
+
+      if (!vm.createMode) {
+        var a = mdbAPI.getInteresse($stateParams.id).then(function(interesse) {
+          vm.interesse = interesse;
+        });
+
+        $q.all([a,b]).then(function () {
+          if (vm.interesse.parent_relations !== undefined && vm.interesse.parent_relations.length > 0) {
+            $scope.active_parent = vm.toplevels.find(function (toplevel) {
+              return toplevel.interesse_id === vm.interesse.parent_relations[0].interesse_id;
+            });
+          }
+        });
+      }
     }
 
     function create(interesse) {
@@ -55,27 +50,31 @@
     }
 
     function update(interesse) {
-      console.log('upda', interesse);
       return mdbAPI.putInteresse(interesse)
       .then(function(interesse) {
         toastr.success('Interesse opdateret');
-        vm.interesse = interesse;
+        // vm.interesse = interesse;
       })
       .catch(errorhandler.errorhandler);
     }
 
     $scope.setParent = function (toplevel) {
-      vm.interesse.parent_relations[0] = {
-        interesse_id: vm.interesse.interesse_id,
-        interesse_display_type_id: toplevel.interesse_display_type_id,
-        interesse_parent_id: toplevel.interesse_id,
-        sort: 100,
-        beskrivelse: null,
-        display_text: null
-      };
+      if (toplevel === null) {
+        vm.interesse.parent_relations[0] = {};
+      } else {
+        vm.interesse.parent_relations[0] = {
+          interesse_id: vm.interesse.interesse_id,
+          interesse_display_type_id: toplevel.interesse_display_type_id,
+          interesse_parent_id: toplevel.interesse_id,
+          sort: 100,
+          beskrivelse: null,
+          display_text: null
+        };
+      }
     };
 
     $scope.addType = function(type) {
+      type.interesse_id = vm.interesse.interesse_id,
       type.sort = 100;
       type.beskrivelse = null;
       type.display_text = null;

@@ -5,7 +5,7 @@
   </a>
   <span class="pull-right">
     Kunde:
-    <span>{{user.fornavn}} {{user.efternavn}}</span> <span ng-if="!user.fornavn && !user.efternavn">{{user.email}}</span>
+    <span>{{::user.email}}</span>
   </span>
 </div>
 <div class="user_details_nav">
