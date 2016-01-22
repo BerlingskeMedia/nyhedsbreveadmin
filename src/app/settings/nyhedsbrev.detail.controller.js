@@ -12,6 +12,7 @@ console.log($stateParams);
     vm.update = update;
     vm.delete = deleteNyhedsbrev;
     vm.create = create;
+    vm.active = reactivateNyhedsbrev;
 
     activate();
 
@@ -52,13 +53,21 @@ console.log($stateParams);
     function deleteNyhedsbrev(nyhedsbrev) {
       return mdbAPI.deleteNyhedsbrev(nyhedsbrev)
       .then(function(nyhedsbrev) {
-        toastr.success('Nyhedsbrev slettet');
+        toastr.success('Nyhedsbrev deaktiveret');
         vm.nyhedsbrev = nyhedsbrev;
-        $state.go('settings.nyhedsbrev');
+        // $state.go('settings.nyhedsbrev');
       })
       .catch(errorhandler.errorhandler);
     }
 
-
+    function reactivateNyhedsbrev (nyhedsbrev) {
+      nyhedsbrev.enabled = 1;
+      return mdbAPI.putNyhedsbrev(nyhedsbrev)
+      .then(function(nyhedsbrev) {
+        toastr.success('Nyhedsbrev genaktiveret');
+        vm.nyhedsbrev = nyhedsbrev;
+      })
+      .catch(errorhandler.errorhandler);
+    }
   }
 })();
