@@ -1,18 +1,9 @@
-<div class="user_details_top">
-  <a ui-sref="user">
-    <span  class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
-    Tilbage til søg
-  </a>
-  <span class="pull-right">
-    Kunde:
-    <span>{{::user.email}}</span>
-  </span>
-</div>
 <div class="user_details_nav">
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div>
         <ul class="nav navbar-nav">
+          <li ui-sref-active="active"><a ui-sref="user"><span  class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Forside</a></li>
           <li ui-sref-active="active"><a ui-sref="user-detail.core">Stamdata</a></li>
           <li ui-sref-active="active"><a ui-sref="user-detail.nyhedsbrev">Nyhedsbreve</a></li>
           <li ui-sref-active="active"><a ui-sref="user-detail.permission">Permissions</a></li>
@@ -24,5 +15,9 @@
       </div>
     </div>
   </nav>
+  <span class="pull-right">
+    Kunde:
+    <span>{{::user.email}}</span>
+  </span>
 </div>
 <ui-view class="inner"></ui-view>
