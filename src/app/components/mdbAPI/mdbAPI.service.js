@@ -235,13 +235,13 @@
       .then(_httpSuccessCallback);
     }
 
-    function addUserOptout(user, type) {
-      return $http.post(APIBASEURL + "users/" + user.ekstern_id + "/optouts/" + type)
+    function addUserOptout(ekstern_id, type) {
+      return $http.post(APIBASEURL + "users/" + ekstern_id + "/optouts/" + type)
       .then(_httpSuccessCallback);
     }
 
-    function deleteUserOptout(user, type) {
-      return $http.delete(APIBASEURL + "users/" + user.ekstern_id + "/optouts/" + type)
+    function deleteUserOptout(ekstern_id, type) {
+      return $http.delete(APIBASEURL + "users/" + ekstern_id + "/optouts/" + type)
       .then(_httpSuccessCallback);
     }
 

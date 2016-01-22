@@ -8,7 +8,7 @@
   /** @ngInject */
   function NyhedsbrevDetailController($scope, $stateParams, $state, errorhandler, toastr,  mdbAPI) {
     var vm = this;
-console.log($stateParams);
+
     vm.update = update;
     vm.delete = deleteNyhedsbrev;
     vm.create = create;

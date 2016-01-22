@@ -113,15 +113,31 @@
 </form>
 
 <h3>Optouts</h3>
+<table class="table table-condensed">
+  <tbody>
+    <tr ng-repeat="optout in userOptouts">
+      <td class="col-sm-5">{{::optout.type_desc}}</td>
+      <td class="col-sm-5">{{::optout.insert_ts}}</td>
+      <td class="col-sm-2">
+        <button class="btn btn-warning" ng-click="deleteOptout(optout, $index)">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
 <div class="row">
-  <div class="col-sm-12">
-    <table class="table table-condensed">
-      <tbody>
-        <tr ng-repeat="optout in userOptouts">
-          <td>{{::optout.insert_ts}}</td>
-          <td>{{::optout.type_desc}}</td>
-        </tr>
-      </tbody
-    </table>
+  <div class="col-sm-5">
+    <select
+      class="form-control"
+      ng-model="add_optoutsType"
+      ng-options="optoutsType as optoutsType.type_desc for optoutsType in optoutsTypes | alreadyAddedOptouts:userOptouts">
+      <option disabled value="">-- vælg optout --</option>
+    </select>
+  </div>
+  <div class="col-sm-2">
+    <button class="btn btn-default" ng-click="addOptout(add_optoutsType)">
+      Tilknyt
+    </button>
   </div>
 </div>

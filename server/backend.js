@@ -158,7 +158,7 @@ var backend = {
     });
 
     plugin.route({
-      method: ['GET','POST','PUT','PATCH'],
+      method: ['GET','POST','PUT','PATCH', 'DELETE'],
       path: '/users/{user_id}/optouts/{type}',
       handler: proxy
     });
