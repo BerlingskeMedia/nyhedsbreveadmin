@@ -25,11 +25,14 @@ console.log($stateParams);
       });
 
       if (vm.createMode) {
-        return;
+        vm.nyhedsbrev = {
+          enabled: 1
+        }
+      } else {
+        mdbAPI.getNyhedsbrev($stateParams.id).then(function(nyhedsbrev) {
+          vm.nyhedsbrev = nyhedsbrev;
+        });
       }
-      mdbAPI.getNyhedsbrev($stateParams.id).then(function(nyhedsbrev) {
-        vm.nyhedsbrev = nyhedsbrev;
-      });
     }
 
     function create(nyhedsbrev) {

@@ -1,5 +1,3 @@
-<h1>{{vm.nyhedsbrev.nyhedsbrev}}</h1>
-
 <div class="row">
   <div class="col-sm-12">
     <button ng-hide="vm.createMode || !vm.nyhedsbrev.enabled" type="submit" class="btn" ng-class="{'btn-success' : nyhedsbrevForm.$valid}" ng-disabled="nyhedsbrevForm.$invalid" ng-click="vm.update(vm.nyhedsbrev)">Gem</button>
@@ -59,7 +57,7 @@
 
   <div class="form-group">
     <label>Tag</label>
-    <input type="text" name="tag" required placeholder="Tag" ng-disabled="!vm.nyhedsbrev.enabled" ng-model="vm.nyhedsbrev.nyhedsbrev_tag" class="form-control">
+    <input type="text" name="tag" placeholder="Tag" ng-disabled="!vm.nyhedsbrev.enabled" ng-model="vm.nyhedsbrev.nyhedsbrev_tag" class="form-control">
   </div>
 
   <div class="form-group">
@@ -92,14 +90,14 @@
   </div>
 
   <div class="form-group">
-    <label>Logo</label>
-    <input type="text" name="nyhedsbrev_image" placeholder="Logo URL" ng-disabled="!vm.nyhedsbrev.enabled" ng-model="vm.nyhedsbrev.nyhedsbrev_image" class="form-control">
-    <img ng-src="{{vm.nyhedsbrev.nyhedsbrev_image}}" alt="" class="img-thumbnail">
+    <label>Sort ID</label>
+    <input type="number" name="sortid" placeholder="Sort ID" ng-disabled="!vm.nyhedsbrev.enabled" ng-model="vm.nyhedsbrev.sort_id" class="form-control">
   </div>
 
   <div class="form-group">
-    <label>Sort ID</label>
-    <input type="number" name="sortid" placeholder="Sort ID" ng-disabled="!vm.nyhedsbrev.enabled" ng-model="vm.nyhedsbrev.sort_id" class="form-control">
+    <label>Logo</label>
+    <input type="text" name="nyhedsbrev_image" placeholder="Logo URL" ng-disabled="!vm.nyhedsbrev.enabled" ng-model="vm.nyhedsbrev.nyhedsbrev_image" class="form-control">
+    <img ng-src="{{vm.nyhedsbrev.nyhedsbrev_image}}" alt="" class="img-thumbnail">
   </div>
 
 </form>

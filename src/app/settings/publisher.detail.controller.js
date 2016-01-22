@@ -11,6 +11,7 @@
     vm.update = update;
     vm.delete = deletePublisher;
     vm.create = create;
+    vm.active = reactivatePublisher;
 
     activate();
 
@@ -47,12 +48,20 @@
     function deletePublisher(publisher) {
       return mdbAPI.deletePublisher(publisher)
       .then(function(publisher) {
-        toastr.success('Publisher slettet');
+        toastr.success('Publisher deaktiveret');
         vm.publisher = publisher;
-        $state.go('settings.publisher');
       })
       .catch(errorhandler.errorhandler);
     }
 
+    function reactivatePublisher (publisher) {
+      publisher.enabled = 1;
+      return mdbAPI.putPublisher(publisher)
+      .then(function(publisher) {
+        toastr.success('Publisher genaktiveret');
+        vm.publisher = publisher;
+      })
+      .catch(errorhandler.errorhandler);
+    }
   }
 })();

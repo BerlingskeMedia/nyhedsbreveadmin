@@ -24,11 +24,14 @@
       });
 
       if (vm.createMode) {
-        return;
+        vm.nyhedsbrev = {
+          enabled: 1
+        };
+      } else {
+        mdbAPI.getPermission($stateParams.id).then(function(nyhedsbrev) {
+          vm.nyhedsbrev = nyhedsbrev;
+        });
       }
-      mdbAPI.getPermission($stateParams.id).then(function(nyhedsbrev) {
-        vm.nyhedsbrev = nyhedsbrev;
-      });
     }
 
     function create(nyhedsbrev) {
