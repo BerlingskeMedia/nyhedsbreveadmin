@@ -1,3 +1,31 @@
+<h2>Opret ny bruger</h2>
+<div class="row">
+  <div class="col-sm-4">
+    <input type="email" class="form-control" ng-model="newUserEmail" placeholder="Email" />
+  </div>
+  <div class="col-sm-2 col-sm-offset-4">
+    <button class="form-control" ng-click="createUser(newUserEmail)" ng-disabled="creatingUser">Opret</button>
+    <small ng-show="creatingUser">Opretter....</small>
+  </div>
+</div>
+
+<h2>Tilknyt optout</h2>
+<div class="row">
+  <div class="col-sm-4">
+    <input type="email" class="form-control" ng-model="newOptoutEmail" placeholder="Email" />
+  </div>
+  <div class="col-sm-4">
+    <select class="form-control" ng-model="newEmailOptout" ng-options="type.type_id as type.type_desc for type in vm.optoutTypes">
+      <option disabled value="">-- vælg --</option>
+    </select>
+  </div>
+  <div class="col-sm-2">
+    <button class="form-control" ng-click="createOptout(newOptoutEmail, newEmailOptout)" ng-disabled="creatingOptout">Opret</button>
+    <small ng-show="creatingOptout">Opretter....</small>
+  </div>
+</div>
+
+<h2>Søg</h2>
 <form class="clearfix">
   <div class="form-group">
     <div class="row clearfix">
@@ -67,7 +95,7 @@
         <button ng-click="search()" class="btn btn-default">Søg</button>
       </div>
       <div class="col-sm-5">
-        <div ng-show="vm.didSearch">Antal resultater: {{::vm.users.length}}</div>
+        <div ng-show="vm.didSearch">Antal resultater: {{vm.users.length}}</div>
       </div>
     </div>
   </div>
@@ -129,32 +157,5 @@
   <div class="alert alert-warning" role="alert" ng-if="vm.didSearch && vm.users.length === 0">
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
     Søgningen gav ingen resultater
-  </div>
-</div>
-
-<h2>Opret ny bruger</h2>
-<div class="row">
-  <div class="col-sm-4">
-    <input type="email" class="form-control" ng-model="newUserEmail" placeholder="Email" />
-  </div>
-  <div class="col-sm-2 col-sm-offset-4">
-    <button class="form-control" ng-click="createUser(newUserEmail)" ng-disabled="creatingUser">Opret</button>
-    <small ng-show="creatingUser">Opretter....</small>
-  </div>
-</div>
-
-<h2>Tilknyt optout</h2>
-<div class="row">
-  <div class="col-sm-4">
-    <input type="email" class="form-control" ng-model="newOptoutEmail" placeholder="Email" />
-  </div>
-  <div class="col-sm-4">
-    <select class="form-control" ng-model="newEmailOptout" ng-options="type.type_id as type.type_desc for type in vm.optoutTypes">
-      <option disabled value="">-- vælg --</option>
-    </select>
-  </div>
-  <div class="col-sm-2">
-    <button class="form-control" ng-click="createOptout(newOptoutEmail, newEmailOptout)" ng-disabled="creatingOptout">Opret</button>
-    <small ng-show="creatingOptout">Opretter....</small>
   </div>
 </div>
