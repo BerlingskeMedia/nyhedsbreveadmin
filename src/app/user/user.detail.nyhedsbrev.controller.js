@@ -44,15 +44,10 @@
       });
 
       $q.all([vm.scope.$parent.user_promise, nyhedsbreve_promise, deaktivatedNyhedsbreve_promise]).then(function () {
-        console.log('FUNKY');
         var b = deaktivatedNyhedsbreve.filter(function (da) {
-          console.log(da);
           return vm.scope.$parent.user.nyhedsbreve.indexOf(da.nyhedsbrev_id) > -1;
         });
-        console.log('1', b);
-        console.log('a', $scope.nyhedsbreve);
         $scope.nyhedsbreve = $scope.nyhedsbreve.concat(b);
-        console.log('b', $scope.nyhedsbreve);
       });
     }
 

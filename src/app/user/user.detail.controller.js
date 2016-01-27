@@ -9,6 +9,10 @@
   function UserDetailController($scope, $stateParams, $state, toastr, errorhandler, mdbAPI, $q) {
     var vm = this;
 
+    if ($stateParams.ekstern_id === undefined || $stateParams.ekstern_id === '') {
+      $state.go('user');
+    }
+
     activate();
 
     function goto(state) {

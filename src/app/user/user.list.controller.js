@@ -48,7 +48,6 @@
       $scope.search = search;
 
       mdbAPI.getOptoutTypes().then(function (optoutTypes) {
-        console.log(optoutTypes);
         vm.optoutTypes = optoutTypes;
       });
     }
@@ -56,7 +55,8 @@
     $scope.createUser = function (email) {
       $scope.creatingUser = true;
       console.log(email);
-      mdbAPI.createUser(email).then(function() {
+      mdbAPI.createUser(email).then(function(response) {
+        console.log(response)
         $state.go('user-detail', {ekstern_id: response.ekstern_id});
       }, function (response) {
         console.log(response);
