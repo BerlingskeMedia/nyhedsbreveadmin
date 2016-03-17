@@ -1,14 +1,22 @@
-<div class="table-responsive">
-  <form>
-    <div class="form-group">
-      <div class="input-group">
-        <div class="input-group-addon">
-          <span class="glyphicon glyphicon-search"></span>
-        </div>
-        <input type="text" class="form-control" placeholder="Søg" ng-model="searchterm">
+<div class="row">
+  <div class="col-sm-6">
+    <div class="input-group">
+      <div class="input-group-addon">
+        <span class="glyphicon glyphicon-search"></span>
       </div>
+      <input type="text" class="form-control" placeholder="Søg" ng-model="searchterm">
     </div>
-  </form>
+  </div>
+  <div class="col-sm-6">
+    <form class="form-inline">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Lokation" ng-model="new_location_tekst">
+      </div>
+      <button ng-click="vm.create(new_location_tekst)" type="submit" class="btn btn-success">Opret</a>
+    </form>
+  </div>
+</div>
+<div class="table-responsive">
   <table class="table table-condensed">
     <thead>
         <tr>

@@ -6,14 +6,14 @@
     .controller('PermissionDetailController', PermissionDetailController);
 
   /** @ngInject */
-  function PermissionDetailController($scope, $stateParams, $state, errorhandler, toastr,  mdbAPI) {
+  function PermissionDetailController($scope, $stateParams, $state, errorhandler, toastr,  mdbApiService) {
     var vm = this;
 
     vm.update = update;
     vm.delete = deleteNyhedsbrev;
     vm.create = create;
 
-    activate();
+    mdbApiService.then(activate);
 
     function activate() {
       vm.createMode = $state.current.name === 'settings.permission-create';

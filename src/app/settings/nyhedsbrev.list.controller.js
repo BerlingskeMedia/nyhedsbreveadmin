@@ -17,10 +17,10 @@
     });
 
   /** @ngInject */
-  function NyhedsbrevListController($scope, mdbAPI, $sce, $q) {
+  function NyhedsbrevListController($scope, mdbApiService, $sce, $q) {
     var vm = this;
 
-    activate();
+    mdbApiService.then(activate);
 
     function activate() {
       $scope.sortType = 'nyhedsbrev_id';
@@ -28,14 +28,14 @@
     }
 
     function refreshList() {
-      var a = mdbAPI.getNyhedsbreve('enabled='.concat($scope.show_disabled ? '0' : '1')).then(function(nyhedsbreve) {
+      var a = mdbApiService.getNyhedsbreve('enabled='.concat($scope.show_disabled ? '0' : '1')).then(function(nyhedsbreve) {
         vm.nyhedsbreve = nyhedsbreve;
         vm.nyhedsbreve.forEach(function (nyhedsbrev) {
           nyhedsbrev.indhold_safe = $sce.trustAsHtml(nyhedsbrev.indhold);
         });
       });
 
-      var b = mdbAPI.getPublishers('enabled='.concat($scope.show_disabled ? '0' : '1')).then(function(publishers) {
+      var b = mdbApiService.getPublishers('enabled='.concat($scope.show_disabled ? '0' : '1')).then(function(publishers) {
         $scope.publishers = publishers;
       });
 

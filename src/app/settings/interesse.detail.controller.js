@@ -6,27 +6,27 @@
     .controller('InteresseDetailController', InteresseDetailController);
 
   /** @ngInject */
-  function InteresseDetailController($scope, $stateParams, $state, errorhandler, toastr,  mdbAPI, $q) {
+  function InteresseDetailController($scope, $stateParams, $state, errorhandler, toastr,  mdbApiService, $q) {
     var vm = this;
 
     vm.update = update;
     vm.create = create;
 
-    activate();
+    mdbApiService.then(activate);
 
     function activate() {
-      mdbAPI.getInteresseTypes().then(function(types) {
+      mdbApiService.getInteresseTypes().then(function(types) {
         vm.types = types;
       });
 
-      var b = mdbAPI.getInteresseToplevels().then(function(toplevels) {
+      var b = mdbApiService.getInteresseToplevels().then(function(toplevels) {
         vm.toplevels = toplevels;
       });
 
       vm.createMode = $state.current.name === 'settings.interesse-create';
 
       if (!vm.createMode) {
-        var a = mdbAPI.getInteresse($stateParams.id).then(function(interesse) {
+        var a = mdbApiService.getInteresse($stateParams.id).then(function(interesse) {
           vm.interesse = interesse;
         });
 
@@ -41,7 +41,7 @@
     }
 
     function create(interesse) {
-      return mdbAPI.createInteresse(interesse)
+      return mdbApiService.createInteresse(interesse)
       .then(function(interesse) {
         toastr.success('Interesse oprettet');
         $state.go('settings.interesse-detail', {id: interesse.interesse_id});
@@ -50,7 +50,7 @@
     }
 
     function update(interesse) {
-      return mdbAPI.putInteresse(interesse)
+      return mdbApiService.putInteresse(interesse)
       .then(function(interesse) {
         toastr.success('Interesse opdateret');
         // vm.interesse = interesse;

@@ -3,7 +3,9 @@
 
 var Hapi = require('hapi'),
     backend = require('./backend'),
-    inert = require('inert');
+    inert = require('inert'),
+    mdbapi_hostname = process.env.MDBAPI_ADDRESS ? process.env.MDBAPI_ADDRESS : 'localhost',
+    mdbapi_port = process.env.MDBAPI_PORT ? process.env.MDBAPI_PORT : '8000';
 
 
 var client = {
@@ -48,6 +50,14 @@ var client = {
 
     plugin.route({
       method: 'get',
+      path: '/apibaseurl',
+      handler: function (request, reply) {
+        reply('http://'.concat(mdbapi_hostname, ':', mdbapi_port, '/'));
+      }
+    });
+
+    plugin.route({
+      method: 'get',
       path: '/{param*}',
       handler: {
         file: 'dist/index.html'
@@ -83,7 +93,7 @@ server.route({
 
 server.register(inert, cb);
 server.register(client, cb);
-server.register(backend, { routes: { prefix: '/backend' } }, cb);
+// server.register(backend, { routes: { prefix: '/backend' } }, cb);
 
 if (!module.parent) {
   server.start(function() {
