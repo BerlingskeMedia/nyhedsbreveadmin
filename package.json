@@ -1,6 +1,6 @@
 {
   "name": "nyhedsbreveprofiladmin",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "dependencies": {
     "hapi": "^13.2.2",
     "inert": "^3.2.0"
