@@ -6,10 +6,10 @@
     .controller('PublishersListController', PublishersListController);
 
   /** @ngInject */
-  function PublishersListController($scope, mdbAPI) {
+  function PublishersListController($scope, mdbApiService) {
     var vm = this;
 
-    activate();
+    mdbApiService.then(activate);
 
     function activate() {
       $scope.sortType = 'publisher_id'
@@ -17,7 +17,7 @@
     }
 
     function refreshList() {
-      mdbAPI.getPublishers('enabled='.concat($scope.show_disabled ? '0' : '1')).then(function(publishers) {
+      mdbApiService.getPublishers('enabled='.concat($scope.show_disabled ? '0' : '1')).then(function(publishers) {
         vm.publishers = publishers;
       });
     }

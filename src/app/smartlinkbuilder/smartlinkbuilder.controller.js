@@ -6,13 +6,13 @@
     .controller('SmartlinkBuilderController', SmartlinkBuilderController);
 
   /** @ngInject */
-  function SmartlinkBuilderController($scope, $q, $sanitize, $templateCache, $compile, $interpolate, $timeout, $element, moment, mdbAPI,  nyhedsbreveprofiladminConfig) {
+  function SmartlinkBuilderController($scope, $q, $sanitize, $templateCache, $compile, $interpolate, $timeout, $element, moment, mdbApiService, nyhedsbreveprofiladminConfig) {
     var vm = this;
     var SMARTLINK_BASEURL = nyhedsbreveprofiladminConfig.SMARTLINK_BASEURL;
 
     var formPostTemplate = $templateCache.get('formPostTemplate.html');
 
-    activate();
+    mdbApiService.then(activate);
 
     function debugLocation() {
       //TODO: Remove when POST to mdbapi is available.
@@ -20,7 +20,7 @@
     }
 
     function getData() {
-      $q.all([mdbAPI.getNyhedsbreve(), mdbAPI.getInteresser(), mdbAPI.getPermissions()]).then(function(datas) {
+      $q.all([mdbApiService.getNyhedsbreve(), mdbApiService.getInteresserFull(), mdbApiService.getPermissions()]).then(function(datas) {
         vm.nyhedsbreve = datas[0];
         vm.interesser = datas[1];
         vm.permissions = datas[2];
@@ -96,9 +96,9 @@
     function updateLocation(location_tekst) {
       if ($scope.location) {
         $scope.location.location_tekst = location_tekst;
-        return mdbAPI.putLocation($scope.location);
+        return mdbApiService.putLocation($scope.location);
       }
-      return mdbAPI.createLocation(location_tekst).then(function(location, headers) {
+      return mdbApiService.createLocation(location_tekst).then(function(location, headers) {
         console.log('location', location, headers)
         $scope.location = location;
       });

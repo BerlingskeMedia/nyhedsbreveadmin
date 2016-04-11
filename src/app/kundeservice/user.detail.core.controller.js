@@ -19,10 +19,10 @@
     });
 
   /** @ngInject */
-  function UserDetailCoreController($scope, $stateParams, mdbAPI, $q, toastr) {
+  function UserDetailCoreController($scope, $stateParams, mdbApiService, $q, toastr) {
     var vm = this;
 
-    activate();
+    mdbApiService.then(activate);
 
 
     function activate() {
@@ -31,11 +31,11 @@
     }
 
     function getUserOptouts() {
-      var a = mdbAPI.getUserOptouts($stateParams.ekstern_id).then(function(userOptouts) {
+      var a = mdbApiService.getUserOptouts($stateParams.ekstern_id).then(function(userOptouts) {
         $scope.userOptouts = userOptouts;
       });
 
-      var b = mdbAPI.getOptoutTypes().then(function(optoutsTypes) {
+      var b = mdbApiService.getOptoutTypes().then(function(optoutsTypes) {
         $scope.optoutsTypes = optoutsTypes;
       });
 
@@ -48,7 +48,7 @@
     }
 
     $scope.addOptout = function (optout) {
-      mdbAPI.addUserOptout($stateParams.ekstern_id, optout.type_id).then(function () {
+      mdbApiService.addUserOptout($stateParams.ekstern_id, optout.type_id).then(function () {
         $scope.add_optoutsType = null; // Clearing the dropdown
         optout.insert_ts = '(refresh browser)';
         $scope.userOptouts.push(optout)
@@ -60,7 +60,7 @@
     };
 
     $scope.deleteOptout = function (optout, index) {
-      mdbAPI.deleteUserOptout($stateParams.ekstern_id, optout.type_id).then(function () {
+      mdbApiService.deleteUserOptout($stateParams.ekstern_id, optout.type_id).then(function () {
         $scope.userOptouts.splice(index, 1);
         toastr.success('Optout slettet');
       }, function (error) {

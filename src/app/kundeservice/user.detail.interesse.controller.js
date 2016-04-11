@@ -6,11 +6,11 @@
     .controller('UserDetailInteresseController', UserDetailInteresseController);
 
   /** @ngInject */
-  function UserDetailInteresseController($scope, $stateParams, mdbAPI) {
+  function UserDetailInteresseController($scope, $stateParams, mdbApiService) {
     var vm = this;
     vm.scope = $scope;
 
-    activate();
+    mdbApiService.then(activate);
 
     $scope.user_has_interesse = function (value) {
       if (vm.scope.$parent.user === undefined) {
@@ -30,7 +30,7 @@
 
       $scope.interesser = {};
 
-      mdbAPI.getInteresserFull().then(function(all) {
+      mdbApiService.getInteresserFull().then(function(all) {
         $scope.interesserFull = [];
         all.forEach(function (interesse) {
           $scope.interesserFull.push(interesse);

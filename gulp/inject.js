@@ -20,6 +20,8 @@ gulp.task('inject', ['styles'], function () {
     path.join(conf.paths.src, '/app/**/*.js'),
     path.join('!' + conf.paths.src, '/app/**/*.spec.js'),
     path.join('!' + conf.paths.src, '/app/**/*.mock.js'),
+    path.join('./bower_components/min/moment-with-locales.min.js'),
+    path.join('./bower_components/locale/da.js')
   ])
   .pipe($.angularFilesort()).on('error', conf.errorHandler('AngularFilesort'));
 

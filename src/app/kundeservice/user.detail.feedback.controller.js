@@ -6,19 +6,15 @@
     .controller('UserDetailFeedbackController', UserDetailFeedbackController);
 
   /** @ngInject */
-  function UserDetailFeedbackController($scope, $stateParams, mdbAPI) {
+  function UserDetailFeedbackController($scope, $stateParams, mdbApiService) {
     var vm = this;
 
-    activate();
-
-    function getUserHistory() {
-      mdbAPI.getUserHistory($stateParams.ekstern_id).then(function(history) {
-        $scope.history = history;
-      });
-    }
+    mdbApiService.then(activate);
 
     function activate() {
-      getUserHistory();
+      mdbApiService.getUserHistory($stateParams.ekstern_id).then(function(history) {
+        $scope.history = history;
+      });
     }
 
   }

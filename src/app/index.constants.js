@@ -6,7 +6,6 @@
     .module('nyhedsbreveprofiladmin')
     .constant('moment', moment)
     .constant("nyhedsbreveprofiladminConfig", {
-      "APIBASEURL": "/backend/",
       "LOCATIONID": 2019,
       "SMARTLINK_BASEURL": "http://profil.berlingskemedia.dk/smartlinks"
     });

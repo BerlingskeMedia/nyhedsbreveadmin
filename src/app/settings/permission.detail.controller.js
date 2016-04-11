@@ -6,20 +6,20 @@
     .controller('PermissionDetailController', PermissionDetailController);
 
   /** @ngInject */
-  function PermissionDetailController($scope, $stateParams, $state, errorhandler, toastr,  mdbAPI) {
+  function PermissionDetailController($scope, $stateParams, $state, errorhandler, toastr,  mdbApiService) {
     var vm = this;
 
     vm.update = update;
     vm.delete = deleteNyhedsbrev;
     vm.create = create;
 
-    activate();
+    mdbApiService.then(activate);
 
     function activate() {
       vm.createMode = $state.current.name === 'settings.permission-create';
       $scope.state = 'permission'
 
-      mdbAPI.getPublishers().then(function(publishers) {
+      mdbApiService.getPublishers().then(function(publishers) {
         vm.publishers = publishers;
       });
 
@@ -28,14 +28,14 @@
           enabled: 1
         };
       } else {
-        mdbAPI.getPermission($stateParams.id).then(function(nyhedsbrev) {
+        mdbApiService.getPermission($stateParams.id).then(function(nyhedsbrev) {
           vm.nyhedsbrev = nyhedsbrev;
         });
       }
     }
 
     function create(nyhedsbrev) {
-      return mdbAPI.createNyhedsbrev(nyhedsbrev)
+      return mdbApiService.createNyhedsbrev(nyhedsbrev)
       .then(function(nyhedsbrev) {
         toastr.success('Permission oprettet');
         $state.go('settings.permission-detail', {id: nyhedsbrev.nyhedsbrev_id});
@@ -44,7 +44,7 @@
     }
 
     function update(nyhedsbrev) {
-      return mdbAPI.putNyhedsbrev(nyhedsbrev)
+      return mdbApiService.putNyhedsbrev(nyhedsbrev)
       .then(function(nyhedsbrev) {
         toastr.success('Permission opdateret');
         vm.nyhedsbrev = nyhedsbrev;
@@ -53,7 +53,7 @@
     }
 
     function deleteNyhedsbrev(nyhedsbrev) {
-      return mdbAPI.deleteNyhedsbrev(nyhedsbrev)
+      return mdbApiService.deleteNyhedsbrev(nyhedsbrev)
       .then(function(nyhedsbrev) {
         toastr.success('Permission slettet');
         vm.nyhedsbrev = nyhedsbrev;

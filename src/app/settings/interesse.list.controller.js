@@ -6,22 +6,22 @@
     .controller('InteresseListController', InteresseListController);
 
   /** @ngInject */
-  function InteresseListController($scope, mdbAPI) {
+  function InteresseListController($scope, mdbApiService) {
     var vm = this;
 
-    activate();
+    mdbApiService.then(activate);
 
     function activate() {
       $scope.sortType = "interesse_id";
 
-      mdbAPI.getInteresseTypes().then(function(interesseTypes) {
+      mdbApiService.getInteresseTypes().then(function(interesseTypes) {
         $scope.interesseTypes = interesseTypes;
 
         getInteresser();
 
         // vm.interesser = [];
         // $scope.interesseTypes.forEach(function (interesseType) {
-        //   mdbAPI.getInteresser(interesseType.interesse_display_type_id).then(function(interesser) {
+        //   mdbApiService.getInteresser(interesseType.interesse_display_type_id).then(function(interesser) {
         //     console.log('hh', interesser)
         //     vm.interesser = vm.interesser.concat(interesser);
         //   });
@@ -30,7 +30,7 @@
     }
 
     function getInteresser (displayTypeId) {
-      mdbAPI.getInteresserFull(displayTypeId).then(function(interesser) {
+      mdbApiService.getInteresserFull(displayTypeId).then(function(interesser) {
         vm.interesser = [];
         interesser.forEach(function (interesse) {
           vm.interesser.push(interesse);
@@ -45,7 +45,7 @@
     $scope.getInteresser = getInteresser;
 
     // $scope.getInteresseSiblings = function (displayTypeId, parent_id) {
-    //   mdbAPI.getInteresseSiblings(displayTypeId,parent_id).then(function(interesser) {
+    //   mdbApiService.getInteresseSiblings(displayTypeId,parent_id).then(function(interesser) {
     //     // TODO
     //   });
     // };

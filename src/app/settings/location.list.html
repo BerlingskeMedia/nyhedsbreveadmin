@@ -1,14 +1,22 @@
-<div class="table-responsive">
-  <form>
-    <div class="form-group">
-      <div class="input-group">
-        <div class="input-group-addon">
-          <span class="glyphicon glyphicon-search"></span>
-        </div>
-        <input type="text" class="form-control" placeholder="Søg" ng-model="searchterm">
+<div class="row">
+  <div class="col-sm-6">
+    <div class="input-group">
+      <div class="input-group-addon">
+        <span class="glyphicon glyphicon-search"></span>
       </div>
+      <input type="text" class="form-control" placeholder="Søg" ng-model="searchterm">
     </div>
-  </form>
+  </div>
+  <div class="col-sm-6">
+    <form class="form-inline">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Lokation" ng-model="new_location_tekst">
+      </div>
+      <button ng-click="vm.create(new_location_tekst)" type="submit" class="btn btn-success">Opret</a>
+    </form>
+  </div>
+</div>
+<div class="table-responsive">
   <table class="table table-condensed">
     <thead>
         <tr>
@@ -26,12 +34,14 @@
               <span ng-show="sortType == 'location_tekst' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
             </a>
           </th>
+          <th>Oprettet</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="location in vm.locations | orderBy:sortType:sortReverse | filter:searchterm ">
-          <td>{{::location.location_id}}</td>
-          <td>{{::location.location_tekst}}</td>
+          <td class="col-sm-1">{{::location.location_id}}</td>
+          <td class="col-sm-8">{{::location.location_tekst}}</td>
+          <td class="col-sm-3">{{::location.location_created_moment}}</td>
           <!-- <td>
             <input type="text" name="name" class="full-width" value="" ng-model="location.location_tekst" />
           </td>

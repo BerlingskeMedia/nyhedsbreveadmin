@@ -6,32 +6,21 @@
     .controller('UserDetailController', UserDetailController);
 
   /** @ngInject */
-  function UserDetailController($scope, $stateParams, $state, toastr, errorhandler, mdbAPI, $q) {
+  function UserDetailController($scope, $stateParams, $state, toastr, errorhandler, mdbApiService, $q) {
     var vm = this;
 
     if ($stateParams.ekstern_id === undefined || $stateParams.ekstern_id === '') {
       $state.go('user');
     }
 
-    activate();
-
-    function goto(state) {
-      $state.go(state);
-    }
+    mdbApiService.then(activate);
 
     function getInteresser() {
       // body...
     }
 
-    function getUser() {
-      $scope.user_promise = mdbAPI.getUser($stateParams.ekstern_id).then(function(user) {
-        $scope.user = user;
-      });
-    }
-
-
     function updateUser(user) {
-      return mdbAPI.updateUser(user)
+      return mdbApiService.updateUser(user)
       .then(function(savedUser) {
         if (savedUser.ekstern_id !== user.ekstern_id) {
           $state.go('user-detail.core', {ekstern_id: savedUser.ekstern_id});
@@ -49,10 +38,13 @@
     }
 
     function activate() {
-      getUser();
-      $scope.goto = goto;
-      $scope.updateUser = updateUser;
+      $scope.user_promise = mdbApiService.getUser($stateParams.ekstern_id).then(function(user) {
+        $scope.user = user;
+        console.log('user', user);
+      });
 
+      $scope.goto = $state.go;
+      $scope.updateUser = updateUser;
     }
   }
 })();

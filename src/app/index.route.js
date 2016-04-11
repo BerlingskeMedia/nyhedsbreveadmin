@@ -108,56 +108,56 @@
       })
       .state('user', {
         url: '/kundeservice',
-        templateUrl: 'app/user/user.list.html',
+        templateUrl: 'app/kundeservice/user.list.html',
         controller: 'UserListContoller',
         controllerAs: 'vm'
       })
       .state('user-detail', {
         url: '/kundeservice/:ekstern_id',
-        templateUrl: 'app/user/user.detail.menu.html',
+        templateUrl: 'app/kundeservice/user.detail.menu.html',
         controller: 'UserDetailController',
         controllerAs: 'vm',
         redirectTo: 'user-detail.core',
       })
         .state('user-detail.core', {
         url: '/stamdata',
-        templateUrl: 'app/user/user.detail.core.html',
+        templateUrl: 'app/kundeservice/user.detail.core.html',
         controller: 'UserDetailCoreController',
         controllerAs: 'vmCore'
       })
       .state('user-detail.nyhedsbrev', {
         url: '/nyhedsbrev',
-        templateUrl: 'app/user/user.detail.nyhedsbrev.html',
+        templateUrl: 'app/kundeservice/user.detail.nyhedsbrev.html',
         controller: 'UserDetailNyhedsbrevController',
         controllerAs: 'vm'
       })
       .state('user-detail.interesse', {
         url: '/interesse',
-        templateUrl: 'app/user/user.detail.interesse.html',
+        templateUrl: 'app/kundeservice/user.detail.interesse.html',
         controller: 'UserDetailInteresseController',
         controllerAs: 'vm'
       })
       .state('user-detail.permission', {
         url: '/permission',
-        templateUrl: 'app/user/user.detail.permission.html',
+        templateUrl: 'app/kundeservice/user.detail.permission.html',
         controller: 'UserDetailPermissionController',
         controllerAs: 'vm'
       })
       .state('user-detail.history', {
         url: '/historik',
-        templateUrl: 'app/user/user.detail.history.html',
+        templateUrl: 'app/kundeservice/user.detail.history.html',
         controller: 'UserDetailHistoryController',
         controllerAs: 'vm'
       })
       .state('user-detail.feedback', {
         url: '/feedback',
-        templateUrl: 'app/user/user.detail.feedback.html',
+        templateUrl: 'app/kundeservice/user.detail.feedback.html',
         controller: 'UserDetailFeedbackController',
         controllerAs: 'vm'
       })
       .state('user-detail.actions', {
         url: '/actions',
-        templateUrl: 'app/user/user.detail.actions.html',
+        templateUrl: 'app/kundeservice/user.detail.actions.html',
         controller: 'UserDetailActionsController',
         controllerAs: 'vm'
       });
