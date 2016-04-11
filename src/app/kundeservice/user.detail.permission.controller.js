@@ -6,11 +6,11 @@
     .controller('UserDetailPermissionController', UserDetailPermissionController);
 
   /** @ngInject */
-  function UserDetailPermissionController($scope, $stateParams, mdbAPI) {
+  function UserDetailPermissionController($scope, $stateParams, mdbApiService) {
     var vm = this;
     vm.scope = $scope;
 
-    activate();
+    mdbApiService.then(activate);
 
     $scope.in_user_permissions = function(value, index, array) {
       if (vm.scope.$parent.user === undefined) {
@@ -33,14 +33,10 @@
       return vm.scope.$parent.user.nyhedsbreve.indexOf(nyhedsbrev_id) > -1;
     };
 
-    function getPermissions() {
-      mdbAPI.getPermissions().then(function(permissions) {
-        $scope.permissions = permissions;
-      })
-    }
-
     function activate() {
-      getPermissions();
+      mdbApiService.getPermissions().then(function(permissions) {
+        $scope.permissions = permissions;
+      });
     }
   }
 })();

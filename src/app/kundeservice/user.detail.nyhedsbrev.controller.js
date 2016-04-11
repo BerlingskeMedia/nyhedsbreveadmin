@@ -6,11 +6,11 @@
     .controller('UserDetailNyhedsbrevController', UserDetailNyhedsbrevController);
 
   /** @ngInject */
-  function UserDetailNyhedsbrevController($scope, $stateParams, mdbAPI, $q) {
+  function UserDetailNyhedsbrevController($scope, $stateParams, mdbApiService, $q) {
     var vm = this;
     vm.scope = $scope;
 
-    activate();
+    mdbApiService.then(activate);
 
     $scope.in_user_nyhedsbreve = function(value, index, array) {
       if (vm.scope.$parent.user === undefined) {
@@ -34,12 +34,12 @@
     };
 
     function getNyhedsbreve() {
-      var nyhedsbreve_promise = mdbAPI.getNyhedsbreve().then(function(nyhedsbreve) {
+      var nyhedsbreve_promise = mdbApiService.getNyhedsbreve().then(function(nyhedsbreve) {
         $scope.nyhedsbreve = nyhedsbreve;
       });
 
       var deaktivatedNyhedsbreve = [];
-      var deaktivatedNyhedsbreve_promise = mdbAPI.getNyhedsbreve('enabled=0').then(function(result) {
+      var deaktivatedNyhedsbreve_promise = mdbApiService.getNyhedsbreve('enabled=0').then(function(result) {
         deaktivatedNyhedsbreve = result;
       });
 

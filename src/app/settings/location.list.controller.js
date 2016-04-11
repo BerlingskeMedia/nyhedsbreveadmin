@@ -6,15 +6,20 @@
     .controller('LocationListController', LocationController);
 
   /** @ngInject */
-  function LocationController($scope, toastr, errorhandler, mdbApiService) {
+  function LocationController($scope, toastr, errorhandler, mdbApiService, moment) {
     var vm = this;
-
+moment.locale('da');
+console.log('mo2', moment.locale());
     mdbApiService.then(activate);
 
     function activate() {
       $scope.sortType = 'location_id';
+      $scope.sortReverse = true;
       mdbApiService.getLocations().then(function(locations) {
         vm.locations = locations;
+        vm.locations.forEach(function (location) {
+          location.location_created_moment = moment(location.location_created).format('MMMM Do YYYY, h:mm:ss a');
+        });
       });
       vm.save = save;
       vm.create = create;

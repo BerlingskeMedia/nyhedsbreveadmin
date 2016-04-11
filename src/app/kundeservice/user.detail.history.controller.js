@@ -21,13 +21,13 @@
     });
 
   /** @ngInject */
-  function UserDetailHistoryController($scope, $stateParams, mdbAPI) {
+  function UserDetailHistoryController($scope, $stateParams, mdbApiService) {
     var vm = this;
 
-    activate();
+    mdbApiService.then(activate);
 
     function getUserHistory() {
-      mdbAPI.getUserHistory($stateParams.ekstern_id).then(function(history) {
+      mdbApiService.getUserHistory($stateParams.ekstern_id).then(function(history) {
         $scope.history = history;
       });
     }

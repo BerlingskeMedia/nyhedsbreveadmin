@@ -2,7 +2,7 @@
 'use strict';
 
 var Hapi = require('hapi'),
-    backend = require('./backend'),
+    // backend = require('./backend'),
     inert = require('inert'),
     mdbapi_hostname = process.env.MDBAPI_ADDRESS ? process.env.MDBAPI_ADDRESS : 'localhost',
     mdbapi_port = process.env.MDBAPI_PORT ? process.env.MDBAPI_PORT : '8000';

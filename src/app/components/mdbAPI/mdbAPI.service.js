@@ -102,7 +102,7 @@
           };
 
           service.getPermissions = function (query) {
-            return $http.get(baseurl + "nyhedsbreve?permission=1&".concat(query !== undefined ? query : ''))
+            return $http.get(baseurl + "nyhedsbreve?permission=1".concat(query !== undefined ? "&".concat(query) : ''))
             .then(_httpSuccessCallback);
           };
 

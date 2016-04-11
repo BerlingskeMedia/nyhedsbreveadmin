@@ -34,12 +34,14 @@
               <span ng-show="sortType == 'location_tekst' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
             </a>
           </th>
+          <th>Oprettet</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="location in vm.locations | orderBy:sortType:sortReverse | filter:searchterm ">
-          <td>{{::location.location_id}}</td>
-          <td>{{::location.location_tekst}}</td>
+          <td class="col-sm-1">{{::location.location_id}}</td>
+          <td class="col-sm-8">{{::location.location_tekst}}</td>
+          <td class="col-sm-3">{{::location.location_created_moment}}</td>
           <!-- <td>
             <input type="text" name="name" class="full-width" value="" ng-model="location.location_tekst" />
           </td>

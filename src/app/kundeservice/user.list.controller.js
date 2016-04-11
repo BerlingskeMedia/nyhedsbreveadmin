@@ -6,11 +6,11 @@
     .controller('UserListContoller', UserListContoller);
 
   /** @ngInject */
-  function UserListContoller($scope, $state, mdbAPI, toastr) {
+  function UserListContoller($scope, $state, mdbApiService, toastr) {
     var vm = this;
     vm.searching = false;
 
-    activate();
+    mdbApiService.then(activate);
 
     function search() {
       var searchPayload = {};
@@ -37,17 +37,18 @@
       }
 
       vm.searching = true;
-      mdbAPI.userSearch(searchPayload).then(function(users) {
+      mdbApiService.userSearch(searchPayload).then(function(users) {
         vm.users = users;
         vm.didSearch = true;
         vm.searching = false;
       });
     }
+
     function activate() {
       vm.didSearch = false;
       $scope.search = search;
 
-      mdbAPI.getOptoutTypes().then(function (optoutTypes) {
+      mdbApiService.getOptoutTypes().then(function (optoutTypes) {
         vm.optoutTypes = optoutTypes;
       });
     }
@@ -55,7 +56,8 @@
     $scope.createUser = function (email) {
       $scope.creatingUser = true;
       console.log(email);
-      mdbAPI.createUser(email).then(function(response) {
+
+      mdbApiService.createUser(email).then(function(response) {
         console.log(response)
         $state.go('user-detail', {ekstern_id: response.ekstern_id});
       }, function (response) {
@@ -68,7 +70,7 @@
 
     $scope.createOptout = function (email, type) {
       $scope.creatingOptout = true;
-      mdbAPI.createOptout(email, type).then(function() {
+      mdbApiService.createOptout(email, type).then(function() {
         toastr.success('Oprettet');
       }, function (response) {
         console.log(response);
