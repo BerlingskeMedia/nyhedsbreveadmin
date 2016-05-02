@@ -31,6 +31,10 @@
         });
 
         $q.all([a,b]).then(function () {
+          vm.toplevels = vm.toplevels.filter(function(toplevel) {
+            return toplevel.interesse_id !== vm.interesse.interesse_id;
+          });
+
           if (vm.interesse.parent_relations !== undefined && vm.interesse.parent_relations.length > 0) {
             $scope.active_parent = vm.toplevels.find(function (toplevel) {
               return toplevel.interesse_id === vm.interesse.parent_relations[0].interesse_id;
@@ -61,6 +65,9 @@
     $scope.setParent = function (toplevel) {
       if (toplevel === null) {
         vm.interesse.parent_relations[0] = {};
+      } else if (vm.interesse.interesse_id === toplevel.interesse_id) {
+        toastr.error('Cirkurlær overinteresse ikke tilladt.');
+        $scope.active_parent = {};
       } else {
         vm.interesse.parent_relations[0] = {
           interesse_id: vm.interesse.interesse_id,
