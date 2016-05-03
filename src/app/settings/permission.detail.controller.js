@@ -25,7 +25,8 @@
 
       if (vm.createMode) {
         vm.nyhedsbrev = {
-          enabled: 1
+          enabled: 1,
+          permission: 1
         };
       } else {
         mdbApiService.getPermission($stateParams.id).then(function(nyhedsbrev) {
