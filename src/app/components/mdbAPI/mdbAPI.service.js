@@ -18,11 +18,6 @@
             .then(_httpSuccessCallback);
           };
 
-          service.getPublishers = function (query) {
-            return $http.get(baseurl + "publishers?".concat(query !== undefined ? query : ''))
-            .then(_httpSuccessCallback);
-          };
-
           service.getPublisher = function (id) {
             return $http.get(baseurl + "publishers/" + id)
             .then(_httpSuccessCallback);
