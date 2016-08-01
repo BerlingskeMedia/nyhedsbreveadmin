@@ -6,7 +6,7 @@ var Hapi = require('hapi'),
     mdbapi_hostname = process.env.MDBAPI_ADDRESS ? process.env.MDBAPI_ADDRESS : 'localhost',
     mdbapi_port = process.env.MDBAPI_PORT ? process.env.MDBAPI_PORT : '8000';
 
-console.log('Using MDBAPI on ', mdbapi_hostname, 'and port', mdbapi_port);
+console.log('Using MDBAPI on', mdbapi_hostname, 'and port', mdbapi_port);
 
 var client = {
   register: function (plugin, options, next) {
