@@ -2,11 +2,11 @@
 'use strict';
 
 var Hapi = require('hapi'),
-    // backend = require('./backend'),
     inert = require('inert'),
     mdbapi_hostname = process.env.MDBAPI_ADDRESS ? process.env.MDBAPI_ADDRESS : 'localhost',
     mdbapi_port = process.env.MDBAPI_PORT ? process.env.MDBAPI_PORT : '8000';
 
+console.log('Using MDBAPI on ', mdbapi_hostname, 'and port', mdbapi_port);
 
 var client = {
   register: function (plugin, options, next) {
@@ -93,7 +93,6 @@ server.route({
 
 server.register(inert, cb);
 server.register(client, cb);
-// server.register(backend, { routes: { prefix: '/backend' } }, cb);
 
 if (!module.parent) {
   server.start(function() {
