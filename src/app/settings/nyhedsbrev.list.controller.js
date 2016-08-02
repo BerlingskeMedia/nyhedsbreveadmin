@@ -40,7 +40,6 @@
       });
 
       $q.all([a,b]).then(function () {
-        console.log('sdsds');
         $scope.publishers.forEach(function (publisher) {
           vm.nyhedsbreve.forEach(function (nyhedsbrev) {
             if (nyhedsbrev.publisher_id === publisher.publisher_id) {
