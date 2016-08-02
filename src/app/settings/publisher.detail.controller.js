@@ -18,6 +18,9 @@
     function activate() {
       vm.createMode = $state.current.name === 'settings.publisher-create';
       if (vm.createMode) {
+        vm.publisher = {
+          enabled: 1
+        };
         return;
       }
 
