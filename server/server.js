@@ -13,37 +13,50 @@ var client = {
 
     plugin.route({
       method: 'get',
-      path: '/scripts/{param*}',
+      path: '/bower_components/{param*}',
       handler: {
         directory: {
-          path: 'dist/scripts'
+          path: 'bower_components'
         }
       }
     });
+
+    plugin.route({
+      method: 'get',
+      path: '/scripts/{param*}',
+      handler: {
+        directory: {
+          path: 'src/scripts'
+        }
+      }
+    });
+
     plugin.route({
       method: 'get',
       path: '/fonts/{param*}',
       handler: {
         directory: {
-          path: 'dist/fonts'
+          path: 'src/fonts'
         }
       }
     });
+
     plugin.route({
       method: 'get',
-      path: '/assets/{param*}',
+      path: '/app/{param*}',
       handler: {
         directory: {
-          path: 'dist/assets'
+          path: 'src/app'
         }
       }
     });
+
     plugin.route({
       method: 'get',
       path: '/styles/{param*}',
       handler: {
         directory: {
-          path: 'dist/styles'
+          path: 'src/styles'
         }
       }
     });
@@ -58,9 +71,33 @@ var client = {
 
     plugin.route({
       method: 'get',
+      path: '/favicon.ico',
+      handler: {
+        file: 'src/favicon.ico'
+      }
+    });
+
+    plugin.route({
+      method: 'get',
+      path: '/styles.css',
+      handler: {
+        file: 'src/styles.css'
+      }
+    });
+
+    plugin.route({
+      method: 'get',
+      path: '/nyhedsbreveprofiladmin.js',
+      handler: {
+        file: 'src/nyhedsbreveprofiladmin.js'
+      }
+    });
+
+    plugin.route({
+      method: 'get',
       path: '/{param*}',
       handler: {
-        file: 'dist/index.html'
+        file: 'src/index.html'
       }
     });
 
