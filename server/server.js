@@ -23,26 +23,6 @@ var client = {
 
     plugin.route({
       method: 'get',
-      path: '/scripts/{param*}',
-      handler: {
-        directory: {
-          path: 'src/scripts'
-        }
-      }
-    });
-
-    plugin.route({
-      method: 'get',
-      path: '/fonts/{param*}',
-      handler: {
-        directory: {
-          path: 'src/fonts'
-        }
-      }
-    });
-
-    plugin.route({
-      method: 'get',
       path: '/app/{param*}',
       handler: {
         directory: {
@@ -51,15 +31,6 @@ var client = {
       }
     });
 
-    plugin.route({
-      method: 'get',
-      path: '/styles/{param*}',
-      handler: {
-        directory: {
-          path: 'src/styles'
-        }
-      }
-    });
 
     plugin.route({
       method: 'get',
@@ -73,23 +44,7 @@ var client = {
       method: 'get',
       path: '/favicon.ico',
       handler: {
-        file: 'src/favicon.ico'
-      }
-    });
-
-    plugin.route({
-      method: 'get',
-      path: '/styles.css',
-      handler: {
-        file: 'src/styles.css'
-      }
-    });
-
-    plugin.route({
-      method: 'get',
-      path: '/nyhedsbreveprofiladmin.js',
-      handler: {
-        file: 'src/nyhedsbreveprofiladmin.js'
+        file: 'src/favicon.png'
       }
     });
 
