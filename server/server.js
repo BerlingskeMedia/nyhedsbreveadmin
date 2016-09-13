@@ -13,40 +13,24 @@ var client = {
 
     plugin.route({
       method: 'get',
-      path: '/scripts/{param*}',
+      path: '/bower_components/{param*}',
       handler: {
         directory: {
-          path: 'dist/scripts'
+          path: 'bower_components'
         }
       }
     });
+
     plugin.route({
       method: 'get',
-      path: '/fonts/{param*}',
+      path: '/app/{param*}',
       handler: {
         directory: {
-          path: 'dist/fonts'
+          path: 'src/app'
         }
       }
     });
-    plugin.route({
-      method: 'get',
-      path: '/assets/{param*}',
-      handler: {
-        directory: {
-          path: 'dist/assets'
-        }
-      }
-    });
-    plugin.route({
-      method: 'get',
-      path: '/styles/{param*}',
-      handler: {
-        directory: {
-          path: 'dist/styles'
-        }
-      }
-    });
+
 
     plugin.route({
       method: 'get',
@@ -58,9 +42,17 @@ var client = {
 
     plugin.route({
       method: 'get',
+      path: '/favicon.ico',
+      handler: {
+        file: 'src/favicon.png'
+      }
+    });
+
+    plugin.route({
+      method: 'get',
       path: '/{param*}',
       handler: {
-        file: 'dist/index.html'
+        file: 'src/index.html'
       }
     });
 

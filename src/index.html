@@ -6,18 +6,51 @@
     <title>Profiladmin</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-    <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
-    <!-- bower:css -->
-    <!-- run `gulp inject` to automatically populate bower styles dependencies -->
-    <!-- endbower -->
-    <!-- endbuild -->
-    <!-- build:css({.tmp/serve,src}) styles/app.css -->
-    <!-- inject:css -->
-    <!-- css files will be automatically insert here -->
-    <!-- endinject -->
-    <!-- endbuild -->
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="/bower_components/moment/moment.js"></script>
+    <script src="/bower_components/angular-moment/angular-moment.min.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="/bower_components/angular-cookies/angular-cookies.min.js"></script>
+    <script src="/bower_components/angular-touch/angular-touch.min.js"></script>
+    <script src="/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="/bower_components/angular-messages/angular-messages.min.js"></script>
+    <script src="/bower_components/angular-aria/angular-aria.min.js"></script>
+    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <link href="/bower_components/angular-bootstrap/ui-bootstrap-csp.css" rel="stylesheet">
+    <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="/bower_components/angular-toastr/dist/angular-toastr.tpls.min.js"></script>
+    <link href="/bower_components/angular-toastr/dist/angular-toastr.min.css" rel="stylesheet">
+    <script src="/bower_components/checklist-model/checklist-model.js"></script>
+
+    <link href="/app/styles.css" rel="stylesheet">
+    <script src="/app/main.js"></script>
+    <script src="/app/settings/publisher.list.controller.js"></script>
+    <script src="/app/components/errorhandler/errorhandler.service.js"></script>
+    <script src="/app/components/errormessage/errormessage.directive.js"></script>
+    <script src="/app/components/mdbAPI/mdbAPI.service.js"></script>
+    <script src="/app/kundeservice/user.detail.actions.controller.js"></script>
+    <script src="/app/kundeservice/user.detail.controller.js"></script>
+    <script src="/app/kundeservice/user.detail.core.controller.js"></script>
+    <script src="/app/kundeservice/user.detail.feedback.controller.js"></script>
+    <script src="/app/kundeservice/user.detail.history.controller.js"></script>
+    <script src="/app/kundeservice/user.detail.interesse.controller.js"></script>
+    <script src="/app/kundeservice/user.detail.nyhedsbrev.controller.js"></script>
+    <script src="/app/kundeservice/user.detail.permission.controller.js"></script>
+    <script src="/app/kundeservice/user.list.controller.js"></script>
+    <script src="/app/settings/interesse.detail.controller.js"></script>
+    <script src="/app/settings/interesse.list.controller.js"></script>
+    <script src="/app/settings/location.list.controller.js"></script>
+    <script src="/app/settings/nyhedsbrev.detail.controller.js"></script>
+    <script src="/app/settings/nyhedsbrev.list.controller.js"></script>
+    <script src="/app/settings/permission.detail.controller.js"></script>
+    <script src="/app/settings/permission.list.controller.js"></script>
+    <script src="/app/settings/publisher.detail.controller.js"></script>
+    <script src="/app/settings/publisher.list.controller.js"></script>
+    <script src="/app/smartlinkbuilder/smartlinkbuilder.controller.js"></script>
   </head>
   <body>
     <!--[if lt IE 10]>
@@ -26,22 +59,5 @@
     <div class="container">
       <div ui-view></div>
     </div>
-
-    <!-- build:js(src) scripts/vendor.js -->
-    <!-- bower:js -->
-    <!-- run `gulp inject` to automatically populate bower script dependencies -->
-    <!-- endbower -->
-    <!-- endbuild -->
-
-    <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
-    <!-- inject:js -->
-    <!-- js files will be automatically insert here -->
-    <!-- endinject -->
-
-    <!-- inject:partials -->
-    <!-- angular templates will be automatically converted in js and inserted here -->
-    <!-- endinject -->
-    <!-- endbuild -->
-
   </body>
 </html>
