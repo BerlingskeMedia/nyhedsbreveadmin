@@ -17,9 +17,8 @@ RUN wget -O - http://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION-linux-x64.
 # Mount current dir as a volume containing all source code.
 WORKDIR /nyhedsbreveprofiladmin
 
-COPY ./dist /nyhedsbreveprofiladmin/dist
-COPY ./node_modules/hapi /nyhedsbreveprofiladmin/node_modules/hapi
-COPY ./node_modules/inert /nyhedsbreveprofiladmin/node_modules/inert
+COPY ./src /nyhedsbreveprofiladmin/src
+COPY ./node_modules /nyhedsbreveprofiladmin/node_modules
 COPY ./server /nyhedsbreveprofiladmin/server
 
 EXPOSE 8000
