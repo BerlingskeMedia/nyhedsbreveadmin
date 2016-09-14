@@ -18,8 +18,20 @@
         .catch(errorhandler.errorhandler);
     }
 
+    function resetExactTarget(){
+      var task = {
+        task_type: 'exacttarget:user_reset',
+        user_id: $scope.user.user_id
+      };
+      mdbApiService.createTask(task).then(function() {
+        toastr.success('Reset scheduleret');
+      })
+      .catch(errorhandler.errorhandler);
+    }
+
     function activate() {
       $scope.sendProfileLink = sendProfileLink;
+      $scope.resetExactTarget = resetExactTarget;
     }
   }
 })();

@@ -201,6 +201,11 @@
             .then(_httpSuccessCallback);
           };
 
+          service.createTask = function (task) {
+            return $http.post(baseurl + 'tasks', task)
+            .then(_httpSuccessCallback);
+          };
+
           return service;
         };
 
