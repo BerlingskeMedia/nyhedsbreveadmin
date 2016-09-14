@@ -18,6 +18,7 @@ RUN wget -O - http://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION-linux-x64.
 WORKDIR /nyhedsbreveprofiladmin
 
 COPY ./src /nyhedsbreveprofiladmin/src
+COPY ./bower_components /nyhedsbreveprofiladmin/bower_components
 COPY ./node_modules /nyhedsbreveprofiladmin/node_modules
 COPY ./server /nyhedsbreveprofiladmin/server
 
