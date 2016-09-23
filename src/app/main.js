@@ -201,13 +201,8 @@ function routerConfig($stateProvider, $urlRouterProvider) {
       controllerAs: 'vm'
     })
     .state('importer', {
-      templateUrl: 'app/importer/menu.html',
-      url: '/importer',
-      redirectTo: 'importer.uploader',
-    })
-    .state('importer.uploader', {
-      url: '/uploader',
       templateUrl: 'app/importer/uploader.html',
+      url: '/importer',
       controller: 'ImporterUploaderController',
       controllerAs: 'vm'
     });
