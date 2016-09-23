@@ -47,7 +47,6 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       encoding: 'ISO-8859-1',
       header: true,
     	step: function(row) {
-    		// console.log("Row:", row.data[0]);
 
         if(row.errors.length > 0){
           console.error(row);
@@ -161,6 +160,10 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
 
   $scope.importUsers = function(){
     alert('Ikke implementeret');
+  };
+
+  $scope.downloadResult = function(){
+
   };
 
   function handleFileSelect(evt) {
