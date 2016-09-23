@@ -110,17 +110,22 @@
 <table class="table table-bordered" ng-if="rows.length > 0">
   <thead>
     <tr>
-      <th>Status</th>
-      <th ng-repeat="header in headers">{{::header}}</th>
+      <th>
+      </th>
+      <th ng-repeat="header in headers">
+        <span ng-class="{'text-primary': header.mapped}">{{::header.originalHeaderName}}</span>
+        <small ng-if="header.mapped"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></small>
+      </th>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat="row in rows track by $index" ng-class="{'info': row.found, 'success': row.imported, 'warning': row.notfound, 'danger': row.error}">
       <td>
-        <span ng-if="row.notfound">Oprettes</span>
-        <span ng-if="row.found">Fundet</span>
-        <span ng-if="row.imported">Importeret</span>
-        <span ng-if="row.error">Fejl</span>
+          <span ng-if="row.notfound">Oprettes</span>
+          <span ng-if="row.found">Fundet</span>
+          <span ng-if="row.imported">Importeret</span>
+          <span ng-if="row.error">Fejl</span>
+        </em>
       </td>
       <td ng-repeat="field in flattenRowData(row.data) track by $index">
         {{::field}}

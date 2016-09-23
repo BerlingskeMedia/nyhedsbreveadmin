@@ -60,9 +60,10 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
         $scope.rows.push(row);
 
         if(!headerCalculated){
-          var headers = Object.keys(row.data);
-          $scope.headers = headers;
-          headerMapping = calculateHeadersMapping(headers);
+          var csvHeaders = Object.keys(row.data);
+          headerMapping = calculateHeadersMapping(csvHeaders);
+          console.log('headerMapping', headerMapping);
+          $scope.headers = headerMapping;
           headerCalculated = true;
         }
     	},
@@ -91,21 +92,64 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
   // {"key": "Email Demographics.ZipCodeOther"}
 
   function calculateHeadersMapping(headers){
-    return {
-      email: findMapping(['Email', 'Email Address', 'Email_Address']),
-      fornavn: findMapping(['Fornavn', 'FirstName', 'First Name', 'First_Name']),
-      efternavn: findMapping(['Efternavn', 'LastName', 'Last Name', 'Last_Name']),
-      postnummer: findMapping(['Postnummer', 'ZipCode']),
-      bynavn: findMapping(['Bynavn']),
-      land: findMapping(['land']),
-      koen: findMapping(['koen']),
-      foedselsdato: findMapping(['Foedselsdato', 'Birthyear','Fødselsdato'])
+    // return {
+    //   email: findMapping(['Email', 'Email Address', 'Email_Address']),
+    //   fornavn: findMapping(['Fornavn', 'FirstName', 'First Name', 'First_Name']),
+    //   efternavn: findMapping(['Efternavn', 'LastName', 'Last Name', 'Last_Name']),
+    //   postnummer: findMapping(['Postnummer', 'ZipCode']),
+    //   bynavn: findMapping(['Bynavn']),
+    //   land: findMapping(['land']),
+    //   koen: findMapping(['koen']),
+    //   foedselsdato: findMapping(['Foedselsdato', 'Birthyear','Fødselsdato'])
+    // };
+    var mapping = {
+      email: {
+        aliases: ['Email', 'Email Address', 'Email_Address'],
+        etName: 'Email Address'
+      },
+      fornavn: {
+        aliases: ['Fornavn', 'FirstName', 'First Name', 'First_Name'],
+        etName: 'FirstName'
+      },
+      efternavn: {
+        aliases: ['Efternavn', 'LastName', 'Last Name', 'Last_Name'],
+        etName: 'LastName'
+      },
+      postnummer: {
+        aliases: ['Postnummer', 'ZipCode', 'Postal_Code'],
+        etName: 'ZipCode'
+      },
+      bynavn: {
+        aliases: ['Bynavn'],
+        etName: null
+      },
+      land: {
+        aliases: ['land'],
+        etName: null
+      },
+      koen: {
+        aliases: ['koen'],
+        etName: 'Sex'
+      },
+      foedselsdato: {
+        aliases: ['Foedselsdato', 'Birthyear','Fødselsdato'],
+        etName: 'Birthyear'
+      },
     };
 
-    function findMapping(aliases){
-      var temp = aliases.map(function(i){return i.toLowerCase();});
-      return headers.find(function(h){
-        return temp.indexOf(h.toLowerCase()) > -1;
+    return headers.map(function(h){
+      var m = findMapping(h);
+      return {
+        originalHeaderName: h,
+        mapped: m !== undefined,
+        mdbName: m !== undefined ? m : null
+      };
+    });
+
+    function findMapping(header){
+      return Object.keys(mapping).find(function(key){
+        var temp = mapping[key].aliases.map(function(i){return i.toLowerCase();});
+        return temp.indexOf(header.toLowerCase()) > -1;
       });
     }
   }
@@ -113,7 +157,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
 
   $scope.flattenRowData = function(rowData){
     return Object.keys(rowData).map(function(index){ return rowData[index]; });
-  }
+  };
 
   $scope.validateUsers = function(){
     $scope.validatedUsersIndex = 0;
@@ -131,7 +175,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     function validate(){
       var rowData = $scope.rows[$scope.validatedUsersIndex].data;
 
-      mdbApiService.userSearch({email: rowData[headerMapping.email]}).then(function(users){
+      mdbApiService.userSearch({email: rowData[headerMapping.email.originalHeaderName]}).then(function(users){
 
         if (users.length === 0){
           ++$scope.totalUsersToInsert;
