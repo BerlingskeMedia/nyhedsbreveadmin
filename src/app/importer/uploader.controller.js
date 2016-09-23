@@ -61,10 +61,8 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
 
         if(!headerCalculated){
           var headers = Object.keys(row.data);
-          console.log('headers', headers);
           $scope.headers = headers;
           headerMapping = calculateHeadersMapping(headers);
-          console.log('headerMapping', headerMapping);
           headerCalculated = true;
         }
     	},
@@ -141,6 +139,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
         } else if (users.length === 1){
           ++$scope.totalUsersFound;
           $scope.rows[$scope.validatedUsersIndex].found = true;
+          mdbApiService.getUser(users[0].ekstern_id, '?optouts=1&permissions=1').then(setMdbData($scope.rows[$scope.validatedUsersIndex]));
         } else if (users.length > 1){
           $scope.rows[$scope.validatedUsersIndex].error = true;
           $scope.rows[$scope.validatedUsersIndex].errors.push({code: 'TooManyRecords', message: 'Too many records found', row: $scope.validatedUsersIndex});
@@ -158,17 +157,57 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     }
   };
 
+  function setMdbData(row){
+    return function(user){
+      row.mdbdata = {
+        user_id: user.user_id,
+        ekstern_id: user.ekstern_id,
+        nyhedsbreve: etPimping(user.nyhedsbreve),
+        interesser: etPimping(user.interesser),
+        permissions: etPimping(user.permissions),
+        optouts: etPimping(user.optouts.map(function(o){return o.type_id;}))
+      };
+    };
+  }
+
+  function etPimping(input){
+    if (input === undefined || !input instanceof Array){
+      return null;
+    }
+    return '|'.concat(input.join('|'), '|');
+  }
+
   $scope.importUsers = function(){
+    $scope.allRowsImported = true;
     alert('Ikke implementeret');
   };
 
   $scope.downloadResult = function(){
+    var resultContent = $scope.rows.map(function(r){
+      var data = {};
+      copyObject(r.data, data);
+      copyObject(r.mdbdata, data);
+      return data;
+    });
 
+    function copyObject(fromObject, toObject){
+      Object.keys(fromObject).forEach(function(key){
+        toObject[key] = fromObject[key];
+      });
+    }
+
+    var csvResult = Papa.unparse(resultContent, {delimiter:';'});
+    var filename = $scope.importFile.name;
+    filename = filename.substring(0, filename.indexOf('.')).concat('_importresult_', Date.now(), '.csv');
+    download(filename, csvResult);
   };
 
   function handleFileSelect(evt) {
     $scope.rows = [];
     $scope.importFile = evt.target.files[0]; // FileList object
+    $scope.allRowsParsed = false;
+    $scope.allRowsValidated = false;
+    $scope.allRowsImported = false;
     $scope.$digest();
   }
   document.getElementById('importFile').addEventListener('change', handleFileSelect, false);
@@ -217,7 +256,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     // });
   }
 
-  $scope.getCsvSampleFile = function() {
+  $scope.downloadCsvSampleFile = function() {
     // email;fornavn;efternavn;co_navn;vejnavn;husnummer;husbogstav;etage;sidedoer;stednavn;bynavn;postnummer;postnummer_dk;land;firma;firma_adresse;lande_kode;udland_flag;alder;foedselsaar;foedselsdato;koen;telefon;mobil;komvej_kode;status_kode;bbs_abo_nr;mol_bbs_nr;robinson_flag
     var csvSample = Papa.unparse([[
       'email',
@@ -228,9 +267,17 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       'land',
       'koen',
       'foedselsdato']], {delimiter:';'});
-    return $sce.trustAsHtml([
-      '<a class="" href="data:application/octet-stream,'.concat(encodeURIComponent(csvSample), '">'),
-        'Download eksempelfil',
-      '</a>'].join(''));
+
+      download('sample.csv', csvSample);
   };
+
+  function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
 }

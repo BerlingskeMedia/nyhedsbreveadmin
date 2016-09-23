@@ -69,7 +69,10 @@
 <hr />
 
 <form class="form-inline">
-  <p class="help-block">Indlæs en CSV fil og se indhold. (<small><span ng-bind-html="::getCsvSampleFile()"></span></small>)</p>
+  <p class="help-block">Indlæs en CSV fil og se indhold.
+    <span>(<small><a class="" href="#" ng-click="downloadCsvSampleFile()">Download eksempelfil</a></small>)</span>
+  </p>
+
   <div class="form-group">
     <input type="file" id="importFile" name="importFile" />
   </div>
@@ -81,7 +84,10 @@
   <button ng-class="" class="btn btn-default btn-sm" ng-click="parseFileContent()">Se indhold</button>
   <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsParsed" ng-click="validateUsers()">Validér brugere</button>
   <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsValidated" ng-click="importUsers()">Importér</button>
-  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsValidated" ng-click="downloadResult()">Download resultat</button>
+  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsValidated" ng-click="downloadResult()">
+    <span ng-if="!allRowsImported">Download validering</span>
+    <span ng-if="allRowsImported">Download resultat</span>
+  </button>
 </form>
 
 <div class="row" ng-if="rows.length > 0">
