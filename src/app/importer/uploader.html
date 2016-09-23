@@ -111,6 +111,7 @@
   <thead>
     <tr>
       <th>
+        <span class="text-muted">Status</span>
       </th>
       <th ng-repeat="header in headers">
         <span ng-class="{'text-primary': header.mapped}">{{::header.originalHeaderName}}</span>
@@ -121,6 +122,7 @@
   <tbody>
     <tr ng-repeat="row in rows track by $index" ng-class="{'info': row.found, 'success': row.imported, 'warning': row.notfound, 'danger': row.error}">
       <td>
+        <em class="text-muted">
           <span ng-if="row.notfound">Oprettes</span>
           <span ng-if="row.found">Fundet</span>
           <span ng-if="row.imported">Importeret</span>
