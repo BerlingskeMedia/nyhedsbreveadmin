@@ -38,6 +38,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
 
     $scope.headers = [];
     $scope.rows = [];
+    $scope.totalUsersCount = 0;
     $scope.allRowsParsed = false;
     $scope.allRowsValidated = false;
     var headerCalculated = false;
@@ -58,12 +59,14 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
 
         row.data = row.data[0];
         $scope.rows.push(row);
+        ++$scope.totalUsersCount;
 
         if(!headerCalculated){
-          var csvHeaders = Object.keys(row.data);
-          headerMapping = calculateHeadersMapping(csvHeaders);
-          console.log('headerMapping', headerMapping);
-          $scope.headers = headerMapping;
+          calculateHeadersMapping(row.data);
+          // var csvHeaders = Object.keys(row.data);
+          // headerMapping = calculateHeadersMapping(row.data);
+          // console.log('headerMapping', headerMapping);
+          // $scope.headers = headerMapping;
           headerCalculated = true;
         }
     	},
@@ -91,67 +94,77 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
   // {"key": "Email Demographics.ZipCode"},
   // {"key": "Email Demographics.ZipCodeOther"}
 
-  function calculateHeadersMapping(headers){
-    // return {
-    //   email: findMapping(['Email', 'Email Address', 'Email_Address']),
-    //   fornavn: findMapping(['Fornavn', 'FirstName', 'First Name', 'First_Name']),
-    //   efternavn: findMapping(['Efternavn', 'LastName', 'Last Name', 'Last_Name']),
-    //   postnummer: findMapping(['Postnummer', 'ZipCode']),
-    //   bynavn: findMapping(['Bynavn']),
-    //   land: findMapping(['land']),
-    //   koen: findMapping(['koen']),
-    //   foedselsdato: findMapping(['Foedselsdato', 'Birthyear','Fødselsdato'])
-    // };
-    var mapping = {
-      email: {
-        aliases: ['Email', 'Email Address', 'Email_Address'],
+  function calculateHeadersMapping(rowData){
+    var csvHeaders = Object.keys(rowData);
+
+    var mappings = [
+      {
+        mdbName: 'email',
+        aliases: ['EmailAddress', 'Email Address', 'Email_Address'],
         etName: 'Email Address'
       },
-      fornavn: {
-        aliases: ['Fornavn', 'FirstName', 'First Name', 'First_Name'],
+      {
+        mdbName: 'fornavn',
+        aliases: ['FirstName', 'First Name', 'First_Name'],
         etName: 'FirstName'
       },
-      efternavn: {
-        aliases: ['Efternavn', 'LastName', 'Last Name', 'Last_Name'],
+      {
+        mdbName: 'efternavn',
+        aliases: ['LastName', 'Last Name', 'Last_Name'],
         etName: 'LastName'
       },
-      postnummer: {
-        aliases: ['Postnummer', 'ZipCode', 'Postal_Code'],
+      {
+        mdbName: 'postnummer',
+        aliases: ['ZipCode', 'Zip Code', 'Zip_Code', 'PostalCode', 'Postal Code', 'Postal_Code'],
         etName: 'ZipCode'
       },
-      bynavn: {
-        aliases: ['Bynavn'],
+      {
+        mdbName: 'bynavn',
+        aliases: ['City'],
         etName: null
       },
-      land: {
-        aliases: ['land'],
+      {
+        mdbName: 'land',
+        aliases: ['Country'],
         etName: null
       },
-      koen: {
-        aliases: ['koen'],
+      {
+        mdbName: 'koen',
+        aliases: ['Sex'],
         etName: 'Sex'
       },
-      foedselsdato: {
-        aliases: ['Foedselsdato', 'Birthyear','Fødselsdato'],
+      {
+        mdbName: 'foedselsdato',
+        aliases: ['Birthyear', 'Fødselsdato'],
         etName: 'Birthyear'
-      },
-    };
+      }
+    ];
 
-    return headers.map(function(h){
-      var m = findMapping(h);
+    $scope.headers = csvHeaders.map(function(header){
+      var mapping = mappings.find(function(m){
+        if (header.toLowerCase() === m.mdbName.toLowerCase()) {
+          return true;
+        } else {
+          var temp = m.aliases.map(function(a){return a.toLowerCase();});
+          return temp.indexOf(header.toLowerCase()) > -1;
+        }
+      });
+
       return {
-        originalHeaderName: h,
-        mapped: m !== undefined,
-        mdbName: m !== undefined ? m : null
+        mapped: mapping !== undefined,
+        mdbName: mapping !== undefined ? mapping.mdbName : null,
+        etName: mapping !== undefined ? mapping.etName : null,
+        csvName: header
       };
     });
 
-    function findMapping(header){
-      return Object.keys(mapping).find(function(key){
-        var temp = mapping[key].aliases.map(function(i){return i.toLowerCase();});
-        return temp.indexOf(header.toLowerCase()) > -1;
-      });
-    }
+    console.log('headerMapping', $scope.headers);
+  }
+
+  function findMapped(key){
+    return $scope.headers.find(function(header){
+      return header.mdbName === key;
+    });
   }
 
 
@@ -175,11 +188,12 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     function validate(){
       var rowData = $scope.rows[$scope.validatedUsersIndex].data;
 
-      mdbApiService.userSearch({email: rowData[headerMapping.email.originalHeaderName]}).then(function(users){
+      mdbApiService.userSearch({email: rowData[findMapped('email').csvName]}).then(function(users){
 
         if (users.length === 0){
           ++$scope.totalUsersToInsert;
           $scope.rows[$scope.validatedUsersIndex].notfound = true;
+          setEmptyMdbData($scope.rows[$scope.validatedUsersIndex])
         } else if (users.length === 1){
           ++$scope.totalUsersFound;
           $scope.rows[$scope.validatedUsersIndex].found = true;
@@ -214,6 +228,17 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     };
   }
 
+  function setEmptyMdbData(row){
+    row.mdbdata = {
+      user_id: '',
+      ekstern_id: '',
+      nyhedsbreve: '',
+      interesser: '',
+      permissions: '',
+      optouts: ''
+    };
+  }
+
   function etPimping(input){
     if (input === undefined || !input instanceof Array){
       return null;
@@ -227,10 +252,18 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
   };
 
   $scope.downloadResult = function(){
-    var resultContent = $scope.rows.map(function(r){
+    var resultContent = $scope.rows.map(function(row){
+      if (row.error || row.errors.length > 1){
+        return;
+      }
+
       var data = {};
-      copyObject(r.data, data);
-      copyObject(r.mdbdata, data);
+      if (row.data !== null && row.data !== undefined) {
+        copyObject(row.data, data);
+      }
+      if (row.mdbdata !== null && row.mdbdata !== undefined) {
+        copyObject(row.mdbdata, data);
+      }
       return data;
     });
 
@@ -248,6 +281,11 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
 
   function handleFileSelect(evt) {
     $scope.rows = [];
+    $scope.validatedUsersIndex = 0;
+    $scope.totalUsersCount = 0;
+    $scope.totalUsersFound = 0;
+    $scope.totalUsersToInsert = 0;
+    $scope.percentValidated = 0;
     $scope.importFile = evt.target.files[0]; // FileList object
     $scope.allRowsParsed = false;
     $scope.allRowsValidated = false;

@@ -82,22 +82,28 @@
     </label>
   </div> -->
   <button ng-class="" class="btn btn-default btn-sm" ng-click="parseFileContent()">Se indhold</button>
-  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsParsed" ng-click="validateUsers()">Validér brugere</button>
+  <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsParsed" ng-click="validateUsers()">Validér</button>
+  <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
   <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsValidated" ng-click="importUsers()">Importér</button>
+  <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
   <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsValidated" ng-click="downloadResult()">
     <span ng-if="!allRowsImported">Download validering</span>
     <span ng-if="allRowsImported">Download resultat</span>
   </button>
 </form>
 
-<div class="row" ng-if="rows.length > 0">
+<br />
+
+<div class="row">
   <div class="col-sm-12">
     Rækker: {{ totalUsersCount }} / Valideret: {{ validatedUsersIndex }} / Fundet: {{ totalUsersFound }}
-    <div class="progress" ng-if="percentValidated > 0">
+    <div class="progress">
       <div class="progress-bar" role="progressbar" aria-valuenow="{{ percentValidated }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percentValidated }}%;">
       </div>
     </div>
-    <div class="progress" ng-if="percentImported > 0">
+    Oprettet: {{ totalUsersInserted }} / Opdatering: {{ totalUsersUpdated }}
+    <div class="progress">
       <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ percentImported }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percentImported }}%;">
       </div>
     </div>
@@ -106,7 +112,6 @@
 
 <br />
 
-
 <table class="table table-bordered" ng-if="rows.length > 0">
   <thead>
     <tr>
@@ -114,8 +119,8 @@
         <span class="text-muted">Status</span>
       </th>
       <th ng-repeat="header in headers">
-        <span ng-class="{'text-primary': header.mapped}">{{::header.originalHeaderName}}</span>
-        <small ng-if="header.mapped"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></small>
+        <span ng-if="header.mapped" title="Mappet til {{ header.mdbName }}" class="text-primary">{{::header.csvName}}</span>
+        <span ng-if="!header.mapped">{{::header.csvName}}</span>
       </th>
     </tr>
   </thead>
