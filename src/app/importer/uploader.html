@@ -1,0 +1,147 @@
+<h2>Sowo Robo</h2>
+
+<p class="help-block">Generelle handler for alle rækker</p>
+
+<form class="form-inline" style="padding: 6px 0px;" ng-repeat="action in actions track by $index">
+  <p>Handling {{$index+1}}</p>
+  <div class="form-group form-group-sm">
+
+    <select class="form-control" ng-model="action.operation">
+      <option value="signup">Tilmeld</option>
+      <option value="signout">Afmeld</option>
+      <option value="campaign">Kampagne</option>
+    </select>
+
+    <input type="text" class="form-control" ng-model="action.id" placeholder="Navn" ng-if="action.operation === 'campaign'">
+
+    <span ng-if="action.operation === 'signup' || action.operation === 'signout'">
+
+      <select class="form-control" ng-model="action.type">
+        <option value="nyhedsbrev">Nyhedsbrev</option>
+        <option value="permission">Permission</option>
+        <option value="interesse">Interesse</option>
+        <option value="optout">Optout</option>
+      </select>
+
+      <select class="form-control" ng-model="action.id" ng-if="action.type === 'nyhedsbrev'">
+        <option disabled selected="selected" value="">Vælg</option>
+        <option ng-repeat="nyhedsbrev in nyhedsbreve" value="{{nyhedsbrev.nyhedsbrev_id}}">{{nyhedsbrev.nyhedsbrev_navn}}</option>
+      </select>
+
+      <select class="form-control" ng-model="action.id" ng-if="action.type === 'permission'">
+        <option disabled selected="selected" value="">Vælg</option>
+        <option ng-repeat="permission in permissions" value="{{permission.nyhedsbrev_id}}">{{permission.nyhedsbrev_navn}}</option>
+      </select>
+
+      <select class="form-control" ng-model="action.id" ng-if="action.type === 'interesse'">
+        <option disabled selected="selected" value="">Vælg</option>
+        <option ng-repeat="interesse in interesser" value="{{interesse.interesse_id}}">{{interesse.interesse_navn}}</option>
+      </select>
+
+      <select class="form-control" ng-model="action.id" ng-if="action.type === 'optout'">
+        <option disabled selected="selected" value="">Vælg</option>
+        <option ng-repeat="optout in optouts" value="{{optout.type_id}}">{{optout.type_desc}}</option>
+      </select>
+    </span>
+
+    <button ng-class="" class="btn btn-danger btn-sm" ng-click="removeAction($index)">
+      <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+    </button>
+
+  </div>
+</form>
+
+<form class="form">
+  <div class="form-group form-group-sm">
+    <button ng-class="" class="btn btn-primary btn-xs" ng-click="addAction()">Tilføj handling</button>
+  </div>
+</form>
+
+<!-- <form class="form">
+  <div class="form-group">
+    <select class="form-control" ng-model="location_id">
+      <option disabled selected="selected" value="">Vælg</option>
+      <option ng-repeat="location in locations" value="{{location.location_id}}">{{location.location_tekst}}</option>
+    </select>
+  </div>
+</form> -->
+
+<hr />
+
+<form class="form-inline">
+  <p class="help-block">Indlæs en CSV fil og se indhold.
+    <span>(<small><a class="" href="#" ng-click="downloadCsvSampleFile()">Download eksempelfil</a></small>)</span>
+  </p>
+
+  <div class="form-group">
+    <input type="file" id="importFile" name="importFile" />
+  </div>
+  <!-- <div class="checkbox">
+    <label>
+      <input type="checkbox"ng-model="fileHasHeader"> Første linie er header
+    </label>
+  </div> -->
+  <button ng-class="" class="btn btn-default btn-sm" ng-click="parseFileContent()">Se indhold</button>
+  <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsParsed" ng-click="validateUsers()">Validér</button>
+  <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsValidated" ng-click="importUsers()">Importér</button>
+  <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsValidated" ng-click="downloadResult()">
+    <span ng-if="!allRowsImported">Download validering</span>
+    <span ng-if="allRowsImported">Download resultat</span>
+  </button>
+</form>
+
+<br />
+
+<div class="row">
+  <div class="col-sm-12">
+    Rækker: {{ totalUsersCount }} / Valideret: {{ validatedUsersIndex }} / Fundet: {{ totalUsersFound }}
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{ percentValidated }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percentValidated }}%;">
+      </div>
+    </div>
+    Oprettet: {{ totalUsersInserted }} / Opdatering: {{ totalUsersUpdated }}
+    <div class="progress">
+      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ percentImported }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percentImported }}%;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<br />
+
+<table class="table table-bordered" ng-if="rows.length > 0">
+  <thead>
+    <tr>
+      <th>
+        <span class="text-muted">Status</span>
+      </th>
+      <th ng-repeat="header in headers">
+        <span ng-if="header.mapped" title="Mappet til {{ header.mdbName }}" class="text-primary">{{::header.csvName}}</span>
+        <span ng-if="!header.mapped">{{::header.csvName}}</span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="row in rows track by $index" ng-class="{'info': row.found, 'success': row.imported, 'warning': row.notfound, 'danger': row.error}">
+      <td>
+        <em class="text-muted">
+          <span ng-if="row.notfound">Oprettes</span>
+          <span ng-if="row.found">Fundet</span>
+          <span ng-if="row.imported">Importeret</span>
+          <span ng-if="row.error">Fejl</span>
+        </em>
+      </td>
+      <td ng-repeat="field in flattenRowData(row.data) track by $index">
+        {{::field}}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="row">
+  <div class="col-sm-12">
+  </div>
+</div>

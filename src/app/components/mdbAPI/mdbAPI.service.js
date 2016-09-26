@@ -156,8 +156,8 @@
             .then(_httpSuccessCallback);
           };
 
-          service.getUser = function (ekstern_id) {
-            return $http.get(baseurl + "users/" + ekstern_id)
+          service.getUser = function (ekstern_id, query) {
+            return $http.get(baseurl + "users/" + ekstern_id.concat(query !== undefined ? query : ''))
             .then(_httpSuccessCallback);
           };
 

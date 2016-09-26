@@ -53,6 +53,7 @@ function routerConfig($stateProvider, $urlRouterProvider) {
         '<li><p class="lead"><a ui-sref="settings">Settings</a></p></li>' +
         '<li><p class="lead"><a ui-sref="smartlinkbuilder">Smartlink Builder</a></p></li>' +
         '<li><p class="lead"><a ui-sref="user">Kundeservice</a></p></li>' +
+        // '<li><p class="lead"><a ui-sref="importer">Importer</a></p></li>' +
         '</ul>'
     })
     .state('settings', {
@@ -197,6 +198,12 @@ function routerConfig($stateProvider, $urlRouterProvider) {
       url: '/actions',
       templateUrl: 'app/kundeservice/user.detail.actions.html',
       controller: 'UserDetailActionsController',
+      controllerAs: 'vm'
+    })
+    .state('importer', {
+      templateUrl: 'app/importer/uploader.html',
+      url: '/importer',
+      controller: 'ImporterUploaderController',
       controllerAs: 'vm'
     });
 
