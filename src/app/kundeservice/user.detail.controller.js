@@ -20,6 +20,10 @@
     }
 
     function updateUser(user) {
+      if (user.koen === null){
+          user.koen = '';
+      }
+
       return mdbApiService.updateUser(user)
       .then(function(savedUser) {
         if (savedUser.ekstern_id !== user.ekstern_id) {
