@@ -45,7 +45,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
 
     Papa.parse($scope.importFile, {
     	worker: false,
-      encoding: 'ISO-8859-1',
+      encoding: 'UTF-8',
       header: true,
     	step: function(row) {
 
@@ -63,10 +63,6 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
 
         if(!headerCalculated){
           calculateHeadersMapping(row.data);
-          // var csvHeaders = Object.keys(row.data);
-          // headerMapping = calculateHeadersMapping(row.data);
-          // console.log('headerMapping', headerMapping);
-          // $scope.headers = headerMapping;
           headerCalculated = true;
         }
     	},
@@ -186,45 +182,67 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     }
 
     function validate(){
-      var rowData = $scope.rows[$scope.validatedUsersIndex].data;
+      var row =$scope.rows[$scope.validatedUsersIndex],
+          email = row.data[findMapped('email').csvName];
 
-      mdbApiService.userSearch({email: rowData[findMapped('email').csvName]}).then(function(users){
+      if (email === ''){
+        row.error = true;
+        row.errors.push('Email missing');
+        setEmptyMdbData(row);
+        rowValidationEnd();
+        return;
+      }
+
+      mdbApiService.userSearch({email: email}).then(function(users){
 
         if (users.length === 0){
           ++$scope.totalUsersToInsert;
-          $scope.rows[$scope.validatedUsersIndex].notfound = true;
-          setEmptyMdbData($scope.rows[$scope.validatedUsersIndex])
+          row.notfound = true;
+          setEmptyMdbData(row)
         } else if (users.length === 1){
           ++$scope.totalUsersFound;
-          $scope.rows[$scope.validatedUsersIndex].found = true;
-          mdbApiService.getUser(users[0].ekstern_id, '?optouts=1&permissions=1').then(setMdbData($scope.rows[$scope.validatedUsersIndex]));
+          row.found = true;
+          mdbApiService.getUser(users[0].ekstern_id, '?optouts=1&permissions=1').then(setMdbData(row));
         } else if (users.length > 1){
-          $scope.rows[$scope.validatedUsersIndex].error = true;
-          $scope.rows[$scope.validatedUsersIndex].errors.push({code: 'TooManyRecords', message: 'Too many records found', row: $scope.validatedUsersIndex});
+          row.error = true;
+          row.errors.push({code: 'TooManyRecords', message: 'Too many records found', row: $scope.validatedUsersIndex});
         }
 
-        if (++$scope.validatedUsersIndex !== $scope.totalUsersCount){
-          validate();
-        } else {
-          console.log("All validated!");
-          $scope.allRowsValidated = true;
-        }
-
-        $scope.percentValidated = Math.ceil($scope.validatedUsersIndex / ($scope.totalUsersCount / 100 ));
+        rowValidationEnd();
+      }, function (error){
+        row.error = true;
+        row.errors.push(error);
+        setEmptyMdbData(row);
+        rowValidationEnd();
       });
+    }
+
+    function rowValidationEnd(){
+      if (++$scope.validatedUsersIndex !== $scope.totalUsersCount){
+        validate();
+      } else {
+        console.log("All validated!");
+        $scope.allRowsValidated = true;
+      }
+
+      $scope.percentValidated = Math.ceil($scope.validatedUsersIndex / ($scope.totalUsersCount / 100 ));
     }
   };
 
   function setMdbData(row){
     return function(user){
-      row.mdbdata = {
-        user_id: user.user_id,
-        ekstern_id: user.ekstern_id,
-        nyhedsbreve: etPimping(user.nyhedsbreve),
-        interesser: etPimping(user.interesser),
-        permissions: etPimping(user.permissions),
-        optouts: etPimping(user.optouts.map(function(o){return o.type_id;}))
-      };
+      if (row.error || row.errors.length > 1 || user === undefined || user === null){
+        setEmptyMdbData(row);
+      } else {
+        row.mdbdata = {
+          user_id: user.user_id,
+          ekstern_id: user.ekstern_id,
+          nyhedsbreve: etPimping(user.nyhedsbreve),
+          interesser: etPimping(user.interesser),
+          permissions: etPimping(user.permissions),
+          optouts: etPimping(user.optouts.map(function(o){return o.type_id;}))
+        };
+      }
     };
   }
 
@@ -242,8 +260,11 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
   function etPimping(input){
     if (input === undefined || !input instanceof Array){
       return null;
+    } else if (input.length === 0) {
+      return '';
+    } else {
+      return '|'.concat(input.join('|'), '|');
     }
-    return '|'.concat(input.join('|'), '|');
   }
 
   $scope.importUsers = function(){
@@ -252,11 +273,8 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
   };
 
   $scope.downloadResult = function(){
+    // var resultContent = $scope.rows.filter(rowsWithErrors).map(function(row){
     var resultContent = $scope.rows.map(function(row){
-      if (row.error || row.errors.length > 1){
-        return;
-      }
-
       var data = {};
       if (row.data !== null && row.data !== undefined) {
         copyObject(row.data, data);
@@ -267,13 +285,17 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       return data;
     });
 
+    function rowsWithErrors(row){
+      return !(row.error || row.errors.length > 1);
+    }
+
     function copyObject(fromObject, toObject){
       Object.keys(fromObject).forEach(function(key){
         toObject[key] = fromObject[key];
       });
     }
 
-    var csvResult = Papa.unparse(resultContent, {delimiter:';'});
+    var csvResult = Papa.unparse(resultContent, {delimiter:';', encoding: 'UTF-8'});
     var filename = $scope.importFile.name;
     filename = filename.substring(0, filename.indexOf('.')).concat('_importresult_', Date.now(), '.csv');
     download(filename, csvResult);
@@ -281,10 +303,12 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
 
   function handleFileSelect(evt) {
     $scope.rows = [];
-    $scope.validatedUsersIndex = 0;
     $scope.totalUsersCount = 0;
+    $scope.validatedUsersIndex = 0;
     $scope.totalUsersFound = 0;
     $scope.totalUsersToInsert = 0;
+    $scope.totalUsersInserted = 0;
+    $scope.totalUsersUpdated = 0;
     $scope.percentValidated = 0;
     $scope.importFile = evt.target.files[0]; // FileList object
     $scope.allRowsParsed = false;
