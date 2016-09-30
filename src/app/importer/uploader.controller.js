@@ -4,10 +4,67 @@ angular
   .module('nyhedsbreveprofiladmin')
   .controller('ImporterUploaderController', ImporterUploaderController);
 
-function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr) {
+function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr){
   var vm = this;
 
-  var headerMapping = {};
+  // Fields in ExactTarget!!!!!!!!!!!!!!!!!
+  // {"key": "Email Addresses.Email Address"},
+  // {"key": "Email Demographics.Permissions"},
+  // {"key": "Email Demographics.Newsletters"},
+  // {"key": "Email Demographics.Interests"},
+  // {"key": "Email Demographics.FirstName"},
+  // {"key": "Email Demographics.LastName"},
+  // {"key": "Email Demographics.Mailoptout"},
+  // {"key": "Email Demographics.Robinson"},
+  // {"key": "Email Demographics.Contacts ID"},
+  // {"key": "Email Demographics.ExternalId"},
+  // {"key": "Email Demographics.Birthyear"},
+  // {"key": "Email Demographics.Sex"},
+  // {"key": "Email Demographics.ZipCode"},
+  // {"key": "Email Demographics.ZipCodeOther"}
+
+  var headerMappings = [
+    {
+      mdbName: 'email',
+      aliases: ['EmailAddress', 'Email Address', 'Email_Address'],
+      etName: 'Email Address'
+    },
+    {
+      mdbName: 'fornavn',
+      aliases: ['FirstName', 'First Name', 'First_Name'],
+      etName: 'FirstName'
+    },
+    {
+      mdbName: 'efternavn',
+      aliases: ['LastName', 'Last Name', 'Last_Name'],
+      etName: 'LastName'
+    },
+    {
+      mdbName: 'postnummer',
+      aliases: ['ZipCode', 'Zip Code', 'Zip_Code', 'PostalCode', 'Postal Code', 'Postal_Code'],
+      etName: 'ZipCode'
+    },
+    {
+      mdbName: 'bynavn',
+      aliases: ['City'],
+      etName: null
+    },
+    {
+      mdbName: 'land',
+      aliases: ['Country'],
+      etName: null
+    },
+    {
+      mdbName: 'koen',
+      aliases: ['Sex'],
+      etName: 'Sex'
+    },
+    {
+      mdbName: 'foedselsdato',
+      aliases: ['Birthyear', 'Fødselsdato'],
+      etName: 'Birthyear'
+    }
+  ];
 
   $scope.actions = [];
 
@@ -24,10 +81,30 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
   };
 
   // Check for the various File API support.
-  if (window.File && window.FileReader && window.FileList && window.Blob) {
+  if (window.File && window.FileReader && window.FileList && window.Blob){
     // Great success! All the File APIs are supported.
   } else {
     alert('The File APIs are not fully supported in this browser.');
+  }
+
+  function resetFileScopeData(){
+    $scope.headers = [];
+    $scope.rows = [];
+
+    $scope.allRowsParsed = false;
+    $scope.totalUsersCount = 0;
+
+    $scope.allRowsValidated = false;
+    $scope.validatedUsersIndex = 0;
+    $scope.totalUsersFound = 0;
+    $scope.totalUsersToInsert = 0;
+    $scope.percentValidated = 0;
+
+    $scope.allRowsImported = false;
+    $scope.importedUsersIndex = 0;
+    $scope.totalUsersInserted = 0;
+    $scope.totalUsersUpdated = 0;
+    $scope.percentImported = 0;
   }
 
 
@@ -36,18 +113,17 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       return;
     }
 
-    $scope.headers = [];
-    $scope.rows = [];
-    $scope.totalUsersCount = 0;
-    $scope.allRowsParsed = false;
-    $scope.allRowsValidated = false;
+    resetFileScopeData();
+    $scope.parsingFile = true;
     var headerCalculated = false;
 
     Papa.parse($scope.importFile, {
     	worker: false,
       encoding: 'UTF-8',
+      // encoding: 'ISO-8859-1',
+      // encoding: 'windows-1252',
       header: true,
-    	step: function(row) {
+    	step: function(row){
 
         if(row.errors.length > 0){
           console.error(row);
@@ -66,79 +142,23 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
           headerCalculated = true;
         }
     	},
-    	complete: function() {
-    		console.log("All parsed!");
+    	complete: function(){
+        console.log("All parsed!");
         $scope.allRowsParsed = true;
+        $scope.parsingFile = false;
+        $scope.totalUsersCount = $scope.rows.length;
         $scope.$digest();
     	}
     });
   };
 
-  // Fields in ExactTarget!!!!!!!!!!!!!!!!!
-  // {"key": "Email Addresses.Email Address"},
-  // {"key": "Email Demographics.Permissions"},
-  // {"key": "Email Demographics.Newsletters"},
-  // {"key": "Email Demographics.Interests"},
-  // {"key": "Email Demographics.FirstName"},
-  // {"key": "Email Demographics.LastName"},
-  // {"key": "Email Demographics.Mailoptout"},
-  // {"key": "Email Demographics.Robinson"},
-  // {"key": "Email Demographics.Contacts ID"},
-  // {"key": "Email Demographics.ExternalId"},
-  // {"key": "Email Demographics.Birthyear"},
-  // {"key": "Email Demographics.Sex"},
-  // {"key": "Email Demographics.ZipCode"},
-  // {"key": "Email Demographics.ZipCodeOther"}
 
   function calculateHeadersMapping(rowData){
     var csvHeaders = Object.keys(rowData);
 
-    var mappings = [
-      {
-        mdbName: 'email',
-        aliases: ['EmailAddress', 'Email Address', 'Email_Address'],
-        etName: 'Email Address'
-      },
-      {
-        mdbName: 'fornavn',
-        aliases: ['FirstName', 'First Name', 'First_Name'],
-        etName: 'FirstName'
-      },
-      {
-        mdbName: 'efternavn',
-        aliases: ['LastName', 'Last Name', 'Last_Name'],
-        etName: 'LastName'
-      },
-      {
-        mdbName: 'postnummer',
-        aliases: ['ZipCode', 'Zip Code', 'Zip_Code', 'PostalCode', 'Postal Code', 'Postal_Code'],
-        etName: 'ZipCode'
-      },
-      {
-        mdbName: 'bynavn',
-        aliases: ['City'],
-        etName: null
-      },
-      {
-        mdbName: 'land',
-        aliases: ['Country'],
-        etName: null
-      },
-      {
-        mdbName: 'koen',
-        aliases: ['Sex'],
-        etName: 'Sex'
-      },
-      {
-        mdbName: 'foedselsdato',
-        aliases: ['Birthyear', 'Fødselsdato'],
-        etName: 'Birthyear'
-      }
-    ];
-
     $scope.headers = csvHeaders.map(function(header){
-      var mapping = mappings.find(function(m){
-        if (header.toLowerCase() === m.mdbName.toLowerCase()) {
+      var mapping = headerMappings.find(function(m){
+        if (header.toLowerCase() === m.mdbName.toLowerCase()){
           return true;
         } else {
           var temp = m.aliases.map(function(a){return a.toLowerCase();});
@@ -154,7 +174,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       };
     });
 
-    console.log('headerMapping', $scope.headers);
+    console.log('header mappings', $scope.headers);
   }
 
   function findMapped(key){
@@ -170,7 +190,6 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
 
   $scope.validateUsers = function(){
     $scope.validatedUsersIndex = 0;
-    $scope.totalUsersCount = $scope.rows.length;
     $scope.totalUsersFound = 0;
     $scope.totalUsersToInsert = 0;
     $scope.percentValidated = 0;
@@ -186,9 +205,11 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
           email = row.data[findMapped('email').csvName];
 
       if (email === ''){
-        row.error = true;
+        row.emailmissing = true;
         row.errors.push('Email missing');
+        row.errors.push({code: 'EmailMissing', message: 'Email missing', row: $scope.validatedUsersIndex});
         setEmptyMdbData(row);
+        console.error(row);
         rowValidationEnd();
         return;
       }
@@ -206,10 +227,11 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
         } else if (users.length > 1){
           row.error = true;
           row.errors.push({code: 'TooManyRecords', message: 'Too many records found', row: $scope.validatedUsersIndex});
+          console.error(row);
         }
 
         rowValidationEnd();
-      }, function (error){
+      }, function(error){
         row.error = true;
         row.errors.push(error);
         setEmptyMdbData(row);
@@ -248,8 +270,8 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
 
   function setEmptyMdbData(row){
     row.mdbdata = {
-      user_id: '',
-      ekstern_id: '',
+      user_id: null,
+      ekstern_id: null,
       nyhedsbreve: '',
       interesser: '',
       permissions: '',
@@ -260,7 +282,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
   function etPimping(input){
     if (input === undefined || !input instanceof Array){
       return null;
-    } else if (input.length === 0) {
+    } else if (input.length === 0){
       return '';
     } else {
       return '|'.concat(input.join('|'), '|');
@@ -268,18 +290,46 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
   }
 
   $scope.importUsers = function(){
+    // $scope.totalUsersToInsert = 0;
+    $scope.importedUsersIndex = 0;
+    $scope.totalUsersInserted = 0;
+    $scope.percentImported = 0;
+
+    if($scope.totalUsersCount === 0){
+      return;
+    } else {
+      importUser();
+    }
+
     $scope.allRowsImported = true;
-    alert('Ikke implementeret');
+
+    function importUser(){
+      var row =$scope.rows[$scope.importedUsersIndex],
+          ekstern_id = row.mdbdata.ekstern_id;
+
+      if (ekstern_id === null){
+
+      } else {
+
+      }
+    }
+
+    function userImportedEnd(){
+      if (++$scope.importedUsersIndex !== $scope.totalUsersCount){
+        validate();
+      } else {
+      }
+    }
   };
 
   $scope.downloadResult = function(){
     // var resultContent = $scope.rows.filter(rowsWithErrors).map(function(row){
     var resultContent = $scope.rows.map(function(row){
       var data = {};
-      if (row.data !== null && row.data !== undefined) {
+      if (row.data !== null && row.data !== undefined){
         copyObject(row.data, data);
       }
-      if (row.mdbdata !== null && row.mdbdata !== undefined) {
+      if (row.mdbdata !== null && row.mdbdata !== undefined){
         copyObject(row.mdbdata, data);
       }
       return data;
@@ -301,26 +351,16 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     download(filename, csvResult);
   };
 
-  function handleFileSelect(evt) {
-    $scope.rows = [];
-    $scope.totalUsersCount = 0;
-    $scope.validatedUsersIndex = 0;
-    $scope.totalUsersFound = 0;
-    $scope.totalUsersToInsert = 0;
-    $scope.totalUsersInserted = 0;
-    $scope.totalUsersUpdated = 0;
-    $scope.percentValidated = 0;
+  function handleFileSelect(evt){
+    resetFileScopeData();
     $scope.importFile = evt.target.files[0]; // FileList object
-    $scope.allRowsParsed = false;
-    $scope.allRowsValidated = false;
-    $scope.allRowsImported = false;
-    $scope.$digest();
+    // $scope.$digest();
   }
   document.getElementById('importFile').addEventListener('change', handleFileSelect, false);
 
   mdbApiService.then(activate);
 
-  function activate() {
+  function activate(){
     // TODO: Mark importer is ready
 
     $scope.interesser = [];
@@ -329,13 +369,13 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     $scope.optouts = [];
     $scope.locations = [];
 
-    mdbApiService.getInteresserFull().then(function(all) {
-      all.forEach(function (interesse) {
+    mdbApiService.getInteresserFull().then(function(all){
+      all.forEach(function(interesse){
         $scope.interesser.push({
           interesse_id: interesse.interesse_id,
           interesse_navn: interesse.interesse_navn
         });
-        interesse.subinterests.forEach(function (subinterest) {
+        interesse.subinterests.forEach(function(subinterest){
           subinterest.interesse_navn = interesse.interesse_navn + ' > ' + subinterest.interesse_navn;
           $scope.interesser.push({
             interesse_id: subinterest.interesse_id,
@@ -345,24 +385,24 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       });
     });
 
-    mdbApiService.getNyhedsbreve().then(function(nyhedsbreve) {
+    mdbApiService.getNyhedsbreve().then(function(nyhedsbreve){
       $scope.nyhedsbreve = nyhedsbreve;
     });
 
-    mdbApiService.getPermissions().then(function(permissions) {
+    mdbApiService.getPermissions().then(function(permissions){
       $scope.permissions = permissions;
     });
 
-    mdbApiService.getOptoutTypes().then(function(optouts) {
+    mdbApiService.getOptoutTypes().then(function(optouts){
       $scope.optouts = optouts;
     });
 
-    // mdbApiService.getLocations().then(function(locations) {
+    // mdbApiService.getLocations().then(function(locations){
     //   $scope.locations = locations;
     // });
   }
 
-  $scope.downloadCsvSampleFile = function() {
+  $scope.downloadCsvSampleFile = function(){
     // email;fornavn;efternavn;co_navn;vejnavn;husnummer;husbogstav;etage;sidedoer;stednavn;bynavn;postnummer;postnummer_dk;land;firma;firma_adresse;lande_kode;udland_flag;alder;foedselsaar;foedselsdato;koen;telefon;mobil;komvej_kode;status_kode;bbs_abo_nr;mol_bbs_nr;robinson_flag
     var csvSample = Papa.unparse([[
       'email',
@@ -377,7 +417,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       download('sample.csv', csvSample);
   };
 
-  function download(filename, text) {
+  function download(filename, text){
     var element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
     element.setAttribute('download', filename);
