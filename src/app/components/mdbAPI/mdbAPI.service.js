@@ -179,8 +179,9 @@
             .then(_httpSuccessCallback);
           };
 
-          service.deleteUserOptout = function (ekstern_id, type) {
-            return $http.delete(baseurl + "users/" + ekstern_id + "/optouts/" + type)
+          service.deleteUserOptout = function (ekstern_id, type, location_id) {
+            var lid  = location_id !== undefined ? location_id : LOCATIONID;
+            return $http.delete(baseurl + "users/" + ekstern_id + "/optouts/" + type + "?location_id=" + lid)
             .then(_httpSuccessCallback);
           };
 
