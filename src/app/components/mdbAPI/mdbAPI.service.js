@@ -151,8 +151,9 @@
             .then(_httpSuccessCallback);
           };
 
-          service.createUser = function (email) {
-            return $http.post(baseurl + "users", {email: email, location_id: LOCATIONID})
+          service.createUser = function (user, location_id) {
+            user.location_id = location_id !== undefined ? location_id : LOCATIONID;
+            return $http.post(baseurl + "users", user)
             .then(_httpSuccessCallback);
           };
 
@@ -161,8 +162,8 @@
             .then(_httpSuccessCallback);
           };
 
-          service.updateUser = function (user) {
-            user.location_id = LOCATIONID;
+          service.updateUser = function (user, location_id) {
+            user.location_id = location_id !== undefined ? location_id : LOCATIONID;
             return $http.put(baseurl + "users/" + user.ekstern_id, user)
             .then(_httpSuccessCallback);
           };
@@ -172,8 +173,9 @@
             .then(_httpSuccessCallback);
           };
 
-          service.addUserOptout = function (ekstern_id, type) {
-            return $http.post(baseurl + "users/" + ekstern_id + "/optouts/" + type)
+          service.addUserOptout = function (ekstern_id, type, location_id) {
+            var lid  = location_id !== undefined ? location_id : LOCATIONID;
+            return $http.post(baseurl + "users/" + ekstern_id + "/optouts/" + type + "?location_id=" + lid)
             .then(_httpSuccessCallback);
           };
 
