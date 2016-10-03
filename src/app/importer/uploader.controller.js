@@ -97,6 +97,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     $scope.allRowsValidated = false;
     $scope.validatedUsersIndex = 0;
     $scope.totalUsersFound = 0;
+    $scope.totalUsersErrors = 0;
     $scope.totalUsersToInsert = 0;
     $scope.percentValidated = 0;
 
@@ -189,8 +190,10 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
   };
 
   $scope.validateUsers = function(){
+    $scope.validatingUsers = true;
     $scope.validatedUsersIndex = 0;
     $scope.totalUsersFound = 0;
+    $scope.totalUsersErrors = 0;
     $scope.totalUsersToInsert = 0;
     $scope.percentValidated = 0;
 
@@ -228,6 +231,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
           row.error = true;
           row.errors.push({code: 'TooManyRecords', message: 'Too many records found', row: $scope.validatedUsersIndex});
           console.error(row);
+          ++$scope.totalUsersErrors;
         }
 
         rowValidationEnd();
@@ -235,6 +239,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
         row.error = true;
         row.errors.push(error);
         setEmptyMdbData(row);
+        ++$scope.totalUsersErrors;
         rowValidationEnd();
       });
     }
@@ -245,6 +250,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       } else {
         console.log("All validated!");
         $scope.allRowsValidated = true;
+        $scope.validatingUsers = false;
       }
 
       $scope.percentValidated = Math.ceil($scope.validatedUsersIndex / ($scope.totalUsersCount / 100 ));
@@ -290,6 +296,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
   }
 
   $scope.importUsers = function(){
+    $scope.importingUsers = true;
     // $scope.totalUsersToInsert = 0;
     $scope.importedUsersIndex = 0;
     $scope.totalUsersInserted = 0;
@@ -318,6 +325,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       if (++$scope.importedUsersIndex !== $scope.totalUsersCount){
         validate();
       } else {
+        $scope.importingUsers = false;
       }
     }
   };
