@@ -132,6 +132,8 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
         } else if(row.data.length > 1){
           console.error('Row has too many data', row.data);
           return;
+        } else if (allFieldsNullOrEmpty(row.data[0])){
+          return;
         }
 
         row.data = row.data[0];
@@ -151,6 +153,12 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
         $scope.$digest();
     	}
     });
+
+    function allFieldsNullOrEmpty(data){
+      return Object.keys(data).every(function(k){
+        return data[k] === null || data[k] === '';
+      });
+    }
   };
 
 
@@ -213,6 +221,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
         row.errors.push({code: 'EmailMissing', message: 'Email missing', row: $scope.validatedUsersIndex});
         setEmptyMdbData(row);
         console.error(row);
+        ++$scope.totalUsersErrors;
         rowValidationEnd();
         return;
       }
