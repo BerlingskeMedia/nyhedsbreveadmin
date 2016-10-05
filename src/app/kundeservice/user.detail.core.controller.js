@@ -27,31 +27,16 @@
 
     function activate() {
       $scope.format = "dd/MM/yyyy";
-      getUserOptouts();
-    }
 
-    function getUserOptouts() {
-      var a = mdbApiService.getUserOptouts($stateParams.ekstern_id).then(function(userOptouts) {
-        $scope.userOptouts = userOptouts;
-      });
-
-      var b = mdbApiService.getOptoutTypes().then(function(optoutsTypes) {
+      mdbApiService.getOptoutTypes().then(function(optoutsTypes) {
         $scope.optoutsTypes = optoutsTypes;
-      });
-
-      $q.all([a,b]).then(function() {
-        $scope.userOptouts.forEach(function(optout) {
-          var t = $scope.optoutsTypes.find(function(x) { return x.type_id === optout.type_id});
-          optout.type_desc = t.type_desc;
-        });
       });
     }
 
     $scope.addOptout = function (optout) {
-      mdbApiService.addUserOptout($stateParams.ekstern_id, optout.type_id).then(function () {
+      mdbApiService.addUserOptout($stateParams.ekstern_id, optout.type_id).then(function (r) {
         $scope.add_optoutsType = null; // Clearing the dropdown
-        optout.insert_ts = '(refresh browser)';
-        $scope.userOptouts.push(optout)
+        $scope.$parent.user.optouts = r;
         toastr.success('Optout oprettet');
       }, function (error) {
         console.log(error);
@@ -60,8 +45,8 @@
     };
 
     $scope.deleteOptout = function (optout, index) {
-      mdbApiService.deleteUserOptout($stateParams.ekstern_id, optout.type_id).then(function () {
-        $scope.userOptouts.splice(index, 1);
+      mdbApiService.deleteUserOptout($stateParams.ekstern_id, optout.type_id).then(function (r) {
+        $scope.$parent.user.optouts = r;
         toastr.success('Optout slettet');
       }, function (error) {
         console.log(error);

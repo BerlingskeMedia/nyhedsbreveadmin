@@ -26,14 +26,7 @@
 
     mdbApiService.then(activate);
 
-    function getUserHistory() {
-      mdbApiService.getUserHistory($stateParams.ekstern_id).then(function(history) {
-        $scope.history = history;
-      });
-    }
-
     function activate() {
-      getUserHistory();
     }
 
   }

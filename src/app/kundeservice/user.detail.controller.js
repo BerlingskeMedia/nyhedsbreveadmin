@@ -42,7 +42,7 @@
     }
 
     function activate() {
-      $scope.user_promise = mdbApiService.getUser($stateParams.ekstern_id).then(function(user) {
+      $scope.user_promise = mdbApiService.getUser($stateParams.ekstern_id,'?actions=1&feedback=1&optouts=1').then(function(user) {
         $scope.user = user;
         console.log('user', user);
       });

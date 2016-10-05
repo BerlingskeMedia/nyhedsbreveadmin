@@ -30,7 +30,7 @@
         <div class="lead text-center">Nyhedsbreve</div>
       </td>
     </tr>
-    <tr ng-repeat="item in history.actions | user_action_type:[1,2] | orderBy:sortType:sortReverse">
+    <tr ng-repeat="item in $parent.user.actions | user_action_type:[1,2] | orderBy:sortType:sortReverse">
       <td>{{::item.oprettet | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</td>
       <td>{{::item.user_action_type_name}}</td>
       <td>{{::item.location_tekst}}</td>
@@ -40,7 +40,7 @@
         <div class="lead text-center">Interesser</div>
       </td>
     </tr>
-    <tr ng-repeat="item in history.actions | user_action_type:[3,4] | orderBy:sortType:sortReverse">
+    <tr ng-repeat="item in $parent.user.actions | user_action_type:[3,4] | orderBy:sortType:sortReverse">
       <td>{{::item.oprettet | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</td>
       <td>{{::item.user_action_type_name}}</td>
       <td>{{::item.location_tekst}}</td>
@@ -50,7 +50,7 @@
         <div class="lead text-center">Andre</div>
       </td>
     </tr>
-    <tr ng-repeat="item in history.actions | user_action_type:[5,6,7,8] | orderBy:sortType:sortReverse">
+    <tr ng-repeat="item in $parent.user.actions | user_action_type:[5,6,7,8] | orderBy:sortType:sortReverse">
       <td>{{::item.oprettet | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</td>
       <td>{{::item.user_action_type_name}}</td>
       <td>{{::item.location_tekst}}</td>

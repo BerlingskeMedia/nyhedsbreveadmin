@@ -115,7 +115,7 @@
 <h3>Optouts</h3>
 <table class="table table-condensed">
   <tbody>
-    <tr ng-repeat="optout in userOptouts">
+    <tr ng-repeat="optout in $parent.user.optouts | orderBy:'insert_ts':false">
       <td class="col-sm-5">{{::optout.type_desc}}</td>
       <td class="col-sm-5">{{::optout.insert_ts}}</td>
       <td class="col-sm-2">
@@ -131,7 +131,7 @@
     <select
       class="form-control"
       ng-model="add_optoutsType"
-      ng-options="optoutsType as optoutsType.type_desc for optoutsType in optoutsTypes | alreadyAddedOptouts:userOptouts">
+      ng-options="optoutsType as optoutsType.type_desc for optoutsType in optoutsTypes | alreadyAddedOptouts:$parent.user.optouts">
       <option disabled value="">-- vælg optout --</option>
     </select>
   </div>

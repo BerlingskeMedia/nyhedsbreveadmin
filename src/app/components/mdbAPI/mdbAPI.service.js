@@ -168,11 +168,6 @@
             .then(_httpSuccessCallback);
           };
 
-          service.getUserOptouts = function (ekstern_id) {
-            return $http.get(baseurl + "users/" + ekstern_id + '/optouts')
-            .then(_httpSuccessCallback);
-          };
-
           service.addUserOptout = function (ekstern_id, type, location_id) {
             var lid  = location_id !== undefined ? location_id : LOCATIONID;
             return $http.post(baseurl + "users/" + ekstern_id + "/optouts/" + type + "?location_id=" + lid)
@@ -182,16 +177,6 @@
           service.deleteUserOptout = function (ekstern_id, type, location_id) {
             var lid  = location_id !== undefined ? location_id : LOCATIONID;
             return $http.delete(baseurl + "users/" + ekstern_id + "/optouts/" + type + "?location_id=" + lid)
-            .then(_httpSuccessCallback);
-          };
-
-          service.getUserInteresser = function (ekstern_id) {
-            return $http.get(baseurl + "users/" + ekstern_id + '/interesser')
-            .then(_httpSuccessCallback);
-          };
-
-          service.getUserHistory = function (ekstern_id) {
-            return $http.get(baseurl + "users/" + ekstern_id + '/actions')
             .then(_httpSuccessCallback);
           };
 
