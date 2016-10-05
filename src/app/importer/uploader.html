@@ -81,26 +81,23 @@
       <input type="checkbox"ng-model="fileHasHeader"> Første linie er header
     </label>
   </div> -->
-  <button ng-class="" class="btn btn-default btn-sm" ng-click="parseFileContent()" ng-disabled="parsingFile">
+  <button ng-class="" class="btn btn-default btn-sm" ng-click="parseFileContent()" ng-disabled="!fileSelected || parsingFile">
     <span ng-show="parsingFile">Indlæser..</span>
     <span ng-hide="parsingFile">Se indhold</span>
   </button>
   <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
   <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsParsed || validatingUsers" ng-click="validateUsers()">Validér</button>
   <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsValidated || importingUsers" ng-click="importUsers()">Importér</button>
+  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsValidated || validatingUsers || importingUsers" ng-click="importUsers()">Importér</button>
   <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsValidated" ng-click="downloadResult()">
-    <span ng-if="!allRowsImported">Download validering</span>
-    <span ng-if="allRowsImported">Download resultat</span>
-  </button>
+  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsImported || validatingUsers || importingUsers" ng-click="downloadResult()">Download data</button>
 </form>
 
 <br />
 
 <div class="row">
   <div class="col-sm-12">
-    Rækker: {{ totalUsersCount }} / Valideret: {{ validatedUsersIndex }} / Fundet: {{ totalUsersFound }} / Fejl: {{ totalUsersErrors }}
+    Rækker: {{ totalRowCount }} / Valideret: {{ validatedRowIndex }} / Fundet: {{ totalUsersFound }} / Fejl: {{ totalUsersErrors }}
     <div class="progress">
       <div class="progress-bar" role="progressbar" aria-valuenow="{{ percentValidated }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percentValidated }}%;">
       </div>
