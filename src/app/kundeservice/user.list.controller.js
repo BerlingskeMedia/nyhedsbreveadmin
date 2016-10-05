@@ -37,7 +37,7 @@
       }
 
       vm.searching = true;
-      mdbApiService.userSearch(searchPayload).then(function(users) {
+      mdbApiService.searchUser(searchPayload).then(function(users) {
         vm.users = users;
         vm.didSearch = true;
         vm.searching = false;

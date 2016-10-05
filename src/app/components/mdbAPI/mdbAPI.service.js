@@ -146,7 +146,7 @@
             .then(_httpSuccessCallback);
           };
 
-          service.userSearch = function (params) {
+          service.searchUser = function (params) {
             return $http.get(baseurl + "users", {params:params})
             .then(_httpSuccessCallback);
           };

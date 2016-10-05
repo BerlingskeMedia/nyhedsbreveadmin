@@ -233,7 +233,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
         return;
       }
 
-      mdbApiService.userSearch({email: row.email}).then(function(users){
+      mdbApiService.searchUser({email: row.email}).then(function(users){
 
         if (users.length === 0){
           ++$scope.totalUsersToInsert;
