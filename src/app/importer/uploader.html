@@ -81,23 +81,23 @@
       <input type="checkbox"ng-model="fileHasHeader"> Første linie er header
     </label>
   </div> -->
-  <button ng-class="" class="btn btn-default btn-sm" ng-click="parseFileContent()">Se indhold</button>
-  <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsParsed" ng-click="validateUsers()">Validér</button>
-  <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsValidated" ng-click="importUsers()">Importér</button>
-  <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsValidated" ng-click="downloadResult()">
-    <span ng-if="!allRowsImported">Download validering</span>
-    <span ng-if="allRowsImported">Download resultat</span>
+  <button ng-class="" class="btn btn-default btn-sm" ng-click="parseFileContent()" ng-disabled="!fileSelected || parsingFile">
+    <span ng-show="parsingFile">Indlæser..</span>
+    <span ng-hide="parsingFile">Se indhold</span>
   </button>
+  <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsParsed || validatingUsers" ng-click="validateUsers()">Validér</button>
+  <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsValidated || validatingUsers || importingUsers" ng-click="importUsers()">Importér</button>
+  <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsImported || validatingUsers || importingUsers" ng-click="downloadResult()">Download data</button>
 </form>
 
 <br />
 
 <div class="row">
   <div class="col-sm-12">
-    Rækker: {{ totalUsersCount }} / Valideret: {{ validatedUsersIndex }} / Fundet: {{ totalUsersFound }}
+    Rækker: {{ totalRowCount }} / Valideret: {{ validatedRowIndex }} / Fundet: {{ totalUsersFound }} / Fejl: {{ totalUsersErrors }}
     <div class="progress">
       <div class="progress-bar" role="progressbar" aria-valuenow="{{ percentValidated }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percentValidated }}%;">
       </div>
@@ -125,12 +125,13 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="row in rows track by $index" ng-class="{'info': row.found, 'success': row.imported, 'warning': row.notfound, 'danger': row.error}">
+    <tr ng-repeat="row in rows track by $index" ng-class="{'info': row.found, 'success': row.imported, 'warning': row.notfound, 'danger': row.error || row.emailmissing}">
       <td>
         <em class="text-muted">
           <span ng-if="row.notfound">Oprettes</span>
           <span ng-if="row.found">Fundet</span>
           <span ng-if="row.imported">Importeret</span>
+          <span ng-if="row.emailmissing">Email mangler</span>
           <span ng-if="row.error">Fejl</span>
         </em>
       </td>

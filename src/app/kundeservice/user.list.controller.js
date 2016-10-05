@@ -57,7 +57,7 @@
       $scope.creatingUser = true;
       console.log(email);
 
-      mdbApiService.createUser(email).then(function(response) {
+      mdbApiService.createUser({email: email}).then(function(response) {
         console.log(response)
         $state.go('user-detail', {ekstern_id: response.ekstern_id});
       }, function (response) {
