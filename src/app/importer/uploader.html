@@ -82,13 +82,19 @@
     </label>
   </div> -->
   <button ng-class="" class="btn btn-default btn-sm" ng-click="parseFileContent()" ng-disabled="!fileSelected || parsingFile">
-    <span ng-show="parsingFile">Indlæser..</span>
+    <span ng-show="parsingFile">Indlæser...</span>
     <span ng-hide="parsingFile">Se indhold</span>
   </button>
   <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsParsed || validatingUsers" ng-click="validateUsers()">Validér</button>
+  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsParsed || validatingUsers" ng-click="validateUsers()">
+    <span ng-show="validatingUsers">Validerer...</span>
+    <span ng-hide="validatingUsers">Validér</span>
+  </button>
   <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsValidated || validatingUsers || importingUsers" ng-click="importUsers()">Importér</button>
+  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsValidated || validatingUsers || importingUsers" ng-click="importUsers()">
+    <span ng-show="importingUsers">Importerer...</span>
+    <span ng-hide="importingUsers">Importér</span>
+  </button>
   <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
   <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsImported || validatingUsers || importingUsers" ng-click="downloadResult()">Download data</button>
 </form>
