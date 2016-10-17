@@ -48,17 +48,11 @@ function routerConfig($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('base', {
       url: '/',
-      template: '<p class="lead">Profiladmin</p>' +
-        '<ul>' +
-        '<li><p class="lead"><a ui-sref="settings">Settings</a></p></li>' +
-        '<li><p class="lead"><a ui-sref="smartlinkbuilder">Smartlink Builder</a></p></li>' +
-        '<li><p class="lead"><a ui-sref="user">Kundeservice</a></p></li>' +
-        // '<li><p class="lead"><a ui-sref="importer">Importer</a></p></li>' +
-        '</ul>'
+      templateUrl: 'app/frontpage.html'
     })
     .state('settings', {
-      templateUrl: 'app/settings/menu.html',
       url: '/settings',
+      templateUrl: 'app/settings/menu.html',
       redirectTo: 'settings.publisher',
     })
     .state('settings.publisher', {
