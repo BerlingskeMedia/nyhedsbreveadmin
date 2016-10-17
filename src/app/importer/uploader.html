@@ -1,18 +1,27 @@
 <h2>Sowo Robo</h2>
 
+<p class="help-block">Lokation anvendes som beskrivelse af oprettelse samt tilmeld/afmeld</p>
+
+<form class="form">
+  <div class="form-group" ng-class="{'has-error': location_missing || location_error}">
+    <label class="control-label" for="inputError1" ng-if="location_missing">Lokation mangler</label>
+    <label class="control-label" for="inputError1" ng-if="location_error">{{location_error}}</label>
+    <input type="text" class="form-control" ng-model="location_tekst" ng-change="location_change()" ng-disabled="location_created" placeholder="Lokation">
+  </div>
+</form>
+
+
 <p class="help-block">Generelle handler for alle rækker</p>
 
 <form class="form-inline" style="padding: 6px 0px;" ng-repeat="action in actions track by $index">
-  <p>Handling {{$index+1}}</p>
+  <!-- <p>Handling {{$index+1}}</p> -->
   <div class="form-group form-group-sm">
 
     <select class="form-control" ng-model="action.operation">
       <option value="signup">Tilmeld</option>
       <option value="signout">Afmeld</option>
-      <option value="campaign">Kampagne</option>
+      <!-- <option value="campaign">Kampagne</option> -->
     </select>
-
-    <input type="text" class="form-control" ng-model="action.id" placeholder="Navn" ng-if="action.operation === 'campaign'">
 
     <span ng-if="action.operation === 'signup' || action.operation === 'signout'">
 
@@ -44,8 +53,11 @@
       </select>
     </span>
 
+    <input type="text" class="form-control" ng-model="action.id" placeholder="Navn" ng-if="action.operation === 'campaign'">
+
     <button ng-class="" class="btn btn-danger btn-sm" ng-click="removeAction($index)">
-      <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+      Fjern handling
     </button>
 
   </div>
@@ -53,18 +65,12 @@
 
 <form class="form">
   <div class="form-group form-group-sm">
-    <button ng-class="" class="btn btn-primary btn-xs" ng-click="addAction()">Tilføj handling</button>
+    <button ng-class="" class="btn btn-primary btn-xs" ng-click="addAction()">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      Tilføj handling
+    </button>
   </div>
 </form>
-
-<!-- <form class="form">
-  <div class="form-group">
-    <select class="form-control" ng-model="location_id">
-      <option disabled selected="selected" value="">Vælg</option>
-      <option ng-repeat="location in locations" value="{{location.location_id}}">{{location.location_tekst}}</option>
-    </select>
-  </div>
-</form> -->
 
 <hr />
 
@@ -81,34 +87,34 @@
       <input type="checkbox"ng-model="fileHasHeader"> Første linie er header
     </label>
   </div> -->
-  <button ng-class="" class="btn btn-default btn-sm" ng-click="parseFileContent()" ng-disabled="!fileSelected || parsingFile">
-    <span ng-show="parsingFile">Indlæser...</span>
-    <span ng-hide="parsingFile">Se indhold</span>
+  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!fileSelected || parseRunning || allRowsParsed" ng-click="runParse()">
+    <span ng-hide="parseRunning">Se indhold</span>
+    <span ng-show="parseRunning">Indlæser...</span>
   </button>
   <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsParsed || validatingUsers" ng-click="validateUsers()">
-    <span ng-show="validatingUsers">Validerer...</span>
-    <span ng-hide="validatingUsers">Validér</span>
+  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsParsed || validationRunning || allRowsValidated" ng-click="runValidation()">
+    <span ng-hide="validationRunning">Validér</span>
+    <span ng-show="validationRunning">Validerer...</span>
   </button>
   <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsValidated || validatingUsers || importingUsers" ng-click="importUsers()">
-    <span ng-show="importingUsers">Importerer...</span>
-    <span ng-hide="importingUsers">Importér</span>
+  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsValidated || validationRunning || importRunning || allRowsImported" ng-click="runImport()">
+    <span ng-hide="importRunning">Importér</span>
+    <span ng-show="importRunning">Importerer...</span>
   </button>
   <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsImported || validatingUsers || importingUsers" ng-click="downloadResult()">Download data</button>
+  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsImported || validationRunning || importRunning" ng-click="downloadResult()">Download data</button>
 </form>
 
 <br />
 
 <div class="row">
   <div class="col-sm-12">
-    Rækker: {{ totalRowCount }} / Valideret: {{ validatedRowIndex }} / Fundet: {{ totalUsersFound }} / Fejl: {{ totalUsersErrors }}
+    Rækker i alt: {{ totalRowCount }} / Valideret: {{ validatedRowIndex }} / Fundet: {{ totalUsersFound }} / Fejl: {{ totalValidationErrors }}
     <div class="progress">
       <div class="progress-bar" role="progressbar" aria-valuenow="{{ percentValidated }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percentValidated }}%;">
       </div>
     </div>
-    Oprettet: {{ totalUsersInserted }} / Opdateret: {{ totalUsersUpdated }}
+    Oprettet: {{ totalUsersInserted }} / Opdateret: {{ totalUsersUpdated }} / Ingen ændring: {{ totalUsersNoChanges }} / Fejl: {{ totalImportErrors }}
     <div class="progress">
       <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ percentImported }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percentImported }}%;">
       </div>
@@ -131,14 +137,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="row in rows track by $index" ng-class="{'info': row.found, 'success': row.imported, 'warning': row.notfound, 'danger': row.error || row.emailmissing}">
+    <tr ng-repeat="row in rows track by $index" ng-class="{'info': row.status === 'Oprettes', 'warning': row.status === 'Fundet', 'success': ['Oprettet', 'Opdateret', 'OK'].indexOf(row.status) > -1, 'danger': row.error}">
       <td>
         <em class="text-muted">
-          <span ng-if="row.notfound">Oprettes</span>
-          <span ng-if="row.found">Fundet</span>
-          <span ng-if="row.imported">Importeret</span>
-          <span ng-if="row.emailmissing">Email mangler</span>
-          <span ng-if="row.error">Fejl</span>
+          {{ row.status }}
         </em>
       </td>
       <td ng-repeat="field in flattenRowData(row.data) track by $index">

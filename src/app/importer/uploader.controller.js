@@ -26,7 +26,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
   var headerMappings = [
     {
       mdbName: 'email',
-      aliases: ['EmailAddress', 'Email Address', 'Email_Address'],
+      aliases: ['EmailAddress', 'Email Address', 'Email_Address', 'E-mail'],
       etName: 'Email Address'
     },
     {
@@ -104,6 +104,9 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       type: 'nyhedsbrev',
       id: ''
     });
+
+    // This is set to that the import can be run again if more actions are added.
+    $scope.allRowsImported = false;
   };
 
   $scope.removeAction = function(index){
@@ -117,6 +120,17 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     alert('The File APIs are not fully supported in this browser.');
   }
 
+  function locationTekstIsMissing(){
+    var location_tekst = $scope.location_tekst;
+    var location_missing = location_tekst === undefined || location_tekst === null && location_tekst.trim().length === 0;
+    $scope.location_missing = location_missing;
+    return location_missing;
+  }
+
+  $scope.location_change = function(){
+    locationTekstIsMissing()
+  };
+
   function resetFileScopeData(){
     $scope.headers = [];
     $scope.rows = [];
@@ -127,7 +141,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     $scope.allRowsValidated = false;
     $scope.validatedRowIndex = 0;
     $scope.totalUsersFound = 0;
-    $scope.totalUsersErrors = 0;
+    $scope.totalValidationErrors = 0;
     $scope.totalUsersToInsert = 0;
     $scope.percentValidated = 0;
 
@@ -135,27 +149,34 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     $scope.importedUsersIndex = 0;
     $scope.totalUsersInserted = 0;
     $scope.totalUsersUpdated = 0;
+    $scope.totalImportErrors = 0;
+    $scope.totalUsersNoChanges = 0;
     $scope.percentImported = 0;
   }
 
 
-  $scope.parseFileContent = function(){
+  $scope.runParse = function(){
     if($scope.importFile === undefined){
       toastr.warning('Vælg fil');
       return;
     }
 
     resetFileScopeData();
-    $scope.parsingFile = true;
+    $scope.parseRunning = true;
+    $scope.validationRunning = false;  // Just to be sure that this has not been set to false any case of any exceptions.
+    $scope.importRunning = false; // Just to be sure that this has not been set to false any case of any exceptions.
+
     var headerCalculated = false;
 
     Papa.parse($scope.importFile, {
     	worker: false,
+      // delimiter: '',
       encoding: 'UTF-8',
       // encoding: 'ISO-8859-1',
       // encoding: 'windows-1252',
       header: true,
-    	step: function(row){
+      skipEmptyLines: true,
+    	step: function(row, parser){
 
         if(row.errors.length > 0){
           console.error(row);
@@ -167,7 +188,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
           return;
         }
 
-        row.data = row.data[0];
+        row.data = cleanUpFields(row.data[0]);
         $scope.rows.push(row);
         ++$scope.totalRowCount;
 
@@ -179,7 +200,11 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     	complete: function(){
         $scope.allRowsParsed = true;
         $scope.$digest();
-        $scope.parsingFile = false;
+        // We're setting parseRunning to false after $digest, so that the validate-button
+        //  does not look ready while the rows are being digested.
+        $scope.parseRunning = false;
+        // But we need to run another $digest so that the "Parse"-button is not disabled forever.
+        $scope.$digest();
         console.log("All parsed!");
     	}
     });
@@ -189,19 +214,34 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
         return data[k] === null || data[k] === '';
       });
     }
+
+    function cleanUpFields(data){
+      var temp = {};
+      Object.keys(data).forEach(function (k){
+        var key = replaceNullAndEmpty(k);
+        temp[key] = replaceNullAndEmpty(data[k]);
+      });
+      return temp;
+    }
+
+    function replaceNullAndEmpty(input){
+      return input.replace(/\0/g, '').trim();
+    }
   };
 
 
   function calculateHeadersMapping(rowData){
+    console.log('calculateHeadersMapping', rowData);
     var csvHeaders = Object.keys(rowData);
 
-    $scope.headers = csvHeaders.map(function(header){
+    $scope.headers = csvHeaders.map(function(org_header){
+      var header = org_header.toLowerCase();
       var mapping = headerMappings.find(function(m){
-        if (header.toLowerCase() === m.mdbName.toLowerCase()){
+        if (header === m.mdbName.toLowerCase()){
           return true;
         } else {
           var temp = m.aliases.map(function(a){return a.toLowerCase();});
-          return temp.indexOf(header.toLowerCase()) > -1;
+          return temp.indexOf(header) > -1;
         }
       });
 
@@ -209,14 +249,14 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
         mapped: mapping !== undefined,
         mdbName: mapping !== undefined ? mapping.mdbName : null,
         etName: mapping !== undefined ? mapping.etName : null,
-        csvName: header
+        csvName: org_header
       };
     });
 
     console.log('header mappings', $scope.headers);
   }
 
-  function findMapped(key){
+  function findMappedHeaders(key){
     if (key === undefined){
       return $scope.headers.filter(function(header){
         return header.mapped === true;
@@ -233,32 +273,42 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     return Object.keys(rowData).map(function(index){ return rowData[index]; });
   };
 
-  $scope.validateUsers = function(){
-    $scope.validatingUsers = true;
+  $scope.runValidation = function(){
     $scope.validatedRowIndex = 0;
     $scope.totalUsersFound = 0;
-    $scope.totalUsersErrors = 0;
+    $scope.totalValidationErrors = 0;
     $scope.totalUsersToInsert = 0;
     $scope.percentValidated = 0;
 
-    if($scope.totalRowCount === 0){
+    var temp = findMappedHeaders('email');
+    if (temp === undefined){
+      toastr.error('Email ikke mappet');
       return;
-    } else {
-      validate();
     }
 
-    function validate(){
-      var row =$scope.rows[$scope.validatedRowIndex];
+    var csvEmailHeaderName = temp.csvName;
 
-      row.email = row.data[findMapped('email').csvName];
-      row.emailmissing = row.email === '';
+    if($scope.totalRowCount === 0){
+      return;
+    }
 
-      if (row.emailmissing){
+    $scope.validationRunning = true;
+    $scope.importRunning = false; // Just to be sure that this has not been set to false any case of any exceptions.
+    validateRow();
+
+    function validateRow(){
+      var row = $scope.rows[$scope.validatedRowIndex];
+
+      row.email = row.data[csvEmailHeaderName];
+
+      if (row.email === ''){
+        row.error = true;
+        row.status = 'Email mangler';
         row.errors.push('Email missing');
         row.errors.push({code: 'EmailMissing', message: 'Email missing', row: $scope.validatedRowIndex});
         setEmptyMdbData(row);
         console.error(row);
-        ++$scope.totalUsersErrors;
+        ++$scope.totalValidationErrors;
         rowValidationEnd();
         return;
       }
@@ -267,46 +317,47 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
 
         if (users.length === 0){
           ++$scope.totalUsersToInsert;
-          row.notfound = true;
+          row.status = 'Oprettes';
           setEmptyMdbData(row)
+          rowValidationEnd();
         } else if (users.length === 1){
           ++$scope.totalUsersFound;
-          row.found = true;
-          mdbApiService.getUser(users[0].ekstern_id, '?optouts=1&permissions=1').then(getUserSuccess);
+          row.status = 'Fundet';
+          mdbApiService.getUser(users[0].ekstern_id, '?optouts=1&permissions=1').then(function(user){
+            // I know this is the same if-statement as in setMdbData(). Just to be safe.
+            if (row.error || row.errors.length > 1 || user === undefined || user === null){
+              setEmptyMdbData(row);
+            } else {
+              setMdbData(row, user)
+            }
+
+            rowValidationEnd();
+          });
         } else if (users.length > 1){
+          row.status = 'Duplet';
           row.error = true;
           row.errors.push({code: 'TooManyRecords', message: 'Too many records found', row: $scope.validatedRowIndex});
           console.error(row);
-          ++$scope.totalUsersErrors;
+          ++$scope.totalValidationErrors;
+          rowValidationEnd();
         }
-
-        rowValidationEnd();
-
       }, function(error){
+        row.status = error.data !== undefined ? error.data : error;
         row.error = true;
         row.errors.push(error);
         setEmptyMdbData(row);
-        ++$scope.totalUsersErrors;
+        ++$scope.totalValidationErrors;
         rowValidationEnd();
       });
-
-      function getUserSuccess(user){
-        // I know this is the same if-statement as in setMdbData(). Just to be safe.
-        if (row.error || row.errors.length > 1 || user === undefined || user === null){
-          setEmptyMdbData(row);
-        } else {
-          setMdbData(row, user)
-        }
-      }
     }
 
     function rowValidationEnd(){
       if (++$scope.validatedRowIndex !== $scope.totalRowCount){
-        validate();
+        validateRow();
       } else {
         console.log("All validated!");
         $scope.allRowsValidated = true;
-        $scope.validatingUsers = false;
+        $scope.validationRunning = false;
       }
 
       $scope.percentValidated = Math.ceil($scope.validatedRowIndex / ($scope.totalRowCount / 100 ));
@@ -315,7 +366,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
 
 
   function setMdbData(row, user){
-    if (row.error || row.errors.length > 1 || user === undefined || user === null){
+    if (row.error || user === undefined || user === null){
       setEmptyMdbData(row);
     } else {
       row.mdbuser = user;
@@ -325,7 +376,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
         nyhedsbreve: etPimping(user.nyhedsbreve),
         interesser: etPimping(user.interesser),
         permissions: etPimping(user.permissions),
-        optouts: etPimping(user.optouts.map(function(o){return o.type_id;}))
+        optouts: etPimping(user.optouts)
       };
     }
   }
@@ -348,40 +399,72 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
   }
 
   function etPimping(input){
-    if (input === undefined || !input instanceof Array){
+    if (input === undefined || input === null || !input instanceof Array){
       return null;
     } else if (input.length === 0){
       return '';
+    } else if (typeof input[0] === 'object' && Object.keys(input[0]).some(function(k){return k === 'type_id';})) {
+      // In case this is the optouts-array-of-object, which has the type_id key.
+      return etPimping(input.map(function(o){return o.type_id;}));
     } else {
       return '|'.concat(input.join('|'), '|');
     }
   }
 
-  $scope.importUsers = function(){
-    $scope.importingUsers = true;
+  $scope.runImport = function(){
+
     $scope.allRowsImported = false;
     $scope.importedUsersIndex = 0;
     $scope.totalUsersInserted = 0;
+    $scope.totalImportErrors = 0;
+    $scope.totalUsersNoChanges = 0;
     $scope.percentImported = 0;
 
-    var mappedHeaders = findMapped();
+    var mappedHeaders = findMappedHeaders();
     console.log('mappedHeaders', mappedHeaders);
     console.log('actions', $scope.actions);
 
-    var foundUsersMustBeUpdated = $scope.actions.length > 0 && mappedHeaders.some(otherThanEmail);
+    var foundUsersMustBeUpdated = $scope.actions.length > 0 || mappedHeaders.some(otherThanEmail);
     console.log('foundUsersMustBeUpdated', foundUsersMustBeUpdated);
 
     var rows = $scope.rows.filter(function(row){
-      return row.error !== true && row.emailmissing !== true;
+      return row.error !== true;
     });
 
     if(rows.length === 0){
       toastr.warning('Ingen rækker at importere');
       return;
+    }
+
+    $scope.importRunning = true;
+    console.log('$scope.location_id', $scope.location_id);
+    if ($scope.location_id === undefined || $scope.location_id === null){
+      createLocation(importUser);
     } else {
       importUser();
     }
 
+    function createLocation(callback){
+      var location_tekst =$scope.location_tekst;
+      console.log('location_tekst', location_tekst);
+      if(locationTekstIsMissing()){
+        toastr.warning('Lokation mangler');
+        $scope.importRunning = false;
+        return;
+      }
+
+      location_tekst = location_tekst.trim();
+      mdbApiService.createLocation(location_tekst).then(function(response){
+        console.log('createLocation', response);
+        $scope.location_created = true;
+        $scope.location_error = null;
+        $scope.location_id = response.location_id;
+        callback();
+      }, function (errorResponse){
+        $scope.location_error = errorResponse.error !== undefined ? errorResponse.error : 'Fejl ved oprettelse';
+        $scope.importRunning = false;
+      });
+    }
 
     function importUser(){
       var row = rows[$scope.importedUsersIndex],
@@ -392,36 +475,53 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
         payload.ekstern_id = ekstern_id;
         if (foundUsersMustBeUpdated){
           console.log('updateUser', payload);
-          // mdbApiService.updateUser(payload).then(updateUserSuccess, mdbError);
+          mdbApiService.updateUser(payload).then(updateUserSuccess, mdbError);
         } else {
           console.log('donothing', payload);
-          // userImportedEnd();
+          row.error = false;
+          row.status = 'OK';
+          ++$scope.totalUsersNoChanges;
+          userImportedEnd();
         }
       } else {
         console.log('createUser', payload);
-        // mdbApiService.createUser(payload).then(createUserSuccess, mdbError);
+        mdbApiService.createUser(payload).then(createUserSuccess, mdbError);
       }
 
       // FOR TESTING TODO
-      userImportedEnd();
+      // userImportedEnd();
 
       function createUserSuccess(response){
         console.log('createUserSuccess', response);
         mdbApiService.getUser(response.ekstern_id).then(function(user) {
-
+          row.error = false;
+          row.status = 'Oprettet';
           setMdbData(row, user);
+          ++$scope.totalUsersInserted;
           userImportedEnd();
         });
       }
 
       function updateUserSuccess(response){
         console.log('updateUserSuccess', response);
-        // TODO
+        row.error = false;
+        row.status = 'Opdateret';
+        setMdbData(row, response);
+        ++$scope.totalUsersUpdated;
         userImportedEnd();
       }
 
       function mdbError(response){
+        ++$scope.totalImportErrors;
         console.error(response);
+        row.error = true;
+        row.errors.push(response.statusText);
+        if(response.status === 409){
+          row.status = 'Konflikt';
+        } else {
+          row.status = response.statusText;
+        }
+        ++$scope.totalImportErrors;
         userImportedEnd();
       }
     }
@@ -446,7 +546,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       user.interesser = user.interesser.filter(filterIds('signout', 'interesse'));
       user.optouts = user.optouts.filter(filterIds('signout', 'optout'));
 
-      user.location_id = 1; // TODO
+      user.location_id = $scope.location_id;
 
       return user;
 
@@ -472,14 +572,15 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       if (++$scope.importedUsersIndex !== rows.length){
         importUser();
       } else {
-        $scope.importingUsers = false;
+        $scope.importRunning = false;
         $scope.allRowsImported = true;
       }
+
+      $scope.percentImported = Math.ceil($scope.importedUsersIndex / ($scope.totalRowCount / 100 ));
     }
   };
 
   $scope.downloadResult = function(){
-    // var resultContent = $scope.rows.filter(rowsWithErrors).map(function(row){
     var resultContent = $scope.rows.map(function(row){
       var data = {};
       if (row.data !== null && row.data !== undefined){
@@ -491,9 +592,10 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       return data;
     });
 
-    function rowsWithErrors(row){
-      return !(row.error || row.errors.length > 1);
-    }
+    var csvResult = Papa.unparse(resultContent, {delimiter:';', encoding: 'UTF-8'});
+    var filename = $scope.importFile.name;
+    filename = filename.substring(0, filename.indexOf('.')).concat('_importresult_', Date.now(), '.csv');
+    download(filename, csvResult);
 
     function copyObject(toObject, fromObject){
       Object.keys(fromObject).forEach(function(key){
@@ -508,11 +610,6 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
         }
       });
     }
-
-    var csvResult = Papa.unparse(resultContent, {delimiter:';', encoding: 'UTF-8'});
-    var filename = $scope.importFile.name;
-    filename = filename.substring(0, filename.indexOf('.')).concat('_importresult_', Date.now(), '.csv');
-    download(filename, csvResult);
   };
 
   function handleFileSelect(evt){
