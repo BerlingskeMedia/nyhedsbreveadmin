@@ -458,6 +458,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     $scope.allRowsImported = false;
     $scope.importedUsersIndex = 0;
     $scope.totalUsersInserted = 0;
+    $scope.totalUsersUpdated = 0;
     $scope.totalImportErrors = 0;
     $scope.totalUsersNoChanges = 0;
     $scope.percentImported = 0;
