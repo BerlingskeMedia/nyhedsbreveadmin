@@ -87,22 +87,30 @@
       <input type="checkbox"ng-model="fileHasHeader"> Første linie er header
     </label>
   </div> -->
-  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!fileSelected || parseRunning || allRowsParsed" ng-click="runParse()">
+  <button class="btn btn-sm btn-default" ng-disabled="!fileSelected || parseRunning || allRowsParsed" ng-click="runParse()">
     <span ng-hide="parseRunning">Indlæs</span>
     <span ng-show="parseRunning">Indlæser...</span>
   </button>
+
   <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsParsed || validationRunning || allRowsValidated" ng-click="runValidation()">
+
+  <button class="btn btn-sm btn-default" ng-disabled="!allRowsParsed || validationRunning || allRowsValidated" ng-click="runValidation()">
     <span ng-hide="validationRunning">Validér</span>
     <span ng-show="validationRunning">Validerer...</span>
   </button>
+
   <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsValidated || validationRunning || importRunning || allRowsImported" ng-click="runImport()">
+
+  <button class="btn btn-sm btn-default" ng-disabled="!allRowsValidated || validationRunning || importRunning || allRowsImported" ng-click="runImport()">
     <span ng-hide="importRunning">Importér</span>
     <span ng-show="importRunning">Importerer...</span>
   </button>
+
   <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-  <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!allRowsImported || validationRunning || importRunning" ng-click="downloadResult()">Download data</button>
+
+  <button class="btn btn-sm btn-default" ng-disabled="!allRowsImported || validationRunning || importRunning" ng-click="downloadResult()">
+    Download data
+  </button>
 </form>
 
 <br />
