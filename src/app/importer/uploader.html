@@ -88,7 +88,7 @@
     </label>
   </div> -->
   <button ng-class="" class="btn btn-default btn-sm" ng-disabled="!fileSelected || parseRunning || allRowsParsed" ng-click="runParse()">
-    <span ng-hide="parseRunning">Se indhold</span>
+    <span ng-hide="parseRunning">Indlæs</span>
     <span ng-show="parseRunning">Indlæser...</span>
   </button>
   <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
@@ -109,27 +109,51 @@
 
 <div class="row">
   <div class="col-sm-12">
-    Rækker i alt: {{ totalRowCount }} / Valideret: {{ validatedRowIndex }} / Fundet: {{ totalUsersFound }} / Fejl: {{ totalValidationErrors }}
+    <strong>Rækker i alt: {{ totalRowCount }}</strong>
+  </div>
+</div>
+
+<br />
+
+<div class="row">
+  <div class="col-sm-12">
+    Validering startet kl.: <em ng-if="validationStarted">{{:: validationStarted.getHours() }}:{{:: validationStarted.getMinutes() }}.</em> <br />
+    Færdig kl.: <em ng-if="validationEnded">{{:: validationEnded.getHours() }}:{{:: validationEnded.getMinutes() }}.</em> <br />
+    Valideret: {{ validatedRowIndex }} <br />
+    Oprettes: {{ totalUsersToInsert }} <br />
+    Fundet: {{ totalUsersFound }} <br />
+    Fejl: {{ totalValidationErrors }}
+  </div>
+  <div class="col-sm-12">
     <div class="progress">
-      <div class="progress-bar" role="progressbar" aria-valuenow="{{ percentValidated }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percentValidated }}%;">
-      </div>
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{ percentValidated }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percentValidated }}%;"></div>
     </div>
-    Oprettet: {{ totalUsersInserted }} / Opdateret: {{ totalUsersUpdated }} / Ingen ændring: {{ totalUsersNoChanges }} / Fejl: {{ totalImportErrors }}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    Import startet kl.: <em ng-if="importStarted">{{:: importStarted.getHours() }}:{{:: importStarted.getMinutes() }}.</em> <br />
+    Færdig kl.: <em ng-if="importEnded">{{:: importEnded.getHours() }}:{{:: importEnded.getMinutes() }}.</em> <br />
+    Importeret: {{ importedUsersIndex }} <br />
+    Oprettet: {{ totalUsersInserted }} <br />
+    Opdateret: {{ totalUsersUpdated }} <br />
+    Ingen ændring: {{ totalUsersNoChanges }} <br />
+    Fejl: {{ totalImportErrors }}
+  </div>
+  <div class="col-sm-12">
     <div class="progress">
-      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ percentImported }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percentImported }}%;">
-      </div>
+      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ percentImported }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percentImported }}%;"></div>
     </div>
   </div>
 </div>
 
 <br />
 
-<table class="table table-bordered" ng-if="rows.length > 0">
+<h2>Preview</h2>
+<table class="table table-bordered">
   <thead>
     <tr>
-      <th>
-        <span class="text-muted">Status</span>
-      </th>
       <th ng-repeat="header in headers">
         <span ng-if="header.mapped" title="Mappet til {{ header.mdbName }}" class="text-primary">{{::header.csvName}}</span>
         <span ng-if="!header.mapped">{{::header.csvName}}</span>
@@ -137,20 +161,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="row in rows track by $index" ng-class="{'info': row.status === 'Oprettes', 'warning': row.status === 'Fundet', 'success': ['Oprettet', 'Opdateret', 'OK'].indexOf(row.status) > -1, 'danger': row.error}">
-      <td>
-        <em class="text-muted">
-          {{ row.status }}
-        </em>
-      </td>
-      <td ng-repeat="field in flattenRowData(row.data) track by $index">
+    <tr ng-repeat="row in previewRows">
+      <td ng-repeat="field in flattenRowData(row.data)">
         {{::field}}
       </td>
     </tr>
   </tbody>
 </table>
-
-<div class="row">
-  <div class="col-sm-12">
-  </div>
-</div>
