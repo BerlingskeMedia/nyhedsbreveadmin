@@ -339,7 +339,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     $scope.validationRunning = true;
     $scope.importRunning = false; // Just to be sure that this has not been set to false any case of any exceptions.
 
-    $scope.validationStarted = new Date();
+    $scope.validationStarted = getFormattetTimetamp();
 
     validateRow();
 
@@ -397,7 +397,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       } else {
         toastr.success('Alle rækker valideret');
         console.log("All validated!");
-        $scope.validationEnded = new Date();
+        $scope.validationEnded = getFormattetTimetamp();
         $scope.allRowsValidated = true;
         $scope.validationRunning = false;
       }
@@ -487,7 +487,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       importUser();
     }
 
-    $scope.importStarted = new Date();
+    $scope.importStarted = getFormattetTimetamp();
 
     function createLocation(callback){
       var location_tekst =$scope.location_tekst;
@@ -605,7 +605,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       } else {
         toastr.success('Alle rækker importeret');
         console.log('All rows imported');
-        $scope.importEnded = new Date();
+        $scope.importEnded = getFormattetTimetamp();
         $scope.importRunning = false;
         $scope.allRowsImported = true;
       }
@@ -709,5 +709,14 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
+  }
+
+  function getFormattetTimetamp(){
+    var temp = new Date();
+    return ''.concat(leadingZero(temp.getHours()), ':', leadingZero(temp.getMinutes()));
+
+    function leadingZero(input){
+      return ("0" + input).slice (-2);
+    }
   }
 }

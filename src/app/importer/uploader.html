@@ -125,8 +125,8 @@
 
 <div class="row">
   <div class="col-sm-12">
-    Validering startet kl.: <em ng-if="validationStarted">{{:: validationStarted.getHours() }}:{{:: validationStarted.getMinutes() }}.</em> <br />
-    Færdig kl.: <em ng-if="validationEnded">{{:: validationEnded.getHours() }}:{{:: validationEnded.getMinutes() }}.</em> <br />
+    Validering startet kl.: <em ng-if="validationStarted">{{:: validationStarted }}.</em> <br />
+    Færdig kl.: <em ng-if="validationEnded">{{:: validationEnded }}.</em> <br />
     Valideret: {{ validatedRowIndex }} <br />
     Oprettes: {{ totalUsersToInsert }} <br />
     Fundet: {{ totalUsersFound }} <br />
@@ -141,8 +141,8 @@
 
 <div class="row">
   <div class="col-sm-12">
-    Import startet kl.: <em ng-if="importStarted">{{:: importStarted.getHours() }}:{{:: importStarted.getMinutes() }}.</em> <br />
-    Færdig kl.: <em ng-if="importEnded">{{:: importEnded.getHours() }}:{{:: importEnded.getMinutes() }}.</em> <br />
+    Import startet kl.: <em ng-if="importStarted">{{:: importStarted }}.</em> <br />
+    Færdig kl.: <em ng-if="importEnded">{{:: importEnded }}.</em> <br />
     Importeret: {{ importedUsersIndex }} <br />
     Oprettet: {{ totalUsersInserted }} <br />
     Opdateret: {{ totalUsersUpdated }} <br />
