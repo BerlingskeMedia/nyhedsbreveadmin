@@ -332,7 +332,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
 
     var csvEmailHeaderName = temp.csvName;
 
-    if($scope.totalRowCount === 0){
+    if(globalRows.length === 0){
       return;
     }
 
@@ -395,7 +395,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     }
 
     function rowValidationEnd(){
-      if (++$scope.validatedRowIndex !== $scope.totalRowCount){
+      if (++$scope.validatedRowIndex !== globalRows.length){
         validateRow();
       } else {
         toastr.success('Alle rækker valideret');
@@ -405,7 +405,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
         $scope.validationRunning = false;
       }
 
-      $scope.percentValidated = Math.ceil($scope.validatedRowIndex / ($scope.totalRowCount / 100 ));
+      $scope.percentValidated = Math.ceil($scope.validatedRowIndex / (globalRows.length / 100 ));
     }
   };
 
@@ -516,32 +516,27 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     function importUser(){
 
 
-      var row = rowsToImport[$scope.importedUsersIndex];
-
-      if (row.mdbdata === undefined){
-        console.log(row);
-      }
-
-      var ekstern_id = row.mdbdata.ekstern_id,
+      var row = rowsToImport[$scope.importedUsersIndex],
+          ekstern_id = row.mdbdata.ekstern_id,
           payload = createUserPayload(row);
 
       // // FOR TESTING
-      console.log('payload', payload);
-      userImportedEnd();
-      return;
+      // console.log('payload', payload);
+      // userImportedEnd();
+      // return;
 
-      // if (ekstern_id !== undefined && ekstern_id !== null && ekstern_id !== ''){
-      //   payload.ekstern_id = ekstern_id;
-      //   if (foundUsersMustBeUpdated){
-      //     mdbApiService.updateUser(payload).then(updateUserSuccess, mdbError);
-      //   } else {
-      //     row.error = false;
-      //     ++$scope.totalUsersNoChanges;
-      //     userImportedEnd();
-      //   }
-      // } else {
-      //   mdbApiService.createUser(payload).then(createUserSuccess, mdbError);
-      // }
+      if (ekstern_id !== undefined && ekstern_id !== null && ekstern_id !== ''){
+        payload.ekstern_id = ekstern_id;
+        if (foundUsersMustBeUpdated){
+          mdbApiService.updateUser(payload).then(updateUserSuccess, mdbError);
+        } else {
+          row.error = false;
+          ++$scope.totalUsersNoChanges;
+          userImportedEnd();
+        }
+      } else {
+        mdbApiService.createUser(payload).then(createUserSuccess, mdbError);
+      }
 
 
       function createUserSuccess(response){
@@ -627,6 +622,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       $scope.percentImported = Math.ceil($scope.importedUsersIndex / (rowsToImport.length / 100 ));
     }
   };
+
 
   $scope.downloadResult = function(){
     var resultContent = globalRows
