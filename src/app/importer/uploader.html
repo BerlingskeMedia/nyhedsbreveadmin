@@ -128,9 +128,10 @@
     Validering startet kl.: <em ng-if="validationStarted">{{:: validationStarted }}.</em> <br />
     Færdig kl.: <em ng-if="validationEnded">{{:: validationEnded }}.</em> <br />
     Valideret: {{ validatedRowIndex }} <br />
-    Oprettes: {{ totalUsersToInsert }} <br />
-    Fundet: {{ totalUsersFound }} <br />
-    Fejl: {{ totalValidationErrors }}
+    Fejl: {{ totalValidationErrors }} <br />
+    Ialt til import: {{ validatedRowIndex - totalValidationErrors }} <br />
+    - heraf oprettes: {{ totalUsersToInsert }} <br />
+    - heraf fundet/opdateres: {{ totalUsersFound }}
   </div>
   <div class="col-sm-12">
     <div class="progress">
@@ -144,10 +145,10 @@
     Import startet kl.: <em ng-if="importStarted">{{:: importStarted }}.</em> <br />
     Færdig kl.: <em ng-if="importEnded">{{:: importEnded }}.</em> <br />
     Importeret: {{ importedUsersIndex }} <br />
-    Oprettet: {{ totalUsersInserted }} <br />
-    Opdateret: {{ totalUsersUpdated }} <br />
-    Ingen ændring: {{ totalUsersNoChanges }} <br />
-    Fejl: {{ totalImportErrors }}
+    - heraf oprettet: {{ totalUsersInserted }} <br />
+    - heraf opdateret: {{ totalUsersUpdated }} <br />
+    - heraf ingen ændring: {{ totalUsersNoChanges }} <br />
+    - heraf fejl: {{ totalImportErrors }}
   </div>
   <div class="col-sm-12">
     <div class="progress">
