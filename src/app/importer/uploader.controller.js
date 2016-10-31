@@ -353,6 +353,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
         row.errors.push({code: 'EmailMissing', message: 'Email missing', row: $scope.validatedRowIndex});
         setEmptyMdbData(row);
         console.error(row);
+        writeToErrorLog('Email missing in row ' + ($scope.validatedRowIndex + 1));
         ++$scope.totalValidationErrors;
         rowValidationEnd();
         return;
@@ -380,12 +381,14 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
           row.error = true;
           row.errors.push({code: 'TooManyRecords', message: 'Too many records found', row: $scope.validatedRowIndex});
           console.error(row);
+          writeToErrorLog('Too many records found for email ' + email);
           rowValidationEnd();
         }
       }, function(error){
         ++$scope.totalValidationErrors;
         row.error = true;
         row.errors.push(error);
+        writeToErrorLog(error);
         setEmptyMdbData(row);
         rowValidationEnd();
       });
@@ -551,6 +554,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
         console.error(response);
         row.error = true;
         row.errors.push(response.statusText);
+        writeToErrorLog(response.statusText + ' when importing ' + payload.email);
         ++$scope.totalImportErrors;
         userImportedEnd();
       }
@@ -626,7 +630,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       return data;
     });
 
-    var csvResult = Papa.unparse(resultContent, {delimiter:';', encoding: 'UTF-8'});
+    var csvResult = Papa.unparse(resultContent, {delimiter:',', encoding: 'UTF-8'});
     var filename = $scope.importFile.name;
     filename = filename.substring(0, filename.indexOf('.')).concat('_importresult_', Date.now(), '.csv');
     download(filename, csvResult);
@@ -686,6 +690,13 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       $scope.optouts = optouts;
     });
   }
+
+
+  var errorLog = document.getElementById('errorLog');
+  function writeToErrorLog(errorText){
+    angular.element(errorLog).append('<div><em>' + getFormattetTimetamp() + '</em>: ' + errorText + '</div>');
+  }
+
 
   $scope.downloadCsvSampleFile = function(){
     var csvSample = Papa.unparse([[

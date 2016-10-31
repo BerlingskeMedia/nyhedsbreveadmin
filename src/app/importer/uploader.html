@@ -170,9 +170,15 @@
   </thead>
   <tbody>
     <tr ng-repeat="row in previewRows">
-      <td ng-repeat="field in flattenRowData(row.data)">
+      <td ng-repeat="field in flattenRowData(row.data) track by $index">
         {{::field}}
       </td>
     </tr>
   </tbody>
 </table>
+
+<br />
+
+<h2>Fejl log</h2>
+<pre id="errorLog">
+</pre>
