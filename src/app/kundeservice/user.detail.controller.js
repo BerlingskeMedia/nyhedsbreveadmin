@@ -19,7 +19,9 @@
       // body...
     }
 
-    function updateUser(user) {
+    function updateUser() {
+      var user = $scope.user;
+      
       if (user.koen === null){
           user.koen = '';
       }
@@ -29,7 +31,7 @@
         if (savedUser.ekstern_id !== user.ekstern_id) {
           $state.go('user-detail.core', {ekstern_id: savedUser.ekstern_id});
         }
-        $scope.user = savedUser;
+        // $scope.user = savedUser;
         toastr.success('Oplysningerne blev gemt');
       }, function (error) {
         console.log('error', error);

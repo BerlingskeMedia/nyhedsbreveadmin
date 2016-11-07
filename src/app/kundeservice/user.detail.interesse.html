@@ -24,7 +24,7 @@
           <div class="lead text-center">Ingen tilmeldte interesser<div>
         </td>
       </tr>
-      <tr ng-repeat="interesse in interesserFull | filter:user_has_interesse | orderBy:'interesse_navn'" ng-class="{success: user_has_interesse(interesse.interesse_id)}">
+      <tr ng-repeat="interesse in interesserFull | filter:user_has_interesse | orderBy:'interesse_navn'">
         <td class="col-sm-1">{{interesse.interesse_id}}</td>
         <td class="col-sm-8">{{interesse.interesse_navn}}</td>
         <td class="col-sm-2">{{interesse.interesse_display_type_navn}}</td>
@@ -41,7 +41,7 @@
           <div class="lead text-center">Ikke tilmeldte<div>
         </td>
       </tr>
-      <tr ng-repeat="interesse in interesserFull | filter:user_has_not_interesse | orderBy:'interesse_navn'" ng-class="{success: user_has_interesse(interesse.interesse_id)}">
+      <tr ng-repeat="interesse in interesserFull | filter:user_has_not_interesse | orderBy:'interesse_navn'">
         <td class="col-sm-1">{{interesse.interesse_id}}</td>
         <td class="col-sm-8">{{interesse.interesse_navn}}</td>
         <td class="col-sm-2">{{interesse.interesse_display_type_navn}}</td>

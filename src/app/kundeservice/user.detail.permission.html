@@ -19,7 +19,7 @@
           <div class="lead text-center">Tilmeldte<div>
         </td>
       </tr>
-      <tr ng-repeat="permission in permissions | filter:in_user_permissions | orderBy: ['publisher_id','nyhedsbrev_navn']" ng-class="{success: user_has_permission(permission.nyhedsbrev_id), _warning: permission.hidden}">
+      <tr ng-repeat="permission in permissions | filter:in_user_permissions | orderBy: 'nyhedsbrev_navn'">
         <td class="col-sm-1">{{permission.nyhedsbrev_id}}</td>
         <td class="col-sm-9">{{permission.nyhedsbrev_navn}}</td>
         <td class="col-sm-1">
@@ -39,7 +39,7 @@
           <div class="lead text-center">Ikke tilmeldte</div>
         </td>
       </tr>
-      <tr ng-repeat="permission in permissions | filter:not_in_user_permissions | orderBy: ['publisher_id','nyhedsbrev_navn']" ng-class="{success: user_has_permission(permission.nyhedsbrev_id), _warning: permission.hidden}">
+      <tr ng-repeat="permission in permissions | filter:not_in_user_permissions | orderBy: 'nyhedsbrev_navn'">
         <td class="col-sm-1">{{permission.nyhedsbrev_id}}</td>
         <td class="col-sm-9">{{permission.nyhedsbrev_navn}}</td>
         <td class="col-sm-1">

@@ -19,7 +19,7 @@
           <div class="lead text-center">Tilmeldte<div>
         </td>
       </tr>
-      <tr ng-repeat="nyhedsbrev in nyhedsbreve | filter:in_user_nyhedsbreve | orderBy: ['publisher_id','nyhedsbrev_navn']" ng-class="{success: user_has_nyhedsbrev(nyhedsbrev.nyhedsbrev_id), _warning: nyhedsbrev.hidden}">
+      <tr ng-repeat="nyhedsbrev in nyhedsbreve | filter:in_user_nyhedsbreve | orderBy: 'nyhedsbrev_navn'">
         <td class="col-sm-1">{{nyhedsbrev.nyhedsbrev_id}}</td>
         <td class="col-sm-9">{{nyhedsbrev.nyhedsbrev_navn}}</td>
         <td class="col-sm-1">
@@ -38,7 +38,7 @@
           <div class="lead text-center">Ikke tilmeldte</div>
         </td>
       </tr>
-      <tr ng-repeat="nyhedsbrev in nyhedsbreve | filter:not_in_user_nyhedsbreve | orderBy: ['publisher_id','nyhedsbrev_navn']" ng-class="{success: user_has_nyhedsbrev(nyhedsbrev.nyhedsbrev_id), _warning: nyhedsbrev.hidden}">
+      <tr ng-repeat="nyhedsbrev in nyhedsbreve | filter:not_in_user_nyhedsbreve | orderBy: 'nyhedsbrev_navn'">
         <td class="col-sm-1">{{nyhedsbrev.nyhedsbrev_id}}</td>
         <td class="col-sm-9">{{nyhedsbrev.nyhedsbrev_navn}}</td>
         <td class="col-sm-1">
