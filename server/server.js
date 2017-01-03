@@ -31,7 +31,6 @@ var client = {
       }
     });
 
-
     plugin.route({
       method: 'get',
       path: '/apibaseurl',
