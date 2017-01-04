@@ -3,8 +3,8 @@
 This is a web application that can be used for 1) setting up newsletters in
 "Hjulet", 2) creating Smartlinks, and 3) administration of customers.
 
-The application has been built using Angular.js v1.4 and is designed for static
-web hosting in an AWS S3 bucket.
+The application has been built using Angular.js v1.4 and includes a bare-bones
+node.js-based backend that provides static file serving of the frontend.
 
 The application communicates with MDB via the REST-based MDB API. More
 documentation on the API is available at [https://github.com/BerlingskeMedia/mdbapi].
@@ -12,7 +12,7 @@ documentation on the API is available at [https://github.com/BerlingskeMedia/mdb
 
 ## For Developers
 
-You'll need a recent version of node.js, newer than v4.x. You can build the
+You'll need a recent version of node.js, _v4.2.2 or newer_. You can build the
 application by running;
 
 ```
@@ -38,7 +38,8 @@ gulp server
 When merging changes into the `Production` branch on GitHub, Jenkins will
 automatically build and deploy the Docker images for that release.
 
-_TODO: Verify that this is correct._
+Deployment time varies, but is somewhere between 5-15 minutes after the build
+has finished in Jenkins.
 
 
 # Administration of profil.berlingskemedia.dk
