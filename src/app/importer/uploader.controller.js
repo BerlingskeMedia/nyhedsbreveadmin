@@ -66,6 +66,16 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     //   etName: null
     // },
     {
+      mdbName: 'mobil',
+      aliases: ['Mobil'],
+      etName: null
+    },
+    {
+      mdbName: 'telefon',
+      aliases: ['Telefon'],
+      etName: null
+    },
+    {
       mdbName: 'koen',
       aliases: ['Sex'],
       etName: 'Sex'
