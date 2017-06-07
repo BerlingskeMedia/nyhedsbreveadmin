@@ -38,6 +38,7 @@
             <span ng-show="sortType == 'nyhedsbrev_navn' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
           </a>
         </th>
+        <th>Tilmeldte</th>
         <th>Indhold</th>
         <th></th>
       </tr>
@@ -47,7 +48,8 @@
         <td class="col-sm-1">{{::nyhedsbrev.nyhedsbrev_id}}</td>
         <td class="col-sm-2"><span class="label label-default">{{::nyhedsbrev.publisher_navn}}</span></td>
         <td class="col-sm-2">{{::nyhedsbrev.nyhedsbrev_navn}}</td>
-        <td class="col-sm-6"><span ng-bind-html="nyhedsbrev.indhold_safe"></span></td>
+        <td class="col-sm-1">{{::nyhedsbrev.subscriber_count}}</span></td>
+        <td class="col-sm-5"><span ng-bind-html="nyhedsbrev.indhold_safe"></span></td>
         <td class="col-sm-1">
           <abbr title="Skjult"><span class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-if="nyhedsbrev.hidden"></span></abbr>
           <abbr title="Inaktivt"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" ng-if="!nyhedsbrev.enabled"></span></abbr>
