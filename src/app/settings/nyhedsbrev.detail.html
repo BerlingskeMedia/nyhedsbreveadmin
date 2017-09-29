@@ -100,4 +100,9 @@
     <img ng-src="{{vm.nyhedsbrev.nyhedsbrev_image}}" alt="" class="img-thumbnail">
   </div>
 
+  <div class="form-group">
+    <label>SendGrid segment ID</label>
+    <input type="number" name="segment_id" placeholder="Segment ID" ng-disabled="!vm.nyhedsbrev.enabled" ng-model="vm.nyhedsbrev.segment_id" class="form-control">
+  </div>
+
 </form>
