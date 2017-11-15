@@ -116,9 +116,10 @@
 <table class="table table-condensed">
   <tbody>
     <tr ng-repeat="optout in $parent.user.optouts | orderBy:'insert_ts':false">
+      <td class="col-sm-1">{{::optout.type_id}}</td>
       <td class="col-sm-5">{{::optout.type_desc}}</td>
-      <td class="col-sm-5">{{::optout.insert_ts}}</td>
-      <td class="col-sm-2">
+      <td class="col-sm-4">{{::optout.insert_ts}}</td>
+      <td class="col-sm-2 text-right">
         <button class="btn btn-warning" ng-click="deleteOptout(optout, $index)">
           <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
         </button>
