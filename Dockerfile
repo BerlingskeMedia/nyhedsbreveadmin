@@ -7,7 +7,7 @@ MAINTAINER Daniel Kokott <dako@berlingskemedia.dk>
 RUN apt-get update -y
 RUN apt-get install -y wget
 
-ENV NODE_VERSION v4.2.2
+ENV NODE_VERSION v6.10.3
 
 # Download and install node.js.
 RUN wget -O - http://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION-linux-x64.tar.gz \
