@@ -591,9 +591,14 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     function createUserPayload(row){
       var user = Object.assign({}, row.mdbuser);
 
-      mappedHeaders.forEach(function(h){
+      // mappedHeaders.forEach(function(h){
+      //   user[h.mdbName] = row.data[h.csvName];
+      // });
+
+      for(var i = 0; i < mappedHeaders.length; i++){
+        var h = mappedHeaders[i];
         user[h.mdbName] = row.data[h.csvName];
-      });
+      }
 
       user.nyhedsbreve = user.nyhedsbreve.concat($scope.actions.filter(filterActions('signup', 'nyhedsbrev')).map(actionIdAsInt));
       user.permissions = user.permissions.concat($scope.actions.filter(filterActions('signup', 'permission')).map(actionIdAsInt));
