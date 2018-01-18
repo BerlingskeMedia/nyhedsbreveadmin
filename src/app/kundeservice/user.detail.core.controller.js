@@ -33,8 +33,8 @@
       });
     }
 
-    $scope.addOptout = function (optout) {
-      mdbApiService.addUserOptout($stateParams.ekstern_id, optout.type_id).then(function (r) {
+    $scope.addOptout = function (type_id) {
+      mdbApiService.addUserOptout($stateParams.ekstern_id, type_id).then(function (r) {
         $scope.add_optoutsType = null; // Clearing the dropdown
         $scope.$parent.user.optouts = r;
         toastr.success('Optout oprettet');

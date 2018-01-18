@@ -15,8 +15,11 @@
     <input type="email" class="form-control" ng-model="newOptoutEmail" placeholder="Email" />
   </div>
   <div class="col-sm-4">
-    <select class="form-control" ng-model="newEmailOptout" ng-options="type.type_id as type.type_desc for type in vm.optoutTypes">
+    <select class="form-control" ng-model="newEmailOptout">
       <option disabled value="">-- vælg --</option>
+      <option ng-repeat="type in vm.optoutTypes" value="{{type.type_id}}">
+        (ID: {{type.type_id}}) {{type.type_desc}}
+      </option>
     </select>
   </div>
   <div class="col-sm-2">

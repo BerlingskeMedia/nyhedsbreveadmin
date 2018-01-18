@@ -15,6 +15,7 @@
           <span ng-show="sortType == 'nyhedsbrev_id' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
         </a>
       </th>
+      <th>ID</th>
       <th>
         <a href="" ng-click="sortType = 'location_id'; sortReverse = !sortReverse">
           Location
@@ -31,6 +32,7 @@
     <tr ng-repeat="item in $parent.user.feedback | orderBy:sortType:sortReverse">
       <td>{{::item.oprettet | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</td>
       <td>{{::item.nyhedsbrev_navn}}</td>
+      <td>{{::item.nyhedsbrev_id}}</td>
       <td>{{::item.location_tekst}}</td>
       <td>{{::item.user_feedback}}</td>
     </tr>

@@ -34,22 +34,30 @@
 
       <select class="form-control" ng-model="action.id" ng-if="action.type === 'nyhedsbrev'">
         <option disabled selected="selected" value="">Vælg</option>
-        <option ng-repeat="nyhedsbrev in nyhedsbreve" value="{{nyhedsbrev.nyhedsbrev_id}}">{{nyhedsbrev.nyhedsbrev_navn}}</option>
+        <option ng-repeat="nyhedsbrev in nyhedsbreve" value="{{nyhedsbrev.nyhedsbrev_id}}">
+          (ID: {{nyhedsbrev.nyhedsbrev_id}}) {{nyhedsbrev.nyhedsbrev_navn}}
+        </option>
       </select>
 
       <select class="form-control" ng-model="action.id" ng-if="action.type === 'permission'">
         <option disabled selected="selected" value="">Vælg</option>
-        <option ng-repeat="permission in permissions" value="{{permission.nyhedsbrev_id}}">{{permission.nyhedsbrev_navn}}</option>
+        <option ng-repeat="permission in permissions" value="{{permission.nyhedsbrev_id}}">
+          (ID: {{permission.nyhedsbrev_id}}) {{permission.nyhedsbrev_navn}}
+        </option>
       </select>
 
       <select class="form-control" ng-model="action.id" ng-if="action.type === 'interesse'">
         <option disabled selected="selected" value="">Vælg</option>
-        <option ng-repeat="interesse in interesser" value="{{interesse.interesse_id}}">{{interesse.interesse_navn}}</option>
+        <option ng-repeat="interesse in interesser" value="{{interesse.interesse_id}}">
+          (ID: {{interesse.interesse_id}}) {{interesse.interesse_navn}}
+        </option>
       </select>
 
       <select class="form-control" ng-model="action.id" ng-if="action.type === 'optout'">
         <option disabled selected="selected" value="">Vælg</option>
-        <option ng-repeat="optout in optouts" value="{{optout.type_id}}">{{optout.type_desc}}</option>
+        <option ng-repeat="optout in optouts" value="{{optout.type_id}}">
+          (ID: {{optout.type_id}}) {{optout.type_desc}}
+        </option>
       </select>
     </span>
 

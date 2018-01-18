@@ -131,9 +131,11 @@
   <div class="col-sm-5">
     <select
       class="form-control"
-      ng-model="add_optoutsType"
-      ng-options="optoutsType as optoutsType.type_desc for optoutsType in optoutsTypes | alreadyAddedOptouts:$parent.user.optouts">
+      ng-model="add_optoutsType">
       <option disabled value="">-- vælg optout --</option>
+      <option ng-repeat="type in optoutsTypes | alreadyAddedOptouts:$parent.user.optouts" value="{{type.type_id}}">
+        (ID: {{type.type_id}}) {{type.type_desc}}
+      </option>
     </select>
   </div>
   <div class="col-sm-2">
