@@ -9,6 +9,8 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
 
   var globalRows = [];
 
+  $scope.importFileEncoding = 'UTF-8';
+
   // Check for the various File API support.
   if (window.File && window.FileReader && window.FileList && window.Blob){
     // Great success! All the File APIs are supported.
@@ -176,6 +178,12 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     $scope.percentImported = 0;
   }
 
+  $scope.importFileEncoding_change = function(){
+    if($scope.fileSelected){
+      $scope.runParse(50);
+    }
+  }
+
 
   $scope.runParse = function(preview){
     if($scope.importFile === undefined){
@@ -201,9 +209,10 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
     	worker: false,
       // delimiter: '',
       // delimiter: '\r\n',
-      encoding: 'UTF-8',
+      // encoding: 'UTF-8',
       // encoding: 'ISO-8859-1',
       // encoding: 'windows-1252',
+      encoding: $scope.importFileEncoding,
       header: true,
       skipEmptyLines: true,
     	step: function(row, parser){

@@ -79,9 +79,16 @@
     <span>(<small><a class="" href="#" ng-click="downloadCsvSampleFile()">Download eksempelfil</a></small>)</span>
   </p>
 
+  <select class="" ng-model="importFileEncoding" ng-change="importFileEncoding_change()">
+    <option value="UTF-8">UTF-8</option>
+    <option value="ISO-8859-1">ISO-8859-1</option>
+    <option value="windows-1252">windows-1252</option>
+  </select>
+
   <div class="form-group">
     <input type="file" id="importFile" name="importFile" />
   </div>
+
   <!-- <div class="checkbox">
     <label>
       <input type="checkbox"ng-model="fileHasHeader"> Første linie er header
