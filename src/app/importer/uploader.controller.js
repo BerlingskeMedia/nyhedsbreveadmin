@@ -739,9 +739,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr)
       'efternavn',
       'postnummer',
       'bynavn',
-      'land',
-      'koen',
-      'foedselsdato']], {delimiter:';'});
+      'koen']], {delimiter:';'});
 
       download('sample.csv', csvSample);
   };
