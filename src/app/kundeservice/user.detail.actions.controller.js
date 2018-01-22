@@ -30,9 +30,22 @@
       .catch(errorhandler.errorhandler);
     }
 
+    function user_delete() {
+      var task = {
+        task_type: 'user_delete',
+        user_id: $scope.user.user_id,
+        email: $scope.user.email
+      };
+      mdbApiService.createTask(task).then(function() {
+        toastr.success('Slet scheduleret');
+      })
+      .catch(errorhandler.errorhandler);
+    }
+
     function activate() {
       $scope.sendProfileLink = sendProfileLink;
       $scope.resetExactTarget = resetExactTarget;
+      $scope.user_delete = user_delete;
     }
   }
 })();
