@@ -43,93 +43,165 @@ function redirectTo ($rootScope, $state) {
 
 
 function routerConfig($stateProvider, $urlRouterProvider) {
+
+  function isSignedIn(){
+    return function(authService, $q, $state) {
+      if (authService.isSignedIn()){
+        return $q.resolve();
+      } else {
+        return $q.reject();
+      }
+    }
+  }
+
+  function hasGrant(){
+    return function(authService) {
+      return authService.me();
+    }
+  }
+
+  function hasKundeservice(){
+    return function(authService) {
+      return authService.hasRole('kundeservice');
+    }
+  }
+
+  function hasAdmin(){
+    return function(authService) {
+      return authService.hasRole('admin');
+    }
+  }
+
   $stateProvider
     .state('base', {
       url: '/',
-      templateUrl: 'app/frontpage.html'
+      templateUrl: 'app/frontpage.html',
+      controller: 'frontpageController'
     })
     .state('settings', {
       url: '/settings',
       templateUrl: 'app/settings/menu.html',
       redirectTo: 'settings.publisher',
+      resolve: {
+        authResolved: hasAdmin()
+      }
     })
     .state('settings.publisher', {
       url: '/publisher',
       templateUrl: 'app/settings/publisher.list.html',
       controller: 'PublishersListController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasAdmin()
+      }
     })
     .state('settings.publisher-create', {
       url: '/publisher/create',
       templateUrl: 'app/settings/publisher.detail.html',
       controller: 'PublisherDetailController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasAdmin()
+      }
     })
     .state('settings.publisher-detail', {
       url: '/publisher/:id',
       templateUrl: 'app/settings/publisher.detail.html',
       controller: 'PublisherDetailController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasAdmin()
+      }
     })
     .state('settings.nyhedsbrev', {
       url: '/nyhedsbrev',
       templateUrl: 'app/settings/nyhedsbrev.list.html',
       controller: 'NyhedsbrevListController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasAdmin()
+      }
     })
     .state('settings.nyhedsbrev-create', {
       url: '/nyhedsbrev/create',
       templateUrl: 'app/settings/nyhedsbrev.detail.html',
       controller: 'NyhedsbrevDetailController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasAdmin()
+      }
     })
     .state('settings.nyhedsbrev-detail', {
       url: '/nyhedsbrev/:id',
       templateUrl: 'app/settings/nyhedsbrev.detail.html',
       controller: 'NyhedsbrevDetailController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasAdmin()
+      }
     })
     .state('settings.interesse', {
       url: '/interesse',
       templateUrl: 'app/settings/interesse.list.html',
       controller: 'InteresseListController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasAdmin()
+      }
     })
     .state('settings.interesse-create', {
       url: '/interesse/create',
       templateUrl: 'app/settings/interesse.detail.html',
       controller: 'InteresseDetailController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasAdmin()
+      }
     })
     .state('settings.interesse-detail', {
       url: '/interesse/:id',
       templateUrl: 'app/settings/interesse.detail.html',
       controller: 'InteresseDetailController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasAdmin()
+      }
     })
     .state('settings.permission', {
       url: '/permission',
       templateUrl: 'app/settings/permission.list.html',
       controller: 'PermissionListController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasAdmin()
+      }
     })
     .state('settings.permission-create', {
       url: '/permission/create',
       templateUrl: 'app/settings/nyhedsbrev.detail.html',
       controller: 'PermissionDetailController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasAdmin()
+      }
     })
     .state('settings.permission-detail', {
       url: '/permission/:id',
       templateUrl: 'app/settings/nyhedsbrev.detail.html',
       controller: 'PermissionDetailController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasAdmin()
+      }
     })
     .state('settings.location', {
       url: '/location',
       templateUrl: 'app/settings/location.list.html',
       controller: 'LocationListController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasAdmin()
+      }
     })
     .state('smartlinkbuilder', {
       url: '/smartlinkbuilder',
@@ -141,7 +213,10 @@ function routerConfig($stateProvider, $urlRouterProvider) {
       url: '/kundeservice',
       templateUrl: 'app/kundeservice/user.list.html',
       controller: 'UserListContoller',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasKundeservice()
+      }
     })
     .state('user-detail', {
       url: '/kundeservice/:ekstern_id',
@@ -149,54 +224,81 @@ function routerConfig($stateProvider, $urlRouterProvider) {
       controller: 'UserDetailController',
       controllerAs: 'vm',
       redirectTo: 'user-detail.core',
+      resolve: {
+        authResolved: hasKundeservice()
+      }
     })
       .state('user-detail.core', {
       url: '/stamdata',
       templateUrl: 'app/kundeservice/user.detail.core.html',
       controller: 'UserDetailCoreController',
-      controllerAs: 'vmCore'
+      controllerAs: 'vmCore',
+      resolve: {
+        authResolved: hasKundeservice()
+      }
     })
     .state('user-detail.nyhedsbrev', {
       url: '/nyhedsbrev',
       templateUrl: 'app/kundeservice/user.detail.nyhedsbrev.html',
       controller: 'UserDetailNyhedsbrevController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasKundeservice()
+      }
     })
     .state('user-detail.interesse', {
       url: '/interesse',
       templateUrl: 'app/kundeservice/user.detail.interesse.html',
       controller: 'UserDetailInteresseController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasKundeservice()
+      }
     })
     .state('user-detail.permission', {
       url: '/permission',
       templateUrl: 'app/kundeservice/user.detail.permission.html',
       controller: 'UserDetailPermissionController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasKundeservice()
+      }
     })
     .state('user-detail.history', {
       url: '/historik',
       templateUrl: 'app/kundeservice/user.detail.history.html',
       controller: 'UserDetailHistoryController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasKundeservice()
+      }
     })
     .state('user-detail.feedback', {
       url: '/feedback',
       templateUrl: 'app/kundeservice/user.detail.feedback.html',
       controller: 'UserDetailFeedbackController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasKundeservice()
+      }
     })
     .state('user-detail.actions', {
       url: '/actions',
       templateUrl: 'app/kundeservice/user.detail.actions.html',
       controller: 'UserDetailActionsController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasKundeservice()
+      }
     })
     .state('importer', {
       templateUrl: 'app/importer/uploader.html',
       url: '/importer',
       controller: 'ImporterUploaderController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasGrant()
+      }
     });
 
   $urlRouterProvider.otherwise('/');

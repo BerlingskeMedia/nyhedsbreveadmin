@@ -1,7 +1,9 @@
 /*jshint node: true */
 'use strict';
 
-var http = require('http');
+const http = require('http');
+const bpc = require('./bpc_client');
+
 var route_prefix = '';
 
 console.log('Connecting to MDBAPI on host', process.env.MDBAPI_ADDRESS, 'and port', process.env.MDBAPI_PORT);

@@ -32,6 +32,10 @@ And you can restart the server automatically when the source code is changed;
 gulp server
 ```
 
+### Documentation
+
+* [https://code.angularjs.org/1.4.14/docs/api]
+* [https://ui-router.github.io/ng1/docs/0.2.15/#/api/ui.router]
 
 ## Deploying to Production
 
