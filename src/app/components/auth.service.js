@@ -12,19 +12,23 @@
         var googleUser;
 
         function onSignIn(GoogleAuth) {
-          gapiAuth2Init.resolve();
+          console.log('GoogleAuth', GoogleAuth);
           if (GoogleAuth.isSignedIn.get()) {
             googleUser = GoogleAuth.currentUser.get();
           }
         }
 
         window.gapi.load('auth2', function () {
-          window.gapi.auth2.init({
+          gapiAuth2Init = window.gapi.auth2.init({
             clientId: '844384284363-3bi2c0dvebi22kq3gcaou3ebvet51dpg.apps.googleusercontent.com',
             cookiePolicy: 'single_host_origin',
             scope: 'https://www.googleapis.com/auth/plus.login'
           })
-          .then(onSignIn);
+          .then(function(s) {
+            console.log('ss', s);
+            // gapiAuth2Init.resolve();
+          });
+          console.log('gapiAuth2Init', gapiAuth2Init);
         });
 
 
@@ -87,7 +91,7 @@
         // The service
         var service = $q.all([
           // getBpcEnv(),
-          gapiAuth2Init.promise
+          gapiAuth2Init
         ]);
 
 

@@ -36,6 +36,8 @@ gulp server
 
 * [https://code.angularjs.org/1.4.14/docs/api]
 * [https://ui-router.github.io/ng1/docs/0.2.15/#/api/ui.router]
+* [https://developers.google.com/identity/sign-in/web/sign-in]
+* [https://developers.google.com/identity/sign-in/web/reference]
 
 ## Deploying to Production
 
