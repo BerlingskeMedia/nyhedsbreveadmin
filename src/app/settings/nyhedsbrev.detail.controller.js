@@ -6,13 +6,17 @@
     .controller('NyhedsbrevDetailController', NyhedsbrevDetailController);
 
   /** @ngInject */
-  function NyhedsbrevDetailController($scope, $stateParams, $state, errorhandler, toastr,  mdbApiService) {
+  function NyhedsbrevDetailController($scope, $stateParams, $state, errorhandler, toastr,  mdbApiService, authResolved) {
     var vm = this;
-
     vm.update = update;
     vm.delete = deleteNyhedsbrev;
     vm.create = create;
     vm.active = reactivateNyhedsbrev;
+
+    if (!authResolved) {
+      $state.go('base');
+      return;
+    }
 
     mdbApiService.then(activate);
 

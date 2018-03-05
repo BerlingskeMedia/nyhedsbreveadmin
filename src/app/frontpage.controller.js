@@ -12,13 +12,16 @@ function FrontpageController($scope, $state, $sce, authService, toastr){
   $scope.authenticationRequired = false;
 
   $scope.signIn = function() {
-    authService.signIn();
+    authService.signIn()
+    .then(function() {
+      $scope.authenticationRequired = false;
+      activate();
+    });
   };
 
   authService.then(activate);
 
   function activate(){
-
     if (authService.isSignedIn()) {
       var googleBasicProfile = authService.getBasicProfile();
       var givenName = googleBasicProfile.getGivenName();

@@ -6,8 +6,13 @@
     .controller('UserDetailController', UserDetailController);
 
   /** @ngInject */
-  function UserDetailController($scope, $stateParams, $state, toastr, errorhandler, mdbApiService, $q) {
+  function UserDetailController($scope, $stateParams, $state, toastr, errorhandler, mdbApiService, $q, authResolved) {
     var vm = this;
+
+    if (!authResolved) {
+      $state.go('base');
+      return;
+    }
 
     if ($stateParams.ekstern_id === undefined || $stateParams.ekstern_id === '') {
       $state.go('user');
@@ -21,7 +26,7 @@
 
     function updateUser() {
       var user = $scope.user;
-      
+
       if (user.koen === null){
           user.koen = '';
       }

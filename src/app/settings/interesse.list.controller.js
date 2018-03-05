@@ -6,8 +6,13 @@
     .controller('InteresseListController', InteresseListController);
 
   /** @ngInject */
-  function InteresseListController($scope, mdbApiService) {
+  function InteresseListController($scope, $state, mdbApiService, authResolved) {
     var vm = this;
+
+    if (!authResolved) {
+      $state.go('base');
+      return;
+    }
 
     mdbApiService.then(activate);
 

@@ -86,11 +86,14 @@ module.exports.register = function (server, options, next) {
       }
     },
     handler: function(request, reply) {
-      if (!request.state.nyhedsbreveprofiladmin_ticket || request.state.nyhedsbreveprofiladmin_ticket.exp < Date.now()){
-        return reply(Boom.resourceGone('invalid ticket'));
+      const ticket = request.state.nyhedsbreveprofiladmin_ticket;
+      if (!ticket){
+        return reply(Boom.unauthorized());
+      } else if (Date.now() > ticket.exp) {
+        return reply(Boom.unauthorized('invalid ticket'));
       }
 
-      bpc.request({ path: '/me'}, request.state.nyhedsbreveprofiladmin_ticket, reply);
+      bpc.request({ path: '/me'}, ticket, reply);
     }
   });
 
@@ -105,11 +108,14 @@ module.exports.register = function (server, options, next) {
       }
     },
     handler: function(request, reply) {
-      if (!request.state.nyhedsbreveprofiladmin_ticket){
-        return reply(Boom.resourceGone('invalid ticket'));
+      const ticket = request.state.nyhedsbreveprofiladmin_ticket;
+      if (!ticket|| Date.now() > ticket.exp){
+        return reply(Boom.unauthorized());
+      } else if (Date.now() > ticket.exp) {
+        return reply(Boom.unauthorized('invalid ticket'));
       }
 
-      bpc.request({ path: '/permissions/mdb'.concat(request.url.search)}, request.state.nyhedsbreveprofiladmin_ticket, reply);
+      bpc.request({ path: '/permissions/mdb'.concat(request.url.search)}, ticket, reply);
     }
   });
 

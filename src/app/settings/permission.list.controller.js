@@ -6,8 +6,13 @@
     .controller('PermissionListController', PermissionListController);
 
   /** @ngInject */
-  function PermissionListController($scope, mdbApiService, $sce) {
+  function PermissionListController($scope, $state, mdbApiService, $sce, authResolved) {
     var vm = this;
+
+    if (!authResolved) {
+      $state.go('base');
+      return;
+    }
 
     mdbApiService.then(activate);
 

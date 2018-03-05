@@ -6,8 +6,13 @@
     .controller('PublishersListController', PublishersListController);
 
   /** @ngInject */
-  function PublishersListController($scope, mdbApiService) {
+  function PublishersListController($scope, $state, mdbApiService, authResolved) {
     var vm = this;
+
+    if (!authResolved) {
+      $state.go('base');
+      return;
+    }
 
     mdbApiService.then(activate);
 

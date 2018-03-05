@@ -6,11 +6,15 @@
     .controller('InteresseDetailController', InteresseDetailController);
 
   /** @ngInject */
-  function InteresseDetailController($scope, $stateParams, $state, errorhandler, toastr,  mdbApiService, $q) {
+  function InteresseDetailController($scope, $stateParams, $state, errorhandler, toastr,  mdbApiService, $q, authResolved) {
     var vm = this;
-
     vm.update = update;
     vm.create = create;
+
+    if (!authResolved) {
+      $state.go('base');
+      return;
+    }
 
     mdbApiService.then(activate);
 

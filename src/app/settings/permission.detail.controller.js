@@ -6,12 +6,16 @@
     .controller('PermissionDetailController', PermissionDetailController);
 
   /** @ngInject */
-  function PermissionDetailController($scope, $stateParams, $state, errorhandler, toastr,  mdbApiService) {
+  function PermissionDetailController($scope, $stateParams, $state, errorhandler, toastr,  mdbApiService, authResolved) {
     var vm = this;
-
     vm.update = update;
     vm.delete = deleteNyhedsbrev;
     vm.create = create;
+
+    if (!authResolved) {
+      $state.go('base');
+      return;
+    }
 
     mdbApiService.then(activate);
 

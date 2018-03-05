@@ -5,56 +5,55 @@
     .module('nyhedsbreveprofiladmin')
     .provider('authService', function () {
 
+
       this.$get = function ($http, $q, $log, $state) {
 
         var bpc_env;
-        var googleUser;
+        var GoogleUser;
+        var auth2Init = $q.defer();
 
-        function onSignIn(GoogleAuth) {
-          return $q(function(resolve, reject) {
-            if (GoogleAuth.isSignedIn.get()) {
-              googleUser = GoogleAuth.currentUser.get();
-              resolve();
-            } else {
-              reject();
-            }
-          });
-        }
+        window.gapi.load('auth2', function () {
+          window.gapi.auth2.init({
+            clientId: '844384284363-3bi2c0dvebi22kq3gcaou3ebvet51dpg.apps.googleusercontent.com',
+            cookiePolicy: 'single_host_origin',
+            scope: 'https://www.googleapis.com/auth/plus.login'
+          // }).then(function(googleAuth) {
+          //   GoogleAuth = googleAuth;
+          //   return $q.resolve(GoogleAuth);
+          })
+          .then(auth2Init.resolve)
+          .catch(auth2Init.reject);
+        });
 
 
-        function gapiAuth2Init() {
-          return $q(function(resolve, reject) {
-            window.gapi.load('auth2', function () {
-              window.gapi.auth2.init({
-                clientId: '844384284363-3bi2c0dvebi22kq3gcaou3ebvet51dpg.apps.googleusercontent.com',
-                cookiePolicy: 'single_host_origin',
-                scope: 'https://www.googleapis.com/auth/plus.login'
-              })
-              .then(onSignIn)
-              .then(resolve);
-            });
+        function init() {
+          return auth2Init.promise
+          .then(function(GoogleAuth) {
+            GoogleUser = GoogleAuth.currentUser.get();
+            return $q.resolve();
+          })
+          .catch(function(err) {
+            console.error(err);
           });
         }
 
 
         function getBpcEnv() {
-          var deferred = $q.defer();
-          $http.get('/bpc_env').then(function(result){
-            bpc_env = result.data;
-            deferred.resolve(result.data);
-          })
-          .catch(deferred.reject);
-          return deferred.promise;
+          return $http.get('/bpc_env')
+          .then(function(response){
+            bpc_env = response.data;
+            return $q.resolve(response.data);
+          });
         }
 
 
         function getRsvp(bpc_env){
-          if (!googleUser){
+          if (!GoogleUser){
             return $q.reject();
           }
 
-          var basicProfile = googleUser.getBasicProfile();
-          var authResponse = googleUser.getAuthResponse();
+          var basicProfile = GoogleUser.getBasicProfile();
+          var authResponse = GoogleUser.getAuthResponse();
           var payload = {
             ID: basicProfile.getId(),
             email: basicProfile.getEmail(),
@@ -64,25 +63,18 @@
             app: bpc_env.app
           };
 
-          var deferred = $q.defer();
-
-          $http.post(bpc_env.href.concat('rsvp'), payload)
+          return $http.post(bpc_env.href.concat('rsvp'), payload)
           .then(function(response){
-            deferred.resolve(response.data);
-          })
-          .catch(deferred.reject);
-
-          return deferred.promise;
+            return $q.resolve(response.data);
+          });
         }
 
         function getUserTicket(payload){
-          var deferred = $q.defer();
-          $http.post('/auth/ticket', payload)
+          console.log('getUserTicketgetUserTicketgetUserTicket', payload);
+          return $http.post('/auth/ticket', payload)
           .then(function(response){
-            // userTicket = response.data
-            deferred.resolve();
+            return $q.resolve(response.data);
           });
-          return deferred.promise;
         }
 
         function getMe() {
@@ -95,16 +87,15 @@
 
         // The service
         var service = $q.all([
-          // getBpcEnv(),
-          gapiAuth2Init()
+          init()
         ]);
 
 
         service.getBasicProfile = function(){
-          if (!googleUser){
+          if (!GoogleUser){
             return $q.reject();
           }
-          return googleUser.getBasicProfile();
+          return GoogleUser.getBasicProfile();
         }
 
 
@@ -117,36 +108,46 @@
         service.signIn = function() {
           var auth2 = window.gapi.auth2.getAuthInstance();
           return auth2.signIn()
-          .then(onSignIn);
+          .then(function(googleUser) {
+            GoogleUser = googleUser;
+            return $q.resolve(googleUser);
+          })
+          .then(getBpcEnv)
+          .then(getRsvp)
+          .then(getUserTicket);
         };
 
 
         service.me = function(){
-          var deferred = $q.defer();
-
-          function resolve(data){
-            return deferred.resolve(data);
-          }
-
-          getMe()
-          .then(resolve)
+          return getMe()
           .catch(function(err){
-            if(err.status === 410){
+            if(err.status === 401){
               return getBpcEnv()
               .then(getRsvp)
               .then(getUserTicket)
-              .then(getMe)
-              .then(resolve)
-              .catch(deferred.reject);
+              .then(getMe);
+            } else {
+              return $q.reject(err);
             }
           });
-
-          return deferred.promise;
         };
 
 
         service.hasRole = function(role){
-          return $http.get('/auth?roles='.concat(role));
+          return $http.get('/auth?roles='.concat(role))
+          .then(function(response) {
+            return $q.resolve(response.status === 200);
+          })
+          .catch(function(err){
+            if(err.status === 401 && err.data && err.data.message === 'invalid ticket'){
+              return getUserTicket()
+              .then(function (){
+                return hasRole(role);
+              });
+            } else {
+              return $q.resolve(false);
+            }
+          });
         };
 
         return service;

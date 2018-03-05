@@ -6,10 +6,16 @@
     .controller('LocationListController', LocationController);
 
   /** @ngInject */
-  function LocationController($scope, toastr, errorhandler, mdbApiService, moment) {
+  function LocationController($scope, $state, toastr, errorhandler, mdbApiService, moment, authResolved) {
     var vm = this;
-moment.locale('da');
-console.log('mo2', moment.locale());
+
+    if (!authResolved) {
+      $state.go('base');
+      return;
+    }
+
+    moment.locale('da');
+
     mdbApiService.then(activate);
 
     function activate() {

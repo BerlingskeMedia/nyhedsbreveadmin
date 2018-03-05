@@ -81,10 +81,7 @@ function routerConfig($stateProvider, $urlRouterProvider) {
     .state('settings', {
       url: '/settings',
       templateUrl: 'app/settings/menu.html',
-      redirectTo: 'settings.publisher',
-      resolve: {
-        authResolved: hasAdmin()
-      }
+      redirectTo: 'settings.publisher'
     })
     .state('settings.publisher', {
       url: '/publisher',
@@ -223,10 +220,7 @@ function routerConfig($stateProvider, $urlRouterProvider) {
       templateUrl: 'app/kundeservice/user.detail.menu.html',
       controller: 'UserDetailController',
       controllerAs: 'vm',
-      redirectTo: 'user-detail.core',
-      resolve: {
-        authResolved: hasKundeservice()
-      }
+      redirectTo: 'user-detail.core'
     })
       .state('user-detail.core', {
       url: '/stamdata',
