@@ -8,28 +8,33 @@
       this.$get = function ($http, $q, $log, $state) {
 
         var bpc_env;
-        var gapiAuth2Init = $q.defer();
         var googleUser;
 
         function onSignIn(GoogleAuth) {
-          console.log('GoogleAuth', GoogleAuth);
-          if (GoogleAuth.isSignedIn.get()) {
-            googleUser = GoogleAuth.currentUser.get();
-          }
+          return $q(function(resolve, reject) {
+            if (GoogleAuth.isSignedIn.get()) {
+              googleUser = GoogleAuth.currentUser.get();
+              resolve();
+            } else {
+              reject();
+            }
+          });
         }
 
-        window.gapi.load('auth2', function () {
-          gapiAuth2Init = window.gapi.auth2.init({
-            clientId: '844384284363-3bi2c0dvebi22kq3gcaou3ebvet51dpg.apps.googleusercontent.com',
-            cookiePolicy: 'single_host_origin',
-            scope: 'https://www.googleapis.com/auth/plus.login'
-          })
-          .then(function(s) {
-            console.log('ss', s);
-            // gapiAuth2Init.resolve();
+
+        function gapiAuth2Init() {
+          return $q(function(resolve, reject) {
+            window.gapi.load('auth2', function () {
+              window.gapi.auth2.init({
+                clientId: '844384284363-3bi2c0dvebi22kq3gcaou3ebvet51dpg.apps.googleusercontent.com',
+                cookiePolicy: 'single_host_origin',
+                scope: 'https://www.googleapis.com/auth/plus.login'
+              })
+              .then(onSignIn)
+              .then(resolve);
+            });
           });
-          console.log('gapiAuth2Init', gapiAuth2Init);
-        });
+        }
 
 
         function getBpcEnv() {
@@ -91,7 +96,7 @@
         // The service
         var service = $q.all([
           // getBpcEnv(),
-          gapiAuth2Init
+          gapiAuth2Init()
         ]);
 
 
