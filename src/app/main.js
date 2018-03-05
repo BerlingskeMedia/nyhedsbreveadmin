@@ -220,7 +220,10 @@ function routerConfig($stateProvider, $urlRouterProvider) {
       templateUrl: 'app/kundeservice/user.detail.menu.html',
       controller: 'UserDetailController',
       controllerAs: 'vm',
-      redirectTo: 'user-detail.core'
+      redirectTo: 'user-detail.core',
+      resolve: {
+        authResolved: hasKundeservice()
+      }
     })
       .state('user-detail.core', {
       url: '/stamdata',

@@ -3,13 +3,13 @@
 
 const http = require('http');
 const bpc = require('./bpc_client');
+const Boom = require('boom');
 
 var route_prefix = '';
 
 console.log('Connecting to MDBAPI on host', process.env.MDBAPI_ADDRESS, 'and port', process.env.MDBAPI_PORT);
 
 function proxy (request, reply) {
-
 
   if (reply === undefined) {
     reply = function(){};
@@ -20,7 +20,7 @@ function proxy (request, reply) {
     path = path.slice(route_prefix.length)
   }
 
-  console.log('proxy', path, request.headers);
+  console.log('proxy request', request.method.toUpperCase(), path);
 
   var options = {
     method: request.method,
@@ -57,6 +57,31 @@ function proxy (request, reply) {
   req.end();
 }
 
+function proxyAdmin (request, reply) {
+  console.log('proxyAdmin');
+  proxyValidation(request, reply, 'admin')
+}
+
+function proxyKundeservice (request, reply) {
+  console.log('proxyKundeservice');
+  proxyValidation(request, reply, 'kundeservice')
+}
+
+function proxyValidation (request, reply, roles) {
+  const ticket = request.state.nyhedsbreveprofiladmin_ticket;
+  if (!ticket) {
+    return reply(Boom.unauthorized());
+  }
+
+  bpc.request({ path: `/permissions/mdb?roles=${roles}`, method: 'GET'}, ticket, function (err, response) {
+    if(err){
+      reply(Boom.unauthorized());
+    } else {
+      proxy(request, reply);
+    }
+  });
+}
+
 
 var backend = {
   proxy: proxy,
@@ -67,21 +92,63 @@ var backend = {
     /* These are the URL's we're allowing to proxy */
     server.route({
       method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      path: '/users/{id?}',
+      handler: proxyAdmin
+    });
+
+    server.route({
+      method: ['POST', 'PUT', 'DELETE', 'OPTIONS'],
+      path: '/{obj}/{id?}',
+      handler: proxyKundeservice
+    });
+
+    server.route({
+      method: ['POST', 'PUT', 'DELETE', 'OPTIONS'],
+      path: '/{obj}/{paths*2}',
+      handler: proxyKundeservice
+    });
+
+    server.route({
+      method: ['POST', 'PUT', 'DELETE', 'OPTIONS'],
+      path: '/{obj}/{paths*3}',
+      handler: proxyKundeservice
+    });
+
+    server.route({
+      method: ['GET'],
       path: '/{obj}/{id?}',
       handler: proxy
     });
 
     server.route({
-      method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      method: ['GET'],
       path: '/{obj}/{paths*2}',
       handler: proxy
     });
 
     server.route({
-      method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      method: ['GET'],
       path: '/{obj}/{paths*3}',
       handler: proxy
     });
+
+    // server.route({
+    //   method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    //   path: '/{obj}/{id?}',
+    //   handler: proxy
+    // });
+    //
+    // server.route({
+    //   method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    //   path: '/{obj}/{paths*2}',
+    //   handler: proxy
+    // });
+    //
+    // server.route({
+    //   method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    //   path: '/{obj}/{paths*3}',
+    //   handler: proxy
+    // });
 
     next();
   }
