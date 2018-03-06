@@ -4,10 +4,14 @@ angular
   .module('nyhedsbreveprofiladmin')
   .controller('ImporterUploaderController', ImporterUploaderController);
 
-function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr){
+function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr, authResolved){
   var vm = this;
-
   var globalRows = [];
+
+  if (!authResolved) {
+    $state.go('base');
+    return;
+  }
 
   $scope.importFileEncoding = 'UTF-8';
 
