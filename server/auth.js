@@ -89,7 +89,7 @@ module.exports.register = function (server, options, next) {
     },
     handler: function(request, reply) {
       const ticket = request.state.nyhedsbreveprofiladmin_ticket;
-      if (!ticket|| Date.now() > ticket.exp){
+      if (!ticket){
         return reply(Boom.unauthorized());
       } else if (Date.now() > ticket.exp) {
         return reply(Boom.unauthorized('expired ticket'));

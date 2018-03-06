@@ -72,6 +72,12 @@ function proxyValidation (request, reply, roles) {
   const ticket = request.state.nyhedsbreveprofiladmin_ticket;
   if (!ticket) {
     return reply(Boom.unauthorized());
+  } else if (Date.now() > ticket.exp - 60000) { // 1 minut before the ticket expires
+    bpc.reissueTicket(request.state.nyhedsbreveprofiladmin_ticket, function (err, reissuedTicket){
+      if (!err) {
+        reply.state('nyhedsbreveprofiladmin_ticket', reissuedTicket);
+      }
+    });
   }
 
   const querystring = roles ? `?roles=${roles}` : '';
