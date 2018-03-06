@@ -1,10 +1,11 @@
 (function() {
   'use strict';
 
-  angular
+  var contro = angular
     .module('nyhedsbreveprofiladmin')
-    .controller('NyhedsbrevListController', NyhedsbrevListController)
-    .filter('publisher', function () {
+    .controller('NyhedsbrevListController', NyhedsbrevListController);
+
+  contro.filter('publisher', function () {
       return function (nyhedsbreve, publisher_id) {
         if (nyhedsbreve === undefined){
           return [];
@@ -17,8 +18,13 @@
     });
 
   /** @ngInject */
-  function NyhedsbrevListController($scope, mdbApiService, $sce, $q) {
+  function NyhedsbrevListController($scope, $state, mdbApiService, $sce, $q, authResolved) {
     var vm = this;
+
+    if (!authResolved) {
+      $state.go('base');
+      return;
+    }
 
     mdbApiService.then(activate);
 

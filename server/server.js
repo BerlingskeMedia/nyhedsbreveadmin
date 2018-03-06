@@ -1,9 +1,11 @@
 /*jshint node: true */
 'use strict';
 
-var Hapi = require('hapi'),
-    inert = require('inert'),
-    backend = require('./backend');
+const Hapi = require('hapi');
+const inert = require('inert');
+const backend = require('./backend');
+const Bpc = require('./bpc_client');
+const Auth = require('./auth');
 
 var client = {
   register: function (plugin, options, next) {
@@ -71,9 +73,18 @@ server.route({
   }
 });
 
+server.route({
+  method: 'GET',
+  path: '/bpc_env',
+  handler: function(request, reply){
+    reply(Bpc.env());
+  }
+});
+
 server.register(inert, cb);
 server.register(client, cb);
 server.register(backend, { routes: { prefix: '/backend' } }, cb);
+server.register(Auth, { routes: { prefix: '/auth' } }, cb);
 
 if (!module.parent) {
   server.start(function() {

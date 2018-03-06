@@ -6,9 +6,14 @@
     .controller('UserDetailNyhedsbrevController', UserDetailNyhedsbrevController);
 
   /** @ngInject */
-  function UserDetailNyhedsbrevController($scope, $stateParams, mdbApiService, $q) {
+  function UserDetailNyhedsbrevController($scope, $state, mdbApiService, $q, authResolved) {
     var vm = this;
     vm.scope = $scope;
+
+    if (!authResolved) {
+      $state.go('base');
+      return;
+    }
 
     mdbApiService.then(activate);
 

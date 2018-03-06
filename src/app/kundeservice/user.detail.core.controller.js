@@ -19,8 +19,13 @@
     });
 
   /** @ngInject */
-  function UserDetailCoreController($scope, $stateParams, mdbApiService, $q, toastr) {
+  function UserDetailCoreController($scope, $stateParams, mdbApiService, $q, toastr, authResolved) {
     var vm = this;
+
+    if (!authResolved) {
+      $state.go('base');
+      return;
+    }
 
     mdbApiService.then(activate);
 

@@ -6,8 +6,13 @@
     .controller('UserDetailFeedbackController', UserDetailFeedbackController);
 
   /** @ngInject */
-  function UserDetailFeedbackController($scope, $stateParams, mdbApiService) {
+  function UserDetailFeedbackController($scope, $state, $stateParams, mdbApiService, authResolved) {
     var vm = this;
+
+    if (!authResolved) {
+      $state.go('base');
+      return;
+    }
 
     mdbApiService.then(activate);
 

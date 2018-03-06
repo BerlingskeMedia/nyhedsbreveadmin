@@ -6,12 +6,17 @@
     .controller('PublisherDetailController', PublisherDetailController);
 
   /** @ngInject */
-  function PublisherDetailController($stateParams, $state, errorhandler, toastr, mdbApiService) {
+  function PublisherDetailController($stateParams, $state, errorhandler, toastr, mdbApiService, authResolved) {
     var vm = this;
     vm.update = update;
     vm.delete = deletePublisher;
     vm.create = create;
     vm.active = reactivatePublisher;
+
+    if (!authResolved) {
+      $state.go('base');
+      return;
+    }
 
     mdbApiService.then(activate);
 

@@ -6,9 +6,14 @@
     .controller('UserDetailPermissionController', UserDetailPermissionController);
 
   /** @ngInject */
-  function UserDetailPermissionController($scope, $stateParams, mdbApiService) {
+  function UserDetailPermissionController($scope, $state, mdbApiService, authResolved) {
     var vm = this;
     vm.scope = $scope;
+
+    if (!authResolved) {
+      $state.go('base');
+      return;
+    }
 
     mdbApiService.then(activate);
 

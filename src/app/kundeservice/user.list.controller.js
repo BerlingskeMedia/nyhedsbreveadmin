@@ -6,9 +6,14 @@
     .controller('UserListContoller', UserListContoller);
 
   /** @ngInject */
-  function UserListContoller($scope, $state, mdbApiService, toastr) {
+  function UserListContoller($scope, $state, mdbApiService, toastr, authResolved) {
     var vm = this;
     vm.searching = false;
+
+    if (!authResolved) {
+      $state.go('base');
+      return;
+    }
 
     mdbApiService.then(activate);
 

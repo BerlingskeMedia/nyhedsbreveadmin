@@ -6,9 +6,14 @@
     .controller('UserDetailInteresseController', UserDetailInteresseController);
 
   /** @ngInject */
-  function UserDetailInteresseController($scope, $stateParams, mdbApiService) {
+  function UserDetailInteresseController($scope, $state, mdbApiService, authResolved) {
     var vm = this;
     vm.scope = $scope;
+
+    if (!authResolved) {
+      $state.go('base');
+      return;
+    }
 
     mdbApiService.then(activate);
 

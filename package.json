@@ -12,13 +12,15 @@
     "push": "docker push berlingskemedia/$npm_package_name:$npm_package_version && docker push berlingskemedia/$npm_package_name:latest"
   },
   "dependencies": {
-    "hapi": "^15.0.3",
-    "inert": "^4.0.2"
+    "hapi": "^16.1.1",
+    "inert": "^4.2.0",
+    "hawk": "^6.0.1"
   },
   "devDependencies": {
     "gulp": "~3.9.0"
   },
   "engines": {
     "node": ">=4.5.0"
-  }
+  },
+  "license": "ISC"
 }

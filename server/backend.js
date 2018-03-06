@@ -1,13 +1,15 @@
 /*jshint node: true */
 'use strict';
 
-var http = require('http');
+const http = require('http');
+const bpc = require('./bpc_client');
+const Boom = require('boom');
+
 var route_prefix = '';
 
 console.log('Connecting to MDBAPI on host', process.env.MDBAPI_ADDRESS, 'and port', process.env.MDBAPI_PORT);
 
 function proxy (request, reply) {
-
 
   if (reply === undefined) {
     reply = function(){};
@@ -17,8 +19,6 @@ function proxy (request, reply) {
   if(path.startsWith(route_prefix)){
     path = path.slice(route_prefix.length)
   }
-
-  console.log('proxy', path, request.headers);
 
   var options = {
     method: request.method,
@@ -55,6 +55,37 @@ function proxy (request, reply) {
   req.end();
 }
 
+function proxyAdmin (request, reply) {
+  // TODO: We are not using roles at the moment.
+  // proxyValidation(request, reply, 'admin')
+  proxyValidation(request, reply)
+}
+
+function proxyKundeservice (request, reply) {
+  // TODO: We are not using roles at the moment.
+  // proxyValidation(request, reply, 'kundeservice')
+  proxyValidation(request, reply)
+}
+
+function proxyValidation (request, reply, roles) {
+  console.log('Validation request using role:', roles ? roles : '(none)');
+  const ticket = request.state.nyhedsbreveprofiladmin_ticket;
+  if (!ticket) {
+    return reply(Boom.unauthorized());
+  }
+
+  const querystring = roles ? `?roles=${roles}` : '';
+
+  bpc.request({ path: `/permissions/mdb${querystring}`, method: 'GET'}, ticket, function (err, response) {
+    if(err){
+      reply(Boom.unauthorized());
+    } else {
+      console.log(`Request ${request.method.toUpperCase()} ${request.raw.req.url} granted for user ${ticket.user}`);
+      proxy(request, reply);
+    }
+  });
+}
+
 
 var backend = {
   proxy: proxy,
@@ -65,21 +96,63 @@ var backend = {
     /* These are the URL's we're allowing to proxy */
     server.route({
       method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      path: '/users/{id?}',
+      handler: proxyAdmin
+    });
+
+    server.route({
+      method: ['POST', 'PUT', 'DELETE', 'OPTIONS'],
       path: '/{obj}/{id?}',
-      handler: proxy
+      handler: proxyKundeservice
     });
 
     server.route({
-      method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      method: ['POST', 'PUT', 'DELETE', 'OPTIONS'],
       path: '/{obj}/{paths*2}',
-      handler: proxy
+      handler: proxyKundeservice
     });
 
     server.route({
-      method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      method: ['POST', 'PUT', 'DELETE', 'OPTIONS'],
       path: '/{obj}/{paths*3}',
-      handler: proxy
+      handler: proxyKundeservice
     });
+
+    server.route({
+      method: ['GET'],
+      path: '/{obj}/{id?}',
+      handler: proxyValidation
+    });
+
+    server.route({
+      method: ['GET'],
+      path: '/{obj}/{paths*2}',
+      handler: proxyValidation
+    });
+
+    server.route({
+      method: ['GET'],
+      path: '/{obj}/{paths*3}',
+      handler: proxyValidation
+    });
+
+    // server.route({
+    //   method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    //   path: '/{obj}/{id?}',
+    //   handler: proxy
+    // });
+    //
+    // server.route({
+    //   method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    //   path: '/{obj}/{paths*2}',
+    //   handler: proxy
+    // });
+    //
+    // server.route({
+    //   method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    //   path: '/{obj}/{paths*3}',
+    //   handler: proxy
+    // });
 
     next();
   }

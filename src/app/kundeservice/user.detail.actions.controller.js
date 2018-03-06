@@ -6,8 +6,13 @@
     .controller('UserDetailActionsController', UserDetailActionsController);
 
   /** @ngInject */
-  function UserDetailActionsController($scope, $stateParams, toastr, errorhandler, mdbApiService) {
+  function UserDetailActionsController($scope, $state, toastr, errorhandler, mdbApiService, authResolved) {
     var vm = this;
+
+    if (!authResolved) {
+      $state.go('base');
+      return;
+    }
 
     mdbApiService.then(activate);
 
