@@ -55,8 +55,14 @@ function routerConfig($stateProvider, $urlRouterProvider) {
   }
 
   function hasGrant(){
-    return function(authService) {
-      return authService.me();
+    return function(authService, $q) {
+      return authService.permissions()
+      .then(function(response){
+        return $q.resolve(true);
+      })
+      .catch(function(err){
+        return $q.resolve(false);
+      });
     }
   }
 

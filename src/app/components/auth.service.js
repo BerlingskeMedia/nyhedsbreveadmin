@@ -70,17 +70,23 @@
         }
 
         function getUserTicket(payload){
-          console.log('getUserTicketgetUserTicketgetUserTicket', payload);
           return $http.post('/auth/ticket', payload)
           .then(function(response){
             return $q.resolve(response.data);
           });
         }
 
-        function getMe() {
-          return $http.get('/auth/me')
+        function getPermissions() {
+          return $http.get('/auth')
           .then(function(response){
             return $q.resolve(response.data);
+          });
+        }
+
+        function hasRole(role) {
+          return $http.get('/auth?roles='.concat(role))
+          .then(function(response){
+            return $q.resolve(response.status === 200);
           });
         }
 
@@ -111,21 +117,23 @@
           .then(function(googleUser) {
             GoogleUser = googleUser;
             return $q.resolve(googleUser);
-          })
-          .then(getBpcEnv)
-          .then(getRsvp)
-          .then(getUserTicket);
+          });
         };
 
 
-        service.me = function(){
-          return getMe()
+        service.permissions = function(){
+          return getPermissions()
           .catch(function(err){
             if(err.status === 401){
-              return getBpcEnv()
-              .then(getRsvp)
-              .then(getUserTicket)
-              .then(getMe);
+              if(err.data && err.data.message === 'expired ticket') {
+                return getUserTicket()
+                .then(getPermissions);
+              } else {
+                return getBpcEnv()
+                .then(getRsvp)
+                .then(getUserTicket)
+                .then(getPermissions);
+              }
             } else {
               return $q.reject(err);
             }
@@ -134,12 +142,9 @@
 
 
         service.hasRole = function(role){
-          return $http.get('/auth?roles='.concat(role))
-          .then(function(response) {
-            return $q.resolve(response.status === 200);
-          })
+          return hasRole(role)
           .catch(function(err){
-            if(err.status === 401 && err.data && err.data.message === 'invalid ticket'){
+            if(err.status === 401 && err.data && err.data.message === 'expired ticket'){
               return getUserTicket()
               .then(function (){
                 return hasRole(role);

@@ -20,8 +20,6 @@ function proxy (request, reply) {
     path = path.slice(route_prefix.length)
   }
 
-  console.log('proxy request', request.method.toUpperCase(), path);
-
   var options = {
     method: request.method,
     hostname: process.env.MDBAPI_ADDRESS,
@@ -58,25 +56,27 @@ function proxy (request, reply) {
 }
 
 function proxyAdmin (request, reply) {
-  console.log('proxyAdmin');
   proxyValidation(request, reply, 'admin')
 }
 
 function proxyKundeservice (request, reply) {
-  console.log('proxyKundeservice');
   proxyValidation(request, reply, 'kundeservice')
 }
 
 function proxyValidation (request, reply, roles) {
+  console.log('Validation request using role:', roles ? roles : '(none)');
   const ticket = request.state.nyhedsbreveprofiladmin_ticket;
   if (!ticket) {
     return reply(Boom.unauthorized());
   }
 
-  bpc.request({ path: `/permissions/mdb?roles=${roles}`, method: 'GET'}, ticket, function (err, response) {
+  const querystring = roles ? `?roles=${roles}` : '';
+
+  bpc.request({ path: `/permissions/mdb${querystring}`, method: 'GET'}, ticket, function (err, response) {
     if(err){
       reply(Boom.unauthorized());
     } else {
+      console.log(`Request ${request.method.toUpperCase()} ${request.raw.req.url} granted for user ${ticket.user}`);
       proxy(request, reply);
     }
   });
@@ -117,19 +117,19 @@ var backend = {
     server.route({
       method: ['GET'],
       path: '/{obj}/{id?}',
-      handler: proxy
+      handler: proxyValidation
     });
 
     server.route({
       method: ['GET'],
       path: '/{obj}/{paths*2}',
-      handler: proxy
+      handler: proxyValidation
     });
 
     server.route({
       method: ['GET'],
       path: '/{obj}/{paths*3}',
-      handler: proxy
+      handler: proxyValidation
     });
 
     // server.route({

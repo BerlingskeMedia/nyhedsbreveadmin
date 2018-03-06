@@ -16,6 +16,9 @@ function FrontpageController($scope, $state, $sce, authService, toastr){
     .then(function() {
       $scope.authenticationRequired = false;
       activate();
+    })
+    .catch(function(err) {
+      console.error(err);
     });
   };
 
@@ -29,8 +32,8 @@ function FrontpageController($scope, $state, $sce, authService, toastr){
       var welcome = givenName ? givenName : email;
       toastr.info('Hej ' + welcome);
 
-      authService.me().
-      then(function (me){
+      authService.permissions()
+      .then(function (){
         $scope.hasGrant = true;
       })
       .catch(function(){

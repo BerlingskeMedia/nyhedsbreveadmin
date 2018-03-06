@@ -58,6 +58,7 @@ module.exports.register = function (server, options, next) {
     }
   });
 
+
   server.route({
     method: 'DELETE',
     path: '/ticket',
@@ -75,27 +76,6 @@ module.exports.register = function (server, options, next) {
     }
   });
 
-  server.route({
-    method: 'GET',
-    path: '/me',
-    config: {
-      cors: false,
-      state: {
-        parse: true,
-        failAction: 'log'
-      }
-    },
-    handler: function(request, reply) {
-      const ticket = request.state.nyhedsbreveprofiladmin_ticket;
-      if (!ticket){
-        return reply(Boom.unauthorized());
-      } else if (Date.now() > ticket.exp) {
-        return reply(Boom.unauthorized('invalid ticket'));
-      }
-
-      bpc.request({ path: '/me'}, ticket, reply);
-    }
-  });
 
   server.route({
     method: 'GET',
@@ -112,7 +92,7 @@ module.exports.register = function (server, options, next) {
       if (!ticket|| Date.now() > ticket.exp){
         return reply(Boom.unauthorized());
       } else if (Date.now() > ticket.exp) {
-        return reply(Boom.unauthorized('invalid ticket'));
+        return reply(Boom.unauthorized('expired ticket'));
       }
 
       bpc.request({ path: '/permissions/mdb'.concat(request.url.search)}, ticket, reply);
