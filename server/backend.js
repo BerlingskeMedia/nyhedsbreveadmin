@@ -56,11 +56,15 @@ function proxy (request, reply) {
 }
 
 function proxyAdmin (request, reply) {
-  proxyValidation(request, reply, 'admin')
+  // TODO: We are not using roles at the moment.
+  // proxyValidation(request, reply, 'admin')
+  proxyValidation(request, reply)
 }
 
 function proxyKundeservice (request, reply) {
-  proxyValidation(request, reply, 'kundeservice')
+  // TODO: We are not using roles at the moment.
+  // proxyValidation(request, reply, 'kundeservice')
+  proxyValidation(request, reply)
 }
 
 function proxyValidation (request, reply, roles) {

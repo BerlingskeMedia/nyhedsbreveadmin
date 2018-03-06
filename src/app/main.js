@@ -67,15 +67,19 @@ function routerConfig($stateProvider, $urlRouterProvider) {
   }
 
   function hasKundeservice(){
-    return function(authService) {
-      return authService.hasRole('kundeservice');
-    }
+    // TODO: We are not using roles at the moment.
+    // return function(authService) {
+    //   return authService.hasRole('kundeservice');
+    // }
+    return hasGrant();
   }
 
   function hasAdmin(){
-    return function(authService) {
-      return authService.hasRole('admin');
-    }
+    // TODO: We are not using roles at the moment.
+    // return function(authService) {
+    //   return authService.hasRole('admin');
+    // }
+    return hasGrant();
   }
 
   $stateProvider
