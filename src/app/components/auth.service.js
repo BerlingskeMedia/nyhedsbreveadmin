@@ -76,18 +76,50 @@
           });
         }
 
+        function authRequest(path) {
+          return readTicket()
+          .then(function (ticket) {
+            if (ticket === null) {
+              return $q.reject({ status: 401 });
+            } else {
+              return $q.resolve();
+            }
+          })
+          .then(function () {
+            return $http.get('/auth'.concat(path));
+          });
+        }
+
         function getPermissions() {
-          return $http.get('/auth/permissions')
+          return authRequest('/permissions')
           .then(function(response){
             return $q.resolve(response.data);
           });
         }
 
         function hasRole(role) {
-          return $http.get('/auth/permissions?roles='.concat(role))
+          return authRequest('/permissions?roles='.concat(role))
           .then(function(response){
             return $q.resolve(response.status === 200);
           });
+        }
+
+
+        function readCookie(name) {
+          const nameEQ = name + "=";
+          const ca = document.cookie.split(';');
+          for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+          }
+          return null;
+        }
+
+
+        function readTicket(){
+          const ticket = readCookie('nyhedsbreveprofiladmin_ticket');
+          return $q.resolve(ticket !== null ? JSON.parse(window.atob(ticket)): null);
         }
 
 
