@@ -7,7 +7,8 @@ const bpc = require('./bpc_client');
 module.exports.register = function (server, options, next) {
 
   server.state('nyhedsbreveprofiladmin_ticket', {
-    ttl: 1000 * 60 * 60 * 24 * 30, // (one month)
+    // ttl: 1000 * 60 * 60 * 24 * 30, // (one month)
+    ttl: null, // session time-life - cookies are deleted when the browser is closed
     isHttpOnly: false,
     isSecure: false,
     // isSameSite: false,
