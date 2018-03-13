@@ -77,14 +77,14 @@
         }
 
         function getPermissions() {
-          return $http.get('/auth')
+          return $http.get('/auth/permissions')
           .then(function(response){
             return $q.resolve(response.data);
           });
         }
 
         function hasRole(role) {
-          return $http.get('/auth?roles='.concat(role))
+          return $http.get('/auth/permissions?roles='.concat(role))
           .then(function(response){
             return $q.resolve(response.status === 200);
           });

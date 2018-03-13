@@ -79,7 +79,7 @@ module.exports.register = function (server, options, next) {
 
   server.route({
     method: 'GET',
-    path: '/',
+    path: '/permissions',
     config: {
       cors: false,
       state: {
