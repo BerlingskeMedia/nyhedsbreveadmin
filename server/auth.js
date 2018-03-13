@@ -95,7 +95,8 @@ module.exports.register = function (server, options, next) {
         return reply(Boom.unauthorized('expired ticket'));
       }
 
-      bpc.request({ path: '/permissions/mdb'.concat(request.url.search)}, ticket, reply);
+      // bpc.request({ path: '/permissions/mdb'.concat(request.url.search)}, ticket, reply);
+      bpc.request({ path: '/me' }, ticket, reply);
     }
   });
 
