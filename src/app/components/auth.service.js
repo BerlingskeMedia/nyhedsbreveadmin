@@ -123,9 +123,12 @@
         }
 
 
-        // The service
+        // Initializing the service
         var service = $q.all([
           init()
+          .then(getBpcEnv)
+          .then(getRsvp)
+          .then(getUserTicket)
         ]);
 
 
