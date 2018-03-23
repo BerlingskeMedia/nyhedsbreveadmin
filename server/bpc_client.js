@@ -165,9 +165,9 @@ function parseReponse (callback) {
 
         var err = Boom.create(data.statusCode, data.error.concat(' ', data.message), data.validation);
         callback(err, null);
-      }
-      else
+      } else {
         callback(null, data);
+      }
     });
   };
 }

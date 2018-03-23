@@ -90,21 +90,6 @@
           });
         }
 
-        function getPermissions() {
-          return authRequest('/permissions')
-          .then(function(response){
-            return $q.resolve(response.data);
-          });
-        }
-
-        function hasRole(role) {
-          return authRequest('/permissions?roles='.concat(role))
-          .then(function(response){
-            return $q.resolve(response.status === 200);
-          });
-        }
-
-
         function readCookie(name) {
           const nameEQ = name + "=";
           const ca = document.cookie.split(';');
@@ -155,9 +140,11 @@
           });
         };
 
-
         service.permissions = function(){
-          return getPermissions()
+          return authRequest('/permissions')
+          .then(function(response){
+            return $q.resolve(response.data);
+          })
           .catch(function(err){
             if(err.status === 401){
               if(err.data && err.data.message === 'expired ticket') {
@@ -177,7 +164,10 @@
 
 
         service.hasRole = function(role){
-          return hasRole(role)
+          return authRequest('/permissions?roles='.concat(role))
+          .then(function(response){
+            return $q.resolve(response.status === 200);
+          })
           .catch(function(err){
             if(err.status === 401 && err.data && err.data.message === 'expired ticket'){
               return getUserTicket()
