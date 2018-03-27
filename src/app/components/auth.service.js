@@ -5,7 +5,6 @@
     .module('nyhedsbreveprofiladmin')
     .provider('authService', function () {
 
-
       this.$get = function ($http, $q, $log, $state) {
 
         var bpc_env;
@@ -14,27 +13,26 @@
 
         window.gapi.load('auth2', function () {
           window.gapi.auth2.init({
-            clientId: '844384284363-3bi2c0dvebi22kq3gcaou3ebvet51dpg.apps.googleusercontent.com',
-            cookiePolicy: 'single_host_origin',
+            client_id: '844384284363-3bi2c0dvebi22kq3gcaou3ebvet51dpg.apps.googleusercontent.com',
+            cookie_policy: 'single_host_origin',
             scope: 'https://www.googleapis.com/auth/plus.login'
-          // }).then(function(googleAuth) {
-          //   GoogleAuth = googleAuth;
-          //   return $q.resolve(GoogleAuth);
           })
           .then(auth2Init.resolve)
           .catch(auth2Init.reject);
         });
 
 
-        function init() {
-          return auth2Init.promise
-          .then(function(GoogleAuth) {
+        function getCurrentUser(GoogleAuth) {
+          if(!GoogleAuth) {
+            GoogleAuth = window.gapi.auth2.getAuthInstance();
+          }
+
+          if(GoogleAuth.isSignedIn.get()){
             GoogleUser = GoogleAuth.currentUser.get();
-            return $q.resolve();
-          })
-          .catch(function(err) {
-            console.error(err);
-          });
+            return $q.resolve(GoogleUser)
+          } else {
+            return $q.reject();
+          }
         }
 
 
@@ -47,13 +45,21 @@
         }
 
 
-        function getRsvp(bpc_env){
-          if (!GoogleUser){
+        function getRsvp(){
+          if (!GoogleUser || !bpc_env){
             return $q.reject();
           }
 
           var basicProfile = GoogleUser.getBasicProfile();
+          if (!basicProfile){
+            return $q.reject();
+          }
+
           var authResponse = GoogleUser.getAuthResponse();
+          if (!authResponse){
+            return $q.reject();
+          }
+
           var payload = {
             ID: basicProfile.getId(),
             email: basicProfile.getEmail(),
@@ -110,10 +116,16 @@
 
         // Initializing the service
         var service = $q.all([
-          init()
-          .then(getBpcEnv)
+          getBpcEnv(),
+          auth2Init.promise
+          .then(getCurrentUser)
           .then(getRsvp)
           .then(getUserTicket)
+          .catch(function(err){
+            if(err){
+              console.error(err);
+            }
+          })
         ]);
 
 
@@ -149,12 +161,11 @@
             if(err.status === 401){
               if(err.data && err.data.message === 'expired ticket') {
                 return getUserTicket()
-                .then(getPermissions);
+                .then(service.permissions);
               } else {
-                return getBpcEnv()
-                .then(getRsvp)
+                return getRsvp()
                 .then(getUserTicket)
-                .then(getPermissions);
+                .then(service.permissions);
               }
             } else {
               return $q.reject(err);
