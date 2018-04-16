@@ -83,7 +83,7 @@ function proxyValidation (request, reply, roles) {
   const querystring = roles ? `?roles=${roles}` : '';
 
   // bpc.request({ path: `/permissions/mdb${querystring}`, method: 'GET'}, ticket, function (err, response) {
-  bpc.request({ path: `/me`, method: 'GET'}, ticket, function (err, response) {
+  bpc.request({ path: `/permissions`, method: 'GET'}, ticket, function (err, response) {
     if(err){
       reply(Boom.unauthorized());
     } else {

@@ -97,7 +97,7 @@ module.exports.register = function (server, options, next) {
       }
 
       // bpc.request({ path: '/permissions/mdb'.concat(request.url.search)}, ticket, reply);
-      bpc.request({ path: '/me' }, ticket, reply);
+      bpc.request({ path: '/permissions' }, ticket, reply);
     }
   });
 
