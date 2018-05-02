@@ -49,9 +49,17 @@
     }
 
     function activate() {
-      $scope.user_promise = mdbApiService.getUser($stateParams.ekstern_id,'?actions=1&feedback=1&optouts=1').then(function(user) {
+      $scope.user_promise = mdbApiService.getUser($stateParams.ekstern_id,'?actions=1&feedback=1&optouts=1')
+      .then(function(user) {
         $scope.user = user;
         console.log('user', user);
+      }).catch(function(err) {
+        if(err.status === 404) {
+          toastr.error('Kunden kunne ikke findes');
+          $state.go('user');
+        } else {
+          console.error(err);
+        }
       });
 
       $scope.goto = $state.go;
