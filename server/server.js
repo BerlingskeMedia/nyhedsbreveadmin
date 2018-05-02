@@ -25,7 +25,7 @@ var client = {
       path: '/app/{param*}',
       handler: {
         directory: {
-          path: 'src/app'
+          path: 'client/app'
         }
       }
     });
@@ -34,7 +34,7 @@ var client = {
       method: 'get',
       path: '/favicon.ico',
       handler: {
-        file: 'src/favicon.png'
+        file: 'client/favicon.png'
       }
     });
 
@@ -42,7 +42,7 @@ var client = {
       method: 'get',
       path: '/{param*}',
       handler: {
-        file: 'src/index.html'
+        file: 'client/index.html'
       }
     });
 
