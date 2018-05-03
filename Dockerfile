@@ -17,7 +17,7 @@ RUN wget -O - http://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION-linux-x64.
 # Mount current dir as a volume containing all source code.
 WORKDIR /nyhedsbreveprofiladmin
 
-COPY ./src /nyhedsbreveprofiladmin/src
+COPY ./client /nyhedsbreveprofiladmin/client
 COPY ./bower_components /nyhedsbreveprofiladmin/bower_components
 COPY ./node_modules /nyhedsbreveprofiladmin/node_modules
 COPY ./server /nyhedsbreveprofiladmin/server
