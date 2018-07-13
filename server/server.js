@@ -4,7 +4,6 @@
 const Hapi = require('hapi');
 const inert = require('inert');
 const backend = require('./backend');
-const Bpc = require('./bpc_client');
 const Auth = require('./auth');
 
 var client = {
@@ -70,14 +69,6 @@ server.route({
   path: '/healthcheck',
   handler: function (request, reply) {
     return reply('OK');
-  }
-});
-
-server.route({
-  method: 'GET',
-  path: '/bpc_env',
-  handler: function(request, reply){
-    reply(Bpc.env());
   }
 });
 

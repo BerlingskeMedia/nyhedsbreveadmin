@@ -73,7 +73,8 @@ function proxyValidation (request, reply, roles) {
   if (!ticket) {
     return reply(Boom.unauthorized());
   } else if (Date.now() > ticket.exp - 60000) { // 1 minut before the ticket expires
-    bpc.reissueTicket(request.state.nyhedsbreveprofiladmin_ticket, function (err, reissuedTicket){
+    // Just to be sure: We reissue the ticket during any requests to the backend, if the ticket is close to expire
+    bpc.request({ path: '/ticket/reissue', method: 'POST' }, request.state.nyhedsbreveprofiladmin_ticket, function (err, reissuedTicket){
       if (!err) {
         reply.state('nyhedsbreveprofiladmin_ticket', reissuedTicket);
       }
@@ -85,6 +86,7 @@ function proxyValidation (request, reply, roles) {
   // bpc.request({ path: `/permissions/mdb${querystring}`, method: 'GET'}, ticket, function (err, response) {
   bpc.request({ path: `/permissions`, method: 'GET'}, ticket, function (err, response) {
     if(err){
+      console.error(err);
       reply(Boom.unauthorized());
     } else {
       console.log(`Request ${request.method.toUpperCase()} ${request.raw.req.url} granted for user ${ticket.user}`);

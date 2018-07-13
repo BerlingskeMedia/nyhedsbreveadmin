@@ -21,11 +21,12 @@ const BPC_APP_SECRET = process.env.BPC_APP_SECRET;
 
 console.log('Connecting to BPC on', BPC_URL.host, 'AS', BPC_APP_ID);
 
-module.exports.env = function() {
-  return Object.assign({}, BPC_URL, {
-    app: BPC_APP_ID,
-  });
-};
+const env = Object.assign({}, BPC_URL, {
+  app: BPC_APP_ID,
+});
+
+module.exports.env = env;
+
 
 function getAppTicket() {
   var app = {
@@ -59,16 +60,6 @@ function refreshAppTicket(){
       setTimeout(refreshAppTicket, result.exp - Date.now() - 10000);
     }
   });
-};
-
-
-module.exports.getUserTicket = function(rsvp, callback) {
-  callSsoServer({path: '/ticket/user', method: 'POST', payload: {rsvp: rsvp}}, appTicket, callback);
-};
-
-
-module.exports.reissueTicket = function(ticket, callback){
-  callSsoServer({path: '/ticket/reissue', method: 'POST'}, ticket, callback);
 };
 
 
