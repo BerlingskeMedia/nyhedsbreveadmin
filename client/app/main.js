@@ -209,12 +209,6 @@ function routerConfig($stateProvider, $urlRouterProvider) {
         authResolved: hasAdmin()
       }
     })
-    .state('smartlinkbuilder', {
-      url: '/smartlinkbuilder',
-      templateUrl: 'app/smartlinkbuilder/smartlinkbuilder.html',
-      controller: 'SmartlinkBuilderController',
-      controllerAs: 'vm'
-    })
     .state('user', {
       url: '/kundeservice',
       templateUrl: 'app/kundeservice/user.list.html',
