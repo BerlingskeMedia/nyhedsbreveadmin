@@ -23,9 +23,8 @@ app.config(function ($logProvider, toastrConfig, $locationProvider, moment) {
 app.constant('moment', moment);
 
 app.constant("nyhedsbreveprofiladminConfig", {
-    "LOCATIONID": 2019,
-    "SMARTLINK_BASEURL": "http://profil.berlingskemedia.dk/smartlinks"
-  });
+  "LOCATIONID": 2019
+});
 
 app.run(redirectTo);
 
