@@ -90,7 +90,7 @@ function routerConfig($stateProvider, $urlRouterProvider) {
     .state('settings', {
       url: '/settings',
       templateUrl: 'app/settings/menu.html',
-      redirectTo: 'settings.publisher'
+      redirectTo: 'settings.nyhedsbrev'
     })
     .state('settings.publisher', {
       url: '/publisher',
