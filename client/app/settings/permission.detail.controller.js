@@ -11,6 +11,7 @@
     vm.update = update;
     vm.delete = deleteNyhedsbrev;
     vm.create = create;
+    vm.active = reactivatePermission;
 
     if (!authResolved) {
       $state.go('base');
@@ -67,6 +68,14 @@
       .catch(errorhandler.errorhandler);
     }
 
-
+    function reactivatePermission (nyhedsbrev) {
+      nyhedsbrev.enabled = 1;
+      return mdbApiService.putNyhedsbrev(nyhedsbrev)
+      .then(function(nyhedsbrev) {
+        toastr.success('Permission genaktiveret');
+        vm.nyhedsbrev = nyhedsbrev;
+      })
+      .catch(errorhandler.errorhandler);
+    }
   }
 })();
