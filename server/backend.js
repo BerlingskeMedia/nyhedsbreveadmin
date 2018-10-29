@@ -44,8 +44,8 @@ function proxy (request, reply) {
     reply(null, res);
 
   }).on('error', function(e) {
-    console.log('Got error while requesting (' + request.url + '): ' + e.message);
-    reply(e, null);
+    console.log('Got error while requesting ' + options.path + ': ' + e.message);
+    reply(Boom.badRequest(e.message));
   });
 
   if (request.payload) {
