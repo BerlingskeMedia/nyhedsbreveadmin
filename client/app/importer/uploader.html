@@ -77,10 +77,13 @@
 
 <form class="form">
   <div class="form-group form-group-sm">
-    <button ng-class="" class="btn btn-primary btn-xs" ng-click="addAction()">
+    <button ng-class="" class="btn btn-primary btn-xs" ng-disabled="importRunning || allRowsImported" ng-click="addAction()">
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
       Tilføj handling
     </button>
+  </div>
+  <div class="form-group form-group-sm">
+    <input type="checkbox" ng-model="onlyPerformUpdates"> Udfør kun opdatering (ingen oprettelser)
   </div>
 </form>
 
@@ -149,7 +152,7 @@
     Valideret: {{ validatedRowIndex }} <br />
     Fejl: {{ totalValidationErrors }} <br />
     Ialt til import: {{ validatedRowIndex - totalValidationErrors }} <br />
-    - heraf oprettes: {{ totalUsersToInsert }} <br />
+    <span ng-style="{'text-decoration': onlyPerformUpdates? 'line-through' : ''}">- heraf oprettes: {{ totalUsersToInsert }}</span><br />
     - heraf fundet/opdateres: {{ totalUsersFound }}
   </div>
   <div class="col-sm-12">
@@ -164,7 +167,7 @@
     Import startet kl.: <em ng-if="importStarted">{{:: importStarted }}.</em> <br />
     Færdig kl.: <em ng-if="importEnded">{{:: importEnded }}.</em> <br />
     Importeret: {{ importedUsersIndex }} <br />
-    - heraf oprettet: {{ totalUsersInserted }} <br />
+    <span ng-style="{'text-decoration': onlyPerformUpdates? 'line-through' : ''}">- heraf oprettet: {{ totalUsersInserted }}</span><br />
     - heraf opdateret: {{ totalUsersUpdated }} <br />
     - heraf ingen ændring: {{ totalUsersNoChanges }} <br />
     - heraf fejl: {{ totalImportErrors }}
@@ -183,17 +186,14 @@
   <thead>
     <tr>
       <th ng-repeat="header in headers">
-        <span ng-if="header.mapped" title="Mappet til {{ header.mdbName }}" class="text-primary">
-          {{::header.csvName}}
-          <span title="Overskriver data i MDB" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-        </span>
-        <span ng-if="!header.mapped">{{::header.csvName}}</span>
+        {{::header.csvName}}
+        <span ng-if="header.mapped && header.updateFieldInMDB" title="Overskriver {{ header.mdbName }} i MDB" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
       </th>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat="row in previewRows">
-      <td ng-repeat="field in flattenRowData(row.data) track by $index">
+      <td ng-repeat="field in flattenRowData(row.csvdata) track by $index">
         {{::field}}
       </td>
     </tr>

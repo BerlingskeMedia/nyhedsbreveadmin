@@ -44,27 +44,32 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
     {
       mdbName: 'email',
       aliases: ['EmailAddress', 'Email Address', 'Email_Address', 'E-mail'],
-      etName: 'Email Address'
+      etName: 'Email Address',
+      updateFieldInMDB: true
     },
     {
       mdbName: 'fornavn',
       aliases: ['FirstName', 'First Name', 'First_Name'],
-      etName: 'FirstName'
+      etName: 'FirstName',
+      updateFieldInMDB: true
     },
     {
       mdbName: 'efternavn',
       aliases: ['LastName', 'Last Name', 'Last_Name'],
-      etName: 'LastName'
+      etName: 'LastName',
+      updateFieldInMDB: true
     },
     {
       mdbName: 'postnummer',
       aliases: ['ZipCode', 'Zip Code', 'Zip_Code', 'PostalCode', 'Postal Code', 'Postal_Code'],
-      etName: 'ZipCode'
+      etName: 'ZipCode',
+      updateFieldInMDB: true
     },
     {
       mdbName: 'bynavn',
       aliases: ['City'],
-      etName: null
+      etName: null,
+      updateFieldInMDB: true
     },
     // {
     //   mdbName: 'land',
@@ -74,22 +79,32 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
     {
       mdbName: 'mobil',
       aliases: ['Mobil'],
-      etName: null
+      etName: null,
+      updateFieldInMDB: true
     },
     {
       mdbName: 'telefon',
       aliases: ['Telefon'],
-      etName: null
+      etName: null,
+      updateFieldInMDB: true
     },
     {
       mdbName: 'koen',
       aliases: ['Sex'],
-      etName: 'Sex'
+      etName: 'Sex',
+      updateFieldInMDB: true
     },
     {
       mdbName: 'foedselsdato',
       aliases: ['Birthyear', 'Fødselsdato'],
-      etName: 'Birthyear'
+      etName: 'Birthyear',
+      updateFieldInMDB: true
+    },
+    {
+      mdbName: 'robinson_flag',
+      aliases: ['Robinson', 'Blacklistet'],
+      etName: 'Robinson',
+      updateFieldInMDB: true
     },
     {
       mdbName: 'user_id',
@@ -190,6 +205,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
 
 
   $scope.runParse = function(preview){
+
     if($scope.importFile === undefined){
       toastr.warning('Vælg fil');
       return;
@@ -200,6 +216,8 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
     } else {
       $scope.previewRows = [];
     }
+
+    var rowsParsed = 0;
 
     resetFileScopeData();
     $scope.parseRunning = true;
@@ -219,48 +237,60 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
       encoding: $scope.importFileEncoding,
       header: true,
       skipEmptyLines: true,
+      error: function(err, file){
+        console.error(err);
+      },
     	step: function(row, parser){
 
+        ++rowsParsed;
+
         if(row.errors.length > 0){
-          console.error(row);
-          return;
+          writeToErrorLog('Row ' + rowsParsed + ' has errors', row.errors);
+        
         } else if(row.data.length > 1){
-          console.error('Row has too many data', row.data);
-          return;
+          writeToErrorLog('Row ' + rowsParsed + ' has too many columns', row.data);
+        
         } else if (allFieldsNullOrEmpty(row.data[0])){
-          return;
-        }
-
-        row.data = cleanUpFields(row.data[0]);
-
-        if (preview > 0){
-          $scope.previewRows.push(row);
-
-          if ($scope.previewRows.length === preview){
-            $scope.parseRunning = false;
-            $scope.$digest();
-            toastr.success('Preview indlæst');
-            console.log("Preview parsed!");
-          }
-
+          writeToErrorLog('Row ' + rowsParsed + ' has no data.')
+        
         } else {
 
-          globalRows.push(row);
-          ++$scope.totalRowCount;
+          row.csvdata = cleanUpFields(row.data[0]);
 
+          if(!headerCalculated){
+            calculateHeadersMapping(row.meta.fields);
+            headerCalculated = true;
+          }
+
+          if (preview > 0){
+            $scope.previewRows.push(row);
+          } else {
+            globalRows.push(row);
+            ++$scope.totalRowCount;
+          }
         }
 
-        if(!headerCalculated){
-          calculateHeadersMapping(row.data);
-          headerCalculated = true;
+        // If we are parsing preview, and either we have enough rows
+        if (preview > 0 && rowsParsed === preview){
+          $scope.parseRunning = false;
+          $scope.$digest();
+          toastr.success('Preview indlæst');
         }
+
     	},
     	complete: function(){
-        // In the case the file is shorter than the preview range and complete-handler is hit,
-        // we'll copy the $scope.previewRows array (by value), so the validation can continue.
+        // In the case the file is shorter than the preview range this complete-event is called.
+        // In this case we can skip the full "runParse"-phase.
+        // We'll copy the $scope.previewRows array (by value) to the globalRows.
+        // (In case the file is longer than the preview range, the complete-event is NOT called.)
         if (preview > 0){
           globalRows = $scope.previewRows.slice();
           $scope.totalRowCount = globalRows.length;
+        }
+
+        if(globalRows.length === 0){
+          toastr.error('Ingen rækker fundet');
+          return;
         }
 
         $scope.allRowsParsed = true;
@@ -273,7 +303,6 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
         // But we need to run another $digest so that the "Parse"-button is not disabled forever.
         $scope.$digest();
         toastr.success('Alle rækker indlæst');
-        console.log("All parsed!");
     	}
     });
 
@@ -298,17 +327,15 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
   };
 
 
-  function calculateHeadersMapping(rowData){
-    var csvHeaders = Object.keys(rowData);
+  function calculateHeadersMapping(fields){
 
-    $scope.headers = csvHeaders.map(function(org_header){
-      var header = org_header.toLowerCase();
+    $scope.headers = fields.map(function(field){
       var mapping = headerMappings.find(function(m){
-        if (header === m.mdbName.toLowerCase()){
+        if (field.toLowerCase() === m.mdbName.toLowerCase()){
           return true;
         } else {
           var temp = m.aliases.map(function(a){return a.toLowerCase();});
-          return temp.indexOf(header) > -1;
+          return temp.indexOf(field.toLowerCase()) > -1;
         }
       });
 
@@ -316,11 +343,10 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
         mapped: mapping !== undefined,
         mdbName: mapping !== undefined ? mapping.mdbName : null,
         etName: mapping !== undefined ? mapping.etName : null,
-        csvName: org_header
+        updateFieldInMDB: mapping !== undefined && mapping.updateFieldInMDB ? mapping.updateFieldInMDB : false,
+        csvName: field
       };
     });
-
-    console.log('header mappings', $scope.headers);
   }
 
   function findMappedHeaders(key){
@@ -347,6 +373,11 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
     $scope.totalUsersToInsert = 0;
     $scope.percentValidated = 0;
 
+    if(globalRows.length === 0){
+      toastr.error('Ingen rækker fundet');
+      return;
+    }
+
     var temp = findMappedHeaders('email');
     if (temp === undefined){
       toastr.error('Email ikke mappet');
@@ -355,10 +386,6 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
 
     var csvEmailHeaderName = temp.csvName;
 
-    if(globalRows.length === 0){
-      return;
-    }
-
     $scope.validationRunning = true;
     $scope.importRunning = false; // Just to be sure that this has not been set to false any case of any exceptions.
 
@@ -366,10 +393,11 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
 
     validateRow();
 
+
     function validateRow(){
       var row = globalRows[$scope.validatedRowIndex];
 
-      var email = row.data[csvEmailHeaderName];
+      var email = row.csvdata[csvEmailHeaderName];
 
       if (email === undefined || email === null || email === ''){
         row.error = true;
@@ -383,13 +411,14 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
       }
 
       mdbApiService.searchUser({email: email}).then(function(users){
-        if (users.length === 0){
+        if (users.length === 0) {
           ++$scope.totalUsersToInsert;
-          setEmptyMdbData(row)
+          setEmptyMdbData(row);
           rowValidationEnd();
         } else if (users.length === 1){
           ++$scope.totalUsersFound;
-          mdbApiService.getUser(users[0].ekstern_id, '?optouts=1&permissions=1').then(function(user){
+          mdbApiService.getUser(users[0].ekstern_id, '?optouts=1&permissions=1')
+          .then(function(user){
             // I know this is the same if-statement as in setMdbData(). Just to be safe.
             if (row.error || row.errors.length > 1 || user === undefined || user === null){
               setEmptyMdbData(row);
@@ -422,7 +451,6 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
         validateRow();
       } else {
         toastr.success('Alle rækker valideret');
-        console.log("All validated!");
         $scope.validationEnded = getFormattetTimetamp();
         $scope.allRowsValidated = true;
         $scope.validationRunning = false;
@@ -490,11 +518,8 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
     $scope.percentImported = 0;
 
     var mappedHeaders = findMappedHeaders();
-    console.log('mappedHeaders', mappedHeaders);
-    console.log('actions', $scope.actions);
 
     var foundUsersMustBeUpdated = $scope.actions.length > 0 || mappedHeaders.some(otherThanEmail);
-    console.log('foundUsersMustBeUpdated', foundUsersMustBeUpdated);
 
     var rowsToImport = globalRows.filter(function(row){
       return row.error !== true;
@@ -505,8 +530,13 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
       return;
     }
 
+    if($scope.totalUsersFound === 0 && $scope.onlyPerformUpdates){
+      toastr.warning('Ingen rækker at opdatere');
+      return;
+    }
+
     $scope.importRunning = true;
-    console.log('$scope.location_id', $scope.location_id);
+
     if ($scope.location_id === undefined || $scope.location_id === null){
       createLocation(importUser);
     } else {
@@ -517,7 +547,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
 
     function createLocation(callback){
       var location_tekst =$scope.location_tekst;
-      console.log('location_tekst', location_tekst);
+
       if(locationTekstIsMissing()){
         toastr.warning('Lokation mangler');
         $scope.importRunning = false;
@@ -538,10 +568,11 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
 
     function importUser(){
 
-
       var row = rowsToImport[$scope.importedUsersIndex],
           ekstern_id = row.mdbdata.ekstern_id,
           payload = createUserPayload(row);
+
+      console.log(payload)
 
       // // FOR TESTING
       // console.log('payload', payload);
@@ -551,19 +582,28 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
       if (ekstern_id !== undefined && ekstern_id !== null && ekstern_id !== ''){
         payload.ekstern_id = ekstern_id;
         if (foundUsersMustBeUpdated){
-          mdbApiService.updateUser(payload).then(updateUserSuccess, mdbError);
+          mdbApiService.updateUser(payload)
+          .then(updateUserSuccess, mdbError);
         } else {
           row.error = false;
           ++$scope.totalUsersNoChanges;
           userImportedEnd();
         }
       } else {
-        mdbApiService.createUser(payload).then(createUserSuccess, mdbError);
+        // If the import should only perform updates - and no creates
+        if($scope.onlyPerformUpdates){
+          row.error = true; // This way the row will be filtered out when downloading the result
+          userImportedEnd();
+        } else {
+          mdbApiService.createUser(payload)
+          .then(createUserSuccess, mdbError);
+        }
       }
 
 
       function createUserSuccess(response){
-        mdbApiService.getUser(response.ekstern_id).then(function(user) {
+        mdbApiService.getUser(response.ekstern_id)
+        .then(function(user) {
           row.error = false;
           setMdbData(row, user);
           ++$scope.totalUsersInserted;
@@ -588,35 +628,13 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
       }
     }
 
+
     function otherThanEmail(header){
       return header.mdbName !== 'email';
     }
 
+
     function createUserPayload(row){
-      var user = Object.assign({}, row.mdbuser);
-
-      // mappedHeaders.forEach(function(h){
-      //   user[h.mdbName] = row.data[h.csvName];
-      // });
-
-      for(var i = 0; i < mappedHeaders.length; i++){
-        var h = mappedHeaders[i];
-        user[h.mdbName] = row.data[h.csvName];
-      }
-
-      user.nyhedsbreve = user.nyhedsbreve.concat($scope.actions.filter(filterActions('signup', 'nyhedsbrev')).map(actionIdAsInt));
-      user.permissions = user.permissions.concat($scope.actions.filter(filterActions('signup', 'permission')).map(actionIdAsInt));
-      user.interesser = user.interesser.concat($scope.actions.filter(filterActions('signup', 'interesse')).map(actionIdAsInt));
-      user.optouts = user.optouts.concat($scope.actions.filter(filterActions('signup', 'optout')).map(actionIdAsInt));
-
-      user.nyhedsbreve = user.nyhedsbreve.filter(filterIds('signout', 'nyhedsbrev'));
-      user.permissions = user.permissions.filter(filterIds('signout', 'permission'));
-      user.interesser = user.interesser.filter(filterIds('signout', 'interesse'));
-      user.optouts = user.optouts.filter(filterIds('signout', 'optout'));
-
-      user.location_id = $scope.location_id;
-
-      return user;
 
       function filterIds(operation, type){
         var temp = $scope.actions.filter(filterActions(operation, type)).map(actionIdAsInt);
@@ -634,6 +652,46 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
       function actionIdAsInt(action){
         return parseInt(action.id);
       }
+
+      var user = Object.assign({
+        nyhedsbreve: [],
+        permissions: [],
+        interesser: []
+      }, row.mdbuser);
+
+      // mappedHeaders.forEach(function(h){
+      //   user[h.mdbName] = row.data[h.csvName];
+      // });
+
+      for(var i = 0; i < mappedHeaders.length; i++){
+        var h = mappedHeaders[i];
+
+        if (h.mdbName === 'robinson_flag') {
+
+          var robinson_value = row.csvdata[h.csvName];
+          user.robinson_flag = 
+            [true, 't', 'true', 'j', 'ja'].indexOf(robinson_value.toLowerCase()) > -1 ? true :
+            [false, 'f', 'false', 'n', 'nej'].indexOf(robinson_value.toLowerCase()) > -1 ? false : false;
+
+        } else if(h.updateFieldInMDB) {
+
+          user[h.mdbName] = row.csvdata[h.csvName];
+          
+        }
+      }
+
+      user.nyhedsbreve = user.nyhedsbreve.concat($scope.actions.filter(filterActions('signup', 'nyhedsbrev')).map(actionIdAsInt));
+      user.nyhedsbreve = user.nyhedsbreve.filter(filterIds('signout', 'nyhedsbrev'));
+      
+      user.permissions = user.permissions.concat($scope.actions.filter(filterActions('signup', 'permission')).map(actionIdAsInt));
+      user.permissions = user.permissions.filter(filterIds('signout', 'permission'));
+      
+      user.interesser = user.interesser.concat($scope.actions.filter(filterActions('signup', 'interesse')).map(actionIdAsInt));
+      user.interesser = user.interesser.filter(filterIds('signout', 'interesse'));
+      
+      user.location_id = $scope.location_id;
+      
+      return user;
     }
 
     function userImportedEnd(){
@@ -641,7 +699,6 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
         importUser();
       } else {
         toastr.success('Alle rækker importeret');
-        console.log('All rows imported');
         $scope.importEnded = getFormattetTimetamp();
         $scope.importRunning = false;
         $scope.allRowsImported = true;
@@ -659,8 +716,8 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
     })
     .map(function(row){
       var data = {};
-      if (row.data !== null && row.data !== undefined){
-        copyObject(data, row.data);
+      if (row.csvdata !== null && row.csvdata !== undefined){
+        copyObject(data, row.csvdata);
       }
       if (row.mdbdata !== null && row.mdbdata !== undefined){
         copyObject(data, row.mdbdata);
@@ -700,7 +757,8 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
     $scope.optouts = [];
     $scope.locations = [];
 
-    mdbApiService.getInteresserFull().then(function(all){
+    mdbApiService.getInteresserFull()
+    .then(function(all){
       all.forEach(function(interesse){
         $scope.interesser.push({
           interesse_id: interesse.interesse_id,
@@ -714,18 +772,33 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
           });
         });
       });
+    }).catch(function(ex){
+      var message = ex.data && ex.data.message ? ex.data.message : ex.statusText;
+      writeToErrorLog('getInteresserFull error: ' + message);
     });
 
-    mdbApiService.getNyhedsbreve('orderBy=nyhedsbrev_navn').then(function(nyhedsbreve){
+    mdbApiService.getNyhedsbreve('orderBy=nyhedsbrev_navn')
+    .then(function(nyhedsbreve){
       $scope.nyhedsbreve = nyhedsbreve;
+    }).catch(function(ex){
+      var message = ex.data && ex.data.message ? ex.data.message : ex.statusText;
+      writeToErrorLog('getNyhedsbreve error: ' + message);
     });
 
-    mdbApiService.getPermissions('orderBy=nyhedsbrev_navn').then(function(permissions){
+    mdbApiService.getPermissions('orderBy=nyhedsbrev_navn')
+    .then(function(permissions){
       $scope.permissions = permissions;
+    }).catch(function(ex){
+      var message = ex.data && ex.data.message ? ex.data.message : ex.statusText;
+      writeToErrorLog('getPermissions error: ' + message);
     });
 
-    mdbApiService.getOptoutTypes('orderBy=type_desc').then(function(optouts){
+    mdbApiService.getOptoutTypes('orderBy=type_desc')
+    .then(function(optouts){
       $scope.optouts = optouts;
+    }).catch(function(ex){
+      var message = ex.data && ex.data.message ? ex.data.message : ex.statusText;
+      writeToErrorLog('getOptoutTypes error: ' + message);
     });
   }
 
