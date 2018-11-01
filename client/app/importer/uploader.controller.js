@@ -572,8 +572,6 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
           ekstern_id = row.mdbdata.ekstern_id,
           payload = createUserPayload(row);
 
-      console.log(payload)
-
       // // FOR TESTING
       // console.log('payload', payload);
       // userImportedEnd();
