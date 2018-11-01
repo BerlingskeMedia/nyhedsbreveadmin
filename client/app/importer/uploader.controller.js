@@ -469,6 +469,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
       row.mdbdata = {
         user_id: user.user_id,
         ekstern_id: user.ekstern_id,
+        robinson_flag: user.robinson_flag  ? 't' : 'f',
         nyhedsbreve: etPimping(user.nyhedsbreve),
         interesser: etPimping(user.interesser),
         permissions: etPimping(user.permissions),
@@ -476,6 +477,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
       };
     }
   }
+
 
   function setEmptyMdbData(row){
     row.mdbuser = {
@@ -494,6 +496,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
     };
   }
 
+
   function etPimping(input){
     if (input === undefined || input === null || !input instanceof Array){
       return null;
@@ -506,6 +509,7 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
       return '|'.concat(input.join('|'), '|');
     }
   }
+
 
   $scope.runImport = function(){
 
