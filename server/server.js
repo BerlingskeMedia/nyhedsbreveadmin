@@ -11,10 +11,10 @@ var client = {
 
     plugin.route({
       method: 'get',
-      path: '/bower_components/{param*}',
+      path: '/module/{param*}',
       handler: {
         directory: {
-          path: 'bower_components'
+          path: 'node_modules'
         }
       }
     });

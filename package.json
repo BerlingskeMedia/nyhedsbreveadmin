@@ -12,11 +12,26 @@
     "push": "docker push berlingskemedia/$npm_package_name:$npm_package_version && docker push berlingskemedia/$npm_package_name:latest"
   },
   "dependencies": {
+    "angular": "^1.7.5",
+    "angular-animate": "^1.7.5",
+    "angular-aria": "^1.7.5",
+    "angular-bootstrap": "^0.12.2",
+    "angular-cookies": "^1.7.5",
+    "angular-messages": "^1.7.5",
+    "angular-moment": "^1.3.0",
+    "angular-sanitize": "^1.7.5",
+    "angular-toastr": "^2.1.1",
+    "angular-touch": "^1.7.5",
+    "angular-ui-router": "^1.0.20",
+    "boom": "^6.0.0",
+    "bootstrap": "^3.3.7",
+    "checklist-model": "^1.0.0",
     "hapi": "^16.1.1",
-    "inert": "^4.2.0",
     "hawk": "^6.0.1",
+    "inert": "^4.2.0",
     "joi": "^11.3.4",
-    "boom": "^6.0.0"
+    "moment": "^2.22.2",
+    "papaparse": "^4.6.1"
   },
   "devDependencies": {
     "gulp": "~3.9.0"

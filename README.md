@@ -16,7 +16,7 @@ You'll need a recent version of node.js, _v4.2.2 or newer_. You can build the
 application by running;
 
 ```
-npm install && bower update
+npm install
 ```
 
 There's a simple node-based web server included that can serve the application

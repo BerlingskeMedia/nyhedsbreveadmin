@@ -43,25 +43,14 @@ function redirectTo ($rootScope, $state) {
 
 function routerConfig($stateProvider, $urlRouterProvider) {
 
-  function isSignedIn(){
-    return function(authService, $q, $state) {
-      if (authService.isSignedIn()){
-        return $q.resolve();
-      } else {
-        return $q.reject();
-      }
-    }
-  }
-
-  function hasGrant(){
+  function hasTicket(){
     return function(authService, $q) {
-      return authService.permissions()
-      .then(function(response){
+      console.log('authService', authService)
+      if(authService.status === 200) {
         return $q.resolve(true);
-      })
-      .catch(function(err){
+      } else {
         return $q.resolve(false);
-      });
+      }
     }
   }
 
@@ -70,7 +59,7 @@ function routerConfig($stateProvider, $urlRouterProvider) {
     // return function(authService) {
     //   return authService.hasRole('kundeservice');
     // }
-    return hasGrant();
+    return hasTicket();
   }
 
   function hasAdmin(){
@@ -78,7 +67,7 @@ function routerConfig($stateProvider, $urlRouterProvider) {
     // return function(authService) {
     //   return authService.hasRole('admin');
     // }
-    return hasGrant();
+    return hasTicket();
   }
 
   $stateProvider
@@ -297,7 +286,7 @@ function routerConfig($stateProvider, $urlRouterProvider) {
       controller: 'ImporterUploaderController',
       controllerAs: 'vm',
       resolve: {
-        authResolved: hasGrant()
+        authResolved: hasTicket()
       }
     });
 
