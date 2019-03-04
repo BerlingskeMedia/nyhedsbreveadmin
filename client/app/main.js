@@ -45,7 +45,7 @@ function routerConfig($stateProvider, $urlRouterProvider) {
 
   function hasTicket(){
     return function(authService, $q) {
-      if(authService.status === 200) {
+      if(authService && authService.status === 200) {
         return $q.resolve(true);
       } else {
         return $q.resolve(false);
