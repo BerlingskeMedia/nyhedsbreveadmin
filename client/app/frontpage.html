@@ -1,40 +1,41 @@
-<p class="lead">Profiladmin</p>
-
-<div ng-show="authenticationRequired">
-  <button
-    type="button"
-    ng-click="signIn()"
-    style="display: inline-block; background: rgb(209, 72, 54); color: rgb(255, 255, 255); width: 190px; padding-top: 10px; padding-bottom: 10px; border-radius: 2px; border: 1px solid transparent; font-size: 16px; font-weight: bold;">Login</button>
+<div>
+  <p class="lead">Profiladmin</p>
+  
+  <div ng-show="authenticationRequired">
+    <button
+      type="button"
+      ng-click="signIn()"
+      style="display: inline-block; background: rgb(209, 72, 54); color: rgb(255, 255, 255); width: 190px; padding-top: 10px; padding-bottom: 10px; border-radius: 2px; border: 1px solid transparent; font-size: 16px; font-weight: bold;">Login</button>
+  </div>
+  
+  <p ng-show="missingGrant">Du mangler adgang. Kontakt din lokale IT koordinator.</p>
+  
+  <ul ng-show="hasGrant">
+    <li><p class="lead"><a ui-sref="settings">Settings</a></p></li>
+    <li><p class="lead"><a ui-sref="user">Kundeservice</a></p></li>
+    <li><p class="lead"><a ui-sref="importer">Importer</a></p></li>
+    <li>
+      <p class="lead">&nbsp;</p>
+    </li>
+    <li>
+      <p class="lead">
+        <a href="https://docs.google.com/document/d/1CbE0_9vu-H-eDBYwdL7DR7DPVmlhqYsyimAgaRh_6fE/edit?usp=sharing" target="_blank">Vejledning: Smartlink Builder</a>
+      </p>
+    </li>
+    <li>
+      <p class="lead">
+        <a href="https://docs.google.com/document/d/1zUqcu__Q4nB-wjWbs0Kz7fucK3iejWWSzSYD5ySUi38/edit?usp=sharing" target="_blank">Vejledning: Marketing Cloud (Kundeservice)</a>
+      </p>
+    </li>
+    <li>
+      <p class="lead">
+        <a href="https://docs.google.com/document/d/1UU2_PcJCrXm1zwfhTSoGQ7_y8sQWmbEzLgxV5Z2hk68/edit?usp=sharing" target="_blank">Vejledning: Sådan sender du et nyhedsbrev</a>
+      </p>
+    </li>
+    <li>
+      <p class="lead">
+        <a href="http://nyhedsbreve.bemit.dk/">Nyhedsbreve (udsender)</a>
+      </p>
+    </li>
+  </ul>
 </div>
-
-<p ng-show="missingGrant">Du mangler adgang. Kontakt din lokale IT koordinator.</p>
-
-<ul ng-show="hasGrant">
-  <li><p class="lead"><a ui-sref="settings">Settings</a></p></li>
-  <!-- <li><p class="lead"><a ui-sref="smartlinkbuilder">Smartlink Builder</a></p></li> -->
-  <li>
-    <p class="lead">
-      <a href="https://docs.google.com/document/d/1DRl696ywwNLH4tvoDsP3jrYIwEsXzV7UfAuVidsCBNM/edit#heading=h.p61yw8u502gk">Smartlink Builder</a>
-    </p>
-  </li>
-  <li><p class="lead"><a ui-sref="user">Kundeservice</a></p></li>
-  <li><p class="lead"><a ui-sref="importer">Importer</a></p></li>
-  <li>
-    <p class="lead">&nbsp;</p>
-  </li>
-  <li>
-    <p class="lead">
-      <a href="https://docs.google.com/a/berlingskemedia.dk/document/d/1Or6HwoF58Wxac97jeKN9YB3X0mf_13UwhfJ6p7HwizI/edit?usp=sharing">Vejledning: Marketing Cloud (Kundeservice)</a>
-    </p>
-  </li>
-  <li>
-    <p class="lead">
-      <a href="https://docs.google.com/a/berlingskemedia.dk/document/d/1RSQZZGaPiBMO6sK5j_d9MQmLFyO7F3beL6_kwYxQYts/edit?usp=sharing">Vejledning: Sådan sender du et nyhedsbrev</a>
-    </p>
-  </li>
-  <li>
-    <p class="lead">
-      <a href="http://nyhedsbreve.bemit.dk/">Nyhedsbreve (udsender)</a>
-    </p>
-  </li>
-</ul>
