@@ -23,13 +23,13 @@ There's a simple node-based web server included that can serve the application
 as static files. Simply run;
 
 ```
-gulp start_server
+npm start
 ```
 
 And you can restart the server automatically when the source code is changed;
 
 ```
-gulp server
+npm run dev
 ```
 
 ### Documentation
