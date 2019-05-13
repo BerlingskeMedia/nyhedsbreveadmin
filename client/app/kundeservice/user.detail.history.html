@@ -57,7 +57,7 @@
         <div class="lead text-center">Andre</div>
       </td>
     </tr>
-    <tr ng-repeat="item in $parent.user.actions | user_action_type:[5,6,7,8] | orderBy:sortType:sortReverse">
+    <tr ng-repeat="item in $parent.user.actions | user_action_type:[5,6,7,8,9] | orderBy:sortType:sortReverse">
       <td>{{::item.oprettet | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</td>
       <td>{{::item.user_action_type_name}}</td>
       <td>{{::item.value}}</td>
@@ -65,3 +65,13 @@
     </tr>
   </tbody>
 </table>
+<div>
+  <hr />
+  <div class="lead text-center">Sync errors</div>
+  <div ng-repeat="item in $parent.user.actions | user_action_type:[10] | orderBy:sortType:sortReverse">
+    <p><strong>Date: {{::item.oprettet | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</strong></p>
+    <p></em>Location: {{::item.location_tekst}}</em></p>
+    <p>{{::item.value}}</p>
+    <br />
+  </div>
+</div>
