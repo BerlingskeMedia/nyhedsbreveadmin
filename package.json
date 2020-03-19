@@ -6,11 +6,8 @@
     "url": "https://github.com/BerlingskeMedia/nyhedsbreveprofiladmin"
   },
   "scripts": {
-    "start": "node server/server.js",
-    "dev": "nodemon --inspect --ignore 'client/' server/server.js",
-    "test": "gulp test",
-    "build": "docker build -t berlingskemedia/$npm_package_name:$npm_package_version . && docker tag -f berlingskemedia/$npm_package_name:$npm_package_version berlingskemedia/$npm_package_name:latest",
-    "push": "docker push berlingskemedia/$npm_package_name:$npm_package_version && docker push berlingskemedia/$npm_package_name:latest"
+    "start": "node server/index.js",
+    "dev": "nodemon --inspect --ignore 'client/' server/index.js"
   },
   "dependencies": {
     "@hapi/boom": "^9.1.0",

@@ -15,5 +15,4 @@ RUN npm i --production
 
 EXPOSE 8000
 
-ENTRYPOINT ["node"]
-CMD ["server/server.js"]
+CMD ["node", "server/index.js"]
