@@ -1,19 +1,51 @@
 /*jshint node: true */
 'use strict';
 
-const http = require('http');
-const bpc = require('./bpc_client');
-const Boom = require('boom');
+const Http = require('http');
+const Url = require('url');
 
 var route_prefix = '';
 
-console.log('Connecting to MDBAPI on host', process.env.MDBAPI_ADDRESS, 'and port', process.env.MDBAPI_PORT);
+var MDBAPI_PROTOCOL;
+var MDBAPI_HOSTNAME;
+var MDBAPI_PORT;
 
-function proxy (request, reply) {
 
-  if (reply === undefined) {
-    reply = function(){};
+try {
+  var temp = Url.parse(process.env.MDBAPI_ADDRESS);
+  
+  // Sometimes the ENV var is including the protocol, eg: MDBAPI_ADDRESS=http://mdbapi-test.bemit.dk
+
+  if(['http:', 'https:'].indexOf(temp.protocol) > -1) {
+    
+    MDBAPI_PROTOCOL = temp.protocol;
+    MDBAPI_HOSTNAME = temp.hostname;
+    MDBAPI_PORT = temp.port;
+    
+
+  // Other times (eg. in puppet) there are two seperate ENV vars, eg: MDBAPI_ADDRESS=mdbapi-test.bemit.dk MDBAPI_PORT=80
+
+  } else if (process.env.MDBAPI_PORT) {
+    
+    MDBAPI_PROTOCOL = 'http:';
+    MDBAPI_HOSTNAME = process.env.MDBAPI_ADDRESS;
+    MDBAPI_PORT = process.env.MDBAPI_PORT;
+    
+  } else {
+    
+    throw new Error();
+    
   }
+  
+} catch (ex) {
+  console.error('Env var MDBAPI_ADDRESS missing or invalid.');
+  process.exit(1);
+}
+
+
+console.log('Connecting backend to MDBAPI on hostname', MDBAPI_HOSTNAME, 'and port', MDBAPI_PORT);
+
+async function proxy (request, h) {
 
   var path = request.raw.req.url;
   if(path.startsWith(route_prefix)){
@@ -21,9 +53,10 @@ function proxy (request, reply) {
   }
 
   var options = {
+    protocol: MDBAPI_PROTOCOL,
+    hostname: MDBAPI_HOSTNAME,
+    port: MDBAPI_PORT,
     method: request.method,
-    hostname: process.env.MDBAPI_ADDRESS,
-    port: process.env.MDBAPI_PORT,
     path: path,
     headers: {}
   };
@@ -40,110 +73,112 @@ function proxy (request, reply) {
     options.headers['user-agent'] = request.headers['user-agent'];
   }
 
-  var req = http.request(options, function( res ) {
-    reply(null, res);
+  return new Promise((resolve, reject) => {
 
-  }).on('error', function(e) {
-    console.log('Got error while requesting ' + options.path + ': ' + e.message);
-    reply(Boom.badRequest(e.message));
-  });
+    const req = Http.request(options, function( res ) {
 
-  if (request.payload) {
-    req.write(JSON.stringify(request.payload));
-  }
+      let data = '';
 
-  req.end();
-}
+      res.setEncoding('utf8');
+      
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
 
-function proxyAdmin (request, reply) {
-  // TODO: We are not using roles at the moment.
-  // proxyValidation(request, reply, 'admin')
-  proxyValidation(request, reply)
-}
-
-function proxyKundeservice (request, reply) {
-  // TODO: We are not using roles at the moment.
-  // proxyValidation(request, reply, 'kundeservice')
-  proxyValidation(request, reply)
-}
-
-function proxyValidation (request, reply, roles) {
-  console.log('Validation request using role:', roles ? roles : '(none)');
-  const ticket = request.state.nyhedsbreveprofiladmin_ticket;
-  if (!ticket) {
-    return reply(Boom.unauthorized());
-  } else if (Date.now() > ticket.exp - 60000) { // 1 minut before the ticket expires
-    // Just to be sure: We reissue the ticket during any requests to the backend, if the ticket is close to expire
-    bpc.request({ path: '/ticket/reissue', method: 'POST' }, request.state.nyhedsbreveprofiladmin_ticket, function (err, reissuedTicket){
-      if (!err) {
-        reply.state('nyhedsbreveprofiladmin_ticket', reissuedTicket);
-      }
+      res.on('end', () => {
+        try {
+          resolve(JSON.parse(data));
+        } catch(ex) {
+          console.log(ex)
+          reject(ex);
+        }
+      });
+  
+    })
+    
+    req.on('error', function(e) {
+      console.log('Got error while requesting (' + request.url + '): ' + e.message);
+      reject(e);
     });
-  }
-
-  const querystring = roles ? `?roles=${roles}` : '';
-
-  // bpc.request({ path: `/permissions/mdb${querystring}`, method: 'GET'}, ticket, function (err, response) {
-  bpc.request({ path: `/permissions`, method: 'GET'}, ticket, function (err, response) {
-    if(err){
-      console.error(err);
-      reply(Boom.unauthorized());
-    } else {
-      console.log(`Request ${request.method.toUpperCase()} ${request.raw.req.url} granted for user ${ticket.user}`);
-      proxy(request, reply);
+  
+    if (request.payload) {
+      req.write(JSON.stringify(request.payload));
     }
+  
+    req.end();
   });
 }
 
 
-var backend = {
+module.exports = {
+  name: 'backend',
+  version: '1.0.0',
+
   proxy: proxy,
-  register: function (server, options, next) {
+
+  register: async (server, options) => {
 
     route_prefix = server.realm.modifiers.route.prefix;
 
-    /* These are the URL's we're allowing to proxy */
     server.route({
-      method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-      path: '/users/{id?}',
-      handler: proxyAdmin
-    });
-
-    server.route({
-      method: ['POST', 'PUT', 'DELETE', 'OPTIONS'],
+      method: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
       path: '/{obj}/{id?}',
-      handler: proxyKundeservice
+      options: {
+        auth: {
+          access: {
+            scope: ['mdbadmin'],
+            entity: 'any',
+          }
+        }
+      },
+      handler: proxy
     });
 
     server.route({
-      method: ['POST', 'PUT', 'DELETE', 'OPTIONS'],
+      method: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
       path: '/{obj}/{paths*2}',
-      handler: proxyKundeservice
+      options: {
+        auth: {
+          access: {
+            scope: ['mdbadmin'],
+            entity: 'any',
+          }
+        }
+      },
+      handler: proxy
     });
 
     server.route({
-      method: ['POST', 'PUT', 'DELETE', 'OPTIONS'],
+      method: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
       path: '/{obj}/{paths*3}',
-      handler: proxyKundeservice
+      options: {
+        auth: {
+          access: {
+            scope: ['mdbadmin'],
+            entity: 'any',
+          }
+        }
+      },
+      handler: proxy
     });
 
-    server.route({
-      method: ['GET'],
-      path: '/{obj}/{id?}',
-      handler: proxyValidation
-    });
+    // server.route({
+    //   method: ['GET'],
+    //   path: '/{obj}/{id?}',
+    //   handler: proxyValidation
+    // });
 
-    server.route({
-      method: ['GET'],
-      path: '/{obj}/{paths*2}',
-      handler: proxyValidation
-    });
+    // server.route({
+    //   method: ['GET'],
+    //   path: '/{obj}/{paths*2}',
+    //   handler: proxyValidation
+    // });
 
-    server.route({
-      method: ['GET'],
-      path: '/{obj}/{paths*3}',
-      handler: proxyValidation
-    });
+    // server.route({
+    //   method: ['GET'],
+    //   path: '/{obj}/{paths*3}',
+    //   handler: proxyValidation
+    // });
 
     // server.route({
     //   method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -163,13 +198,5 @@ var backend = {
     //   handler: proxy
     // });
 
-    next();
   }
 };
-
-backend.register.attributes = {
-  name: 'backend',
-  version: '1.0.0'
-};
-
-module.exports = backend;

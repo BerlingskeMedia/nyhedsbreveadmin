@@ -1,25 +1,17 @@
-FROM ubuntu:14.04
+FROM node:10.17-alpine
 
 # Set maintainers.
 MAINTAINER Daniel Kokott <dako@berlingskemedia.dk>
 
-# Update and install required packages.
-RUN apt-get update -y
-RUN apt-get install -y wget
-
-ENV NODE_VERSION v6.10.3
-
-# Download and install node.js.
-RUN wget -O - http://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION-linux-x64.tar.gz \
-    | tar xzf - --strip-components=1 --exclude="README.md" --exclude="LICENSE" \
-    --exclude="ChangeLog" -C "/usr/local"
-
 # Mount current dir as a volume containing all source code.
 WORKDIR /nyhedsbreveprofiladmin
 
-COPY ./node_modules /nyhedsbreveprofiladmin/node_modules
 COPY ./client /nyhedsbreveprofiladmin/client
 COPY ./server /nyhedsbreveprofiladmin/server
+ADD package.json /nyhedsbreveprofiladmin
+ADD package-lock.json /nyhedsbreveprofiladmin
+
+RUN npm i --production
 
 EXPOSE 8000
 

@@ -60,6 +60,24 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
       updateFieldInMDB: true
     },
     {
+    //   mdbName: 'vejnavn',
+    //   aliases: ['Vejnavn'],
+    //   etName: null,
+    //   updateFieldInMDB: true
+    // },
+    // {
+    //   mdbName: 'husnummer',
+    //   aliases: ['Husnummer'],
+    //   etName: null,
+    //   updateFieldInMDB: true
+    // },
+    // {
+    //   mdbName: 'husbogstav',
+    //   aliases: ['Husbogstav'],
+    //   etName: null,
+    //   updateFieldInMDB: true
+    // },
+    // {
       mdbName: 'postnummer',
       aliases: ['ZipCode', 'Zip Code', 'Zip_Code', 'PostalCode', 'Postal Code', 'Postal_Code'],
       etName: 'ZipCode',

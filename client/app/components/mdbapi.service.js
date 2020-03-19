@@ -7,7 +7,7 @@
 
         this.$get = function ($http, $q, $log, nyhedsbreveprofiladminConfig) {
           var LOCATIONID = nyhedsbreveprofiladminConfig.LOCATIONID;
-          var baseurl = '/backend';
+          var baseurl = '/api';
 
           var service = $http.get('/healthcheck');
 

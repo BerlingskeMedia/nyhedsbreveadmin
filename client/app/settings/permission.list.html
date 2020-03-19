@@ -44,6 +44,7 @@
       <tr ng-repeat="permission in vm.permissions | orderBy:sortType:sortReverse | filter:searchterm" ui-sref="settings.permission-detail({id:permission.nyhedsbrev_id})" ng-class="{warning: permission.enabled === 0}">
         <td class="col-sm-1">{{::permission.nyhedsbrev_id}}</td>
         <td class="col-sm-3">{{::permission.nyhedsbrev_navn}}</td>
+        <td class="col-sm-1">{{::permission.subscriber_count}}</span></td>
         <td class="col-sm-7"><span ng-bind-html="permission.indhold_safe"></span></td>
         <td class="col-sm-1">
           <abbr title="Skjult" class="no_dots"><span class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-if="permission.hidden"></span></abbr>

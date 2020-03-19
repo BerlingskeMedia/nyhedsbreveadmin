@@ -1,17 +1,28 @@
 /*jshint node: true */
 'use strict';
 
-const Hapi = require('hapi');
-const inert = require('inert');
+// To remain compatible with the puppet-scripts
+if(process.env.BPC_APP_SECRET && !process.env.BPC_APP_KEY) {
+  process.env.BPC_APP_KEY = process.env.BPC_APP_SECRET;
+}
+
+const Hapi = require('@hapi/hapi');
+const inert = require('@hapi/inert');
+const HapiBpc = require('hapi-bpc');
 const backend = require('./backend');
-const Auth = require('./auth');
 
-var client = {
-  register: function (plugin, options, next) {
+const client = {
+  name: 'client',
+  version: '1.0.0',
 
-    plugin.route({
+  register: function (server, options) {
+
+    server.route({
       method: 'get',
       path: '/module/{param*}',
+      options: {
+        auth: false
+      },
       handler: {
         directory: {
           path: 'node_modules'
@@ -19,9 +30,12 @@ var client = {
       }
     });
 
-    plugin.route({
+    server.route({
       method: 'get',
       path: '/app/{param*}',
+      options: {
+        auth: false
+      },
       handler: {
         directory: {
           path: 'client/app'
@@ -29,67 +43,55 @@ var client = {
       }
     });
 
-    plugin.route({
+    server.route({
       method: 'get',
       path: '/favicon.ico',
+      options: {
+        auth: false
+      },
       handler: {
         file: 'client/favicon.png'
       }
     });
 
-    plugin.route({
+    server.route({
       method: 'get',
       path: '/{param*}',
+      options: {
+        auth: false
+      },
       handler: {
         file: 'client/index.html'
       }
     });
-
-    next();
   }
 };
 
-client.register.attributes = {
-  name: 'client',
-  version: '1.0.0'
-};
 
-var server = new Hapi.Server({
-  connections: {
-    router: {
-      stripTrailingSlash: false
+const init = async () => {
+
+  const server = Hapi.server({ port: process.env.PORT || 8000 });
+  
+  server.route({
+    method: 'GET',
+    path: '/healthcheck',
+    handler: async (request, reply) => {
+      return 'OK';
     }
-  }
-});
-
-server.connection({ port: process.env.PORT ? process.env.PORT : 8000 });
-
-server.route({
-  method: 'GET',
-  path: '/healthcheck',
-  handler: function (request, reply) {
-    return reply('OK');
-  }
-});
-
-server.register(inert, cb);
-server.register(client, cb);
-server.register(backend, { routes: { prefix: '/backend' } }, cb);
-server.register(Auth, { routes: { prefix: '/auth' } }, cb);
-
-if (!module.parent) {
-  server.start(function() {
-    console.log('Server started on ' + server.info.uri + '.');
   });
-}
 
+  await server.register(inert);
+  await server.register(client);
 
-function cb (err) {
-  if (err) {
-    console.log('Error when loading plugin', err);
-    server.stop();
-  }
-}
+  await server.register(HapiBpc);
+  await server.auth.default('bpc');
+  await server.bpc.connect();
 
+  await server.register(backend, { routes: { prefix: '/api' } });
 
-module.exports = server;
+  await server.start();
+  console.log('Server running on %s', server.info.uri);
+
+};
+
+init();
