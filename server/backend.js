@@ -125,6 +125,7 @@ module.exports = {
       path: '/{obj}/{id?}',
       options: {
         auth: {
+          strategy: 'bpc',
           access: {
             scope: ['mdbadmin'],
             entity: 'any',
@@ -139,6 +140,7 @@ module.exports = {
       path: '/{obj}/{paths*2}',
       options: {
         auth: {
+          strategy: 'bpc',
           access: {
             scope: ['mdbadmin'],
             entity: 'any',
@@ -153,6 +155,7 @@ module.exports = {
       path: '/{obj}/{paths*3}',
       options: {
         auth: {
+          strategy: 'bpc',
           access: {
             scope: ['mdbadmin'],
             entity: 'any',

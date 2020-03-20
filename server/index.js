@@ -84,7 +84,6 @@ const init = async () => {
   await server.register(client);
 
   await server.register(HapiBpc);
-  await server.auth.default('bpc');
   await server.bpc.connect();
 
   await server.register(backend, { routes: { prefix: '/api' } });
