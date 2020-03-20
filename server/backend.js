@@ -3,6 +3,7 @@
 
 const Http = require('http');
 const Url = require('url');
+const Boom = require('@hapi/boom');
 
 var route_prefix = '';
 
@@ -86,6 +87,12 @@ async function proxy (request, h) {
       });
 
       res.on('end', () => {
+
+        if(res.statusCode >= 400) {
+          const err = new Error(res.statusMessage);
+          return reject(Boom.boomify(err, { statusCode: res.statusCode }));
+        }
+
         try {
           resolve(JSON.parse(data));
         } catch(ex) {
