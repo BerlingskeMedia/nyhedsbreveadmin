@@ -4,12 +4,12 @@ FROM node:10.17-alpine
 MAINTAINER Daniel Kokott <dako@berlingskemedia.dk>
 
 # Mount current dir as a volume containing all source code.
-WORKDIR /nyhedsbreveprofiladmin
+WORKDIR /app
 
-COPY ./client /nyhedsbreveprofiladmin/client
-COPY ./server /nyhedsbreveprofiladmin/server
-ADD package.json /nyhedsbreveprofiladmin
-ADD package-lock.json /nyhedsbreveprofiladmin
+COPY ./client /app/client
+COPY ./server /app/server
+ADD package.json /app
+ADD package-lock.json /app
 
 RUN npm i --production
 
