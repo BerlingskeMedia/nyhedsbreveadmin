@@ -27,7 +27,7 @@
     "angular-ui-router": "^1.0.25",
     "bootstrap": "^3.3.7",
     "checklist-model": "^1.0.0",
-    "hapi-bpc": "^3.4.0",
+    "hapi-bpc": "^3.5.0",
     "moment": "^2.22.2",
     "papaparse": "^4.6.1"
   },

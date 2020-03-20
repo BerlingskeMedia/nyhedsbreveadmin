@@ -51,18 +51,17 @@
           }
 
           var payload = {
-            ID: basicProfile.getId(),
             id_token: authResponse.id_token,
             access_token: authResponse.access_token
           };
           
-          return $http.post('/auth', payload)
+          return $http.post('/authenticate', payload)
           .then(getTicketReponseHandler);
         }
 
 
         function reissueUserTicket(){
-          return $http.get('/auth/ticket')
+          return $http.get('/authenticate')
           .then(getTicketReponseHandler);
         }
 
@@ -130,20 +129,7 @@
 
 
         service.hasRole = function(role){
-          return $http.get('/auth/permissions?roles='.concat(role))
-          .then(function(response){
-            return $q.resolve(response.status === 200);
-          })
-          .catch(function(err){
-            if(err.status === 401 && err.data && err.data.message === 'expired ticket'){
-              return reissueUserTicket()
-              .then(function (){
-                return hasRole(role);
-              });
-            } else {
-              return $q.resolve(false);
-            }
-          });
+          // TODO: check the scope for `role:{app_id}:{role}` exists
         };
 
         return service;
