@@ -118,7 +118,7 @@ async function proxy (request, h) {
 
 
 module.exports = {
-  name: 'backend',
+  name: 'api',
   version: '1.0.0',
 
   proxy: proxy,
