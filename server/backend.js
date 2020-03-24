@@ -171,42 +171,5 @@ module.exports = {
       },
       handler: proxy
     });
-
-    // server.route({
-    //   method: ['GET'],
-    //   path: '/{obj}/{id?}',
-    //   handler: proxyValidation
-    // });
-
-    // server.route({
-    //   method: ['GET'],
-    //   path: '/{obj}/{paths*2}',
-    //   handler: proxyValidation
-    // });
-
-    // server.route({
-    //   method: ['GET'],
-    //   path: '/{obj}/{paths*3}',
-    //   handler: proxyValidation
-    // });
-
-    // server.route({
-    //   method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    //   path: '/{obj}/{id?}',
-    //   handler: proxy
-    // });
-    //
-    // server.route({
-    //   method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    //   path: '/{obj}/{paths*2}',
-    //   handler: proxy
-    // });
-    //
-    // server.route({
-    //   method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    //   path: '/{obj}/{paths*3}',
-    //   handler: proxy
-    // });
-
   }
 };
