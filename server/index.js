@@ -9,7 +9,7 @@ if(process.env.BPC_APP_SECRET && !process.env.BPC_APP_KEY) {
 const Hapi = require('@hapi/hapi');
 const inert = require('@hapi/inert');
 const HapiBpc = require('hapi-bpc');
-const backend = require('./backend');
+const api = require('./api');
 
 const client = {
   name: 'client',
@@ -86,7 +86,7 @@ const init = async () => {
   await server.register(HapiBpc);
   await server.bpc.connect();
 
-  await server.register(backend, { routes: { prefix: '/api' } });
+  await server.register(api, { routes: { prefix: '/api' } });
 
   await server.start();
   console.log('Server running on %s', server.info.uri);
