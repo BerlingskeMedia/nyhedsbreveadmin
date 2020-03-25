@@ -58,7 +58,8 @@
     }
 
     function deleteNyhedsbrev(nyhedsbrev) {
-      return mdbApiService.deleteNyhedsbrev(nyhedsbrev)
+      nyhedsbrev.enabled = 0;
+      return mdbApiService.putNyhedsbrev(nyhedsbrev)
       .then(function(nyhedsbrev) {
         toastr.success('Nyhedsbrev deaktiveret');
         vm.nyhedsbrev = nyhedsbrev;

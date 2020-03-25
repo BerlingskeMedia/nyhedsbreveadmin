@@ -124,11 +124,6 @@
             .then(_httpSuccessCallback);
           };
 
-          service.deleteNyhedsbrev = function (nyhedsbrev) {
-            return $http.delete(baseurl + "/nyhedsbreve/" + nyhedsbrev.nyhedsbrev_id)
-            .then(_httpSuccessCallback);
-          };
-
           service.getLocations = function () {
             return $http.get(baseurl + "/locations")
             .then(_httpSuccessCallback);
