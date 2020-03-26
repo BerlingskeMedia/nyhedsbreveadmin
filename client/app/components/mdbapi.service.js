@@ -80,8 +80,7 @@
           };
 
           service.getOptoutTypes = function () {
-            return $http.get(baseurl + "/optouts/types")
-            .then(_httpSuccessCallback);
+            return $q.resolve([]);
           };
 
           service.createOptout = function (email, type) {
