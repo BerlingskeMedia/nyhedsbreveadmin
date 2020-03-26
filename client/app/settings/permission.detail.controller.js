@@ -59,9 +59,10 @@
     }
 
     function deleteNyhedsbrev(nyhedsbrev) {
-      return mdbApiService.deleteNyhedsbrev(nyhedsbrev)
+      nyhedsbrev.enabled = 0;
+      return mdbApiService.putNyhedsbrev(nyhedsbrev)
       .then(function(nyhedsbrev) {
-        toastr.success('Permission slettet');
+        toastr.success('Permission deaktiveret');
         vm.nyhedsbrev = nyhedsbrev;
         $state.go('settings.permission');
       })
