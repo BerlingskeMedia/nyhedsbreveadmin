@@ -71,7 +71,7 @@ const client = {
 const init = async () => {
 
   const server = Hapi.server({ port: process.env.PORT || 8000 });
-  
+
   server.route({
     method: 'GET',
     path: '/healthcheck',
@@ -84,7 +84,7 @@ const init = async () => {
   await server.register(client);
 
   await server.register(HapiBpc);
-  await server.bpc.connect();
+  await server.bpc.connect(null, process.env.BPC_URL);
 
   await server.register(api, { routes: { prefix: '/api' } });
 

@@ -7,7 +7,7 @@
   },
   "scripts": {
     "start": "node server/index.js",
-    "dev": "nodemon --inspect --ignore 'client/' server/index.js"
+    "dev": "nodemon --inspect=0.0.0.0:9232 --ignore 'client/' server/index.js"
   },
   "dependencies": {
     "@hapi/boom": "^9.1.0",
