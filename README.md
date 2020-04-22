@@ -12,6 +12,14 @@ documentation on the API is available at [https://github.com/BerlingskeMedia/mdb
 
 ## For Developers
 
+env variables:
+- MDBAPI_ADDRESS=http://localhost
+- MDBAPI_PORT=8000
+- BPC_URL=https://bpc.berlingskemedia-testing.net
+- BPC_APP_KEY=475963b8c832310bc1c40be462a969a7b5104fc812f2d40a27
+- BPC_APP_ID=nyhedsbreveprofiladmin
+- PORT=8080
+
 You'll need a recent version of node.js, _v4.2.2 or newer_. You can build the
 application by running;
 
