@@ -72,6 +72,11 @@ const init = async () => {
 
   const server = Hapi.server({ port: process.env.PORT || 8000 });
 
+  await server.ext('onPreResponse', function (request, reply) {
+    request.response.header('X-Frame-Options', 'DENY');
+    return reply.continue;
+  })
+
   server.route({
     method: 'GET',
     path: '/healthcheck',
