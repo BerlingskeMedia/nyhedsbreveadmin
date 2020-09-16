@@ -90,7 +90,7 @@ steps:
       secret_key:
         from_secret: aws_access_key_secret_testing
       region: eu-west-1
-      repo: cust-test-newsletter-ecr/nyhedsbreveprofiladmin
+      repo: cust-testing-newsletter-ecr/nyhedsbreveprofiladmin
       registry: 815296035528.dkr.ecr.eu-west-1.amazonaws.com
       dockerfile: Dockerfile
       tags:
@@ -116,30 +116,30 @@ steps:
         from_secret: aws_access_key_testing
       aws_secret_access_key:
         from_secret: aws_access_key_secret_testing
-      cluster: cust-test-node
+      cluster: cust-testing-node
       compatibilities: FARGATE
       deployment_configuration: 100 200
       desired_count: 1
-      docker_image: 815296035528.dkr.ecr.eu-west-1.amazonaws.com/cust-test-newsletter-ecr/nyhedsbreveprofiladmin
-      container_name: cust-test-newsletter-nyhedsbreveprofiladmin-container
-      family: cust-test-newsletter-nyhedsbreveprofiladmin
+      docker_image: 815296035528.dkr.ecr.eu-west-1.amazonaws.com/cust-testing-newsletter-ecr/nyhedsbreveprofiladmin
+      container_name: cust-testing-newsletter-nyhedsbreveprofiladmin-container
+      family: cust-testing-newsletter-nyhedsbreveprofiladmin
       log_driver: awslogs
       log_options:
-        - awslogs-group=cust-test-node
+        - awslogs-group=cust-testing-node
         - awslogs-region=eu-west-1
-        - awslogs-stream-prefix=cust-test-newsletter-nyhedsbreveprofiladmin
+        - awslogs-stream-prefix=cust-testing-newsletter-nyhedsbreveprofiladmin
       memory: 512
       port_mappings:
         - 8000 8000
       region: eu-west-1
-      service: cust-test-newsletter-nyhedsbreveprofiladmin
+      service: cust-testing-newsletter-nyhedsbreveprofiladmin
       service_network_security_groups:
         [security_groups]
       service_network_subnets:
         [subnets]
       tag: ${CI_COMMIT_SHA}
       task_cpu: 256
-      task_execution_role_arn: arn:aws:iam::815296035528:role/cust-test-newsletter-nyhedsbreveprofiladmin-exec
+      task_execution_role_arn: arn:aws:iam::815296035528:role/cust-testing-newsletter-nyhedsbreveprofiladmin-exec
       task_memory: 512
       task_network_mode: awsvpc
     when:
@@ -161,13 +161,13 @@ trigger:
 kind: "secret"
 name: "aws_access_key_testing"
 get:
-  path: "drone/cust-test-newletter"
+  path: "drone/cust-testing-newletter"
   name: "aws_access_key"
 ---
 kind: "secret"
 name: "aws_access_key_secret_testing"
 get:
-  path: "drone/cust-test-newletter"
+  path: "drone/cust-testing-newletter"
   name: "aws_access_key_secret"
 ---
 kind: "secret"
@@ -185,5 +185,5 @@ get:
 kind: "secret"
 name: "my_test_ssm_secret"
 get:
-  path: "drone/cust-test-newletter"
+  path: "drone/cust-testing-newletter"
   name: "some_ssm_value_name"
