@@ -47,9 +47,9 @@ steps:
       family: cust-testing-newsletter-npa-qa1
       log_driver: awslogs
       log_options:
-        - awslogs-group: cust-testing-newsletter
-        - awslogs-region: eu-west-1
-        - awslogs-stream-prefix: newsletter-npa-qa1
+        - awslogs-group cust-testing-newsletter
+        - awslogs-region eu-west-1
+        - awslogs-stream-prefix newsletter-npa-qa1
       memory: 512
       port_mappings:
         - 8000 8000
