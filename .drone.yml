@@ -54,7 +54,7 @@ steps:
       port_mappings:
         - 8000 8000
       region: eu-west-1
-      service: cust-testing-newsletter-nyhedsbreveprofiladmin
+      service: cust-testing-newsletter-npa-qa1
       service_network_security_groups:
         - sg-04532122919e3abd0
         - sg-0cde9b6258856237a
