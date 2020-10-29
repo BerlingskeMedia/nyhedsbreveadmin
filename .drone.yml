@@ -86,29 +86,29 @@ trigger:
 kind: "secret"
 name: "aws_access_key_testing"
 get:
-  path: "drone/cust-testing-newletter"
+  path: "drone/cust-testing-newsletter"
   name: "aws_access_key"
 ---
 kind: "secret"
 name: "aws_access_key_secret_testing"
 get:
-  path: "drone/cust-testing-newletter"
+  path: "drone/cust-testing-newsletter"
   name: "aws_access_key_secret"
 ---
 kind: "secret"
 name: "aws_access_key_production"
 get:
-  path: "drone/cust-production-newletter"
+  path: "drone/cust-production-newsletter"
   name: "aws_access_key"
 ---
 kind: "secret"
 name: "aws_access_key_secret_production"
 get:
-  path: "drone/cust-production-newletter"
+  path: "drone/cust-production-newsletter"
   name: "aws_access_key_secret"
 ---
 kind: "secret"
 name: "my_test_ssm_secret"
 get:
-  path: "drone/cust-testing-newletter"
+  path: "drone/cust-testing-newsletter"
   name: "some_ssm_value_name"
