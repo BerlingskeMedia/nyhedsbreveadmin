@@ -24,7 +24,7 @@ steps:
   - name: Deploy to test QA1
     image: pelotech/drone-ecs:1.0.7
     environment:
-      BPC_APP_ID:
+      BPC_APP_KEY:
         from_secret: bpc_app_id_test
       BPC_APP_SECRET:
         from_secret: bpc_app_secret_test
