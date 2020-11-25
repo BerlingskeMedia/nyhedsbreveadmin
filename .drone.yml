@@ -176,16 +176,16 @@ name: dockerhub_auth_config
 get:
   path: drone/dockerhub_auth_secret
   name: auth_json
----
-kind: "secret"
-name: "bpc_app_id_test"
-get:
-  path: "drone/cust-testing-newsletter"
-  name: "bpc_app_id_qa1"
----
-kind: "secret"
-name: "bpc_app_secret_test"
-get:
-  path: "drone/cust-testing-newsletter"
-  name: "bpc_app_secret_qa1"
+#---
+#kind: "secret"
+#name: "bpc_app_id_test"
+#get:
+#  path: "drone/cust-testing-newsletter"
+#  name: "bpc_app_id_qa1"
+#---
+#kind: "secret"
+#name: "bpc_app_secret_test"
+#get:
+#  path: "drone/cust-testing-newsletter"
+#  name: "bpc_app_secret_qa1"
 
