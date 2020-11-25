@@ -2,11 +2,16 @@
 'use strict';
 
 // To remain compatible with the puppet-scripts
-console.log(process.env.BPC_APP_SECRET);
-console.log(process.env.BPC_APP_KEY);
+console.log('Test1');
+console.log('S ', process.env.BPC_APP_SECRET);
+console.log('K ', process.env.BPC_APP_KEY);
+console.log('I ', process.env.BPC_APP_ID);
+console.log('Test2');
 if(process.env.BPC_APP_SECRET && !process.env.BPC_APP_KEY) {
   process.env.BPC_APP_KEY = process.env.BPC_APP_SECRET;
 }
+
+
 
 const Hapi = require('@hapi/hapi');
 const inert = require('@hapi/inert');
