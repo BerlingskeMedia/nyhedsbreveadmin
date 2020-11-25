@@ -2,6 +2,8 @@
 'use strict';
 
 // To remain compatible with the puppet-scripts
+console.log(process.env.BPC_APP_SECRET);
+console.log(process.env.BPC_APP_KEY);
 if(process.env.BPC_APP_SECRET && !process.env.BPC_APP_KEY) {
   process.env.BPC_APP_KEY = process.env.BPC_APP_SECRET;
 }
