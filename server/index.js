@@ -3,6 +3,7 @@
 
 // To remain compatible with the puppet-scripts
 console.log('Test1');
+console.log('P ', process.env);
 console.log('S ', process.env.BPC_APP_SECRET);
 console.log('K ', process.env.BPC_APP_KEY);
 console.log('I ', process.env.BPC_APP_ID);

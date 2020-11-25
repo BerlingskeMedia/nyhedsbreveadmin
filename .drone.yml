@@ -26,8 +26,6 @@ steps:
     environment:
       BPC_APP_ID:
         from_secret: bpc_app_id_test
-#      BPC_APP_KEY:
-#        from_secret: bpc_app_id_test
       BPC_APP_SECRET:
         from_secret: bpc_app_secret_test
     settings:
