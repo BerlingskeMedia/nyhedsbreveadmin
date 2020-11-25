@@ -37,8 +37,6 @@ steps:
         - MDBAPI_ADDRESS=10.94.93.46
         - MDBAPI_PORT=8000
         - BPC_URL=https://bpc.berlingskemedia-testing.net
-        - BPC_APP_ID
-        - BPC_APP_SECRET
       aws_access_key_id:
         from_secret: aws_access_key_testing
       aws_secret_access_key:
