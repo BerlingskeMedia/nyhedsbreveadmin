@@ -84,13 +84,13 @@ const init = async () => {
     return reply.continue;
   })
 
-  server.route({
-    method: 'GET',
-    path: '/healthcheck',
-    handler: async (request, reply) => {
-      return 'OK';
-    }
-  });
+  // server.route({
+  //   method: 'GET',
+  //   path: '/healthcheck',
+  //   handler: async (request, reply) => {
+  //     return 'OK';
+  //   }
+  // });
 
   // Remove this route when task BDM-5915 will be done
   server.route({
