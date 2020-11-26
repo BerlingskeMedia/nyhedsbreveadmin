@@ -1,7 +1,7 @@
 /*jshint node: true */
 'use strict';
 
-console.log(process.env.MDBAPI_ADDRESS);
+console.log('M ', process.env.MDBAPI_ADDRESS);
 
 // To remain compatible with the puppet-scripts
 if(process.env.BPC_APP_SECRET && !process.env.BPC_APP_KEY) {
