@@ -97,7 +97,7 @@ const init = async () => {
     method: 'GET',
     path: '/',
     handler: async (request, reply) => {
-      return 'OKmain';
+      return 'OK';
     }
   });
 
