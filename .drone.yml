@@ -7,8 +7,7 @@ steps:
   - name: publish image to test
     image: plugins/ecr
     settings:
-      config:
-        from_secret: dockerhub_auth_config
+      mirror: https://proxy.docker.all.berlingskemedia.net
       access_key:
         from_secret: aws_access_key_testing
       secret_key:
@@ -143,12 +142,6 @@ trigger:
   ref:
     include:
       - refs/tags/qa*
----
-kind: secret
-name: dockerhub_auth_config
-get:
-  path: drone/dockerhub_auth_secret
-  name: auth_json
 
 # Generic testing secrets
 ---
@@ -193,6 +186,3 @@ name: aws_access_key_secret_production
 get:
   path: drone/cust-production-newsletter
   name: aws_access_key_secret
-
-
-
