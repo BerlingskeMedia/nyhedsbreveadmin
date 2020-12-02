@@ -149,6 +149,7 @@ name: dockerhub_auth_config
 get:
   path: drone/dockerhub_auth_secret
   name: auth_json
+
 # Generic testing secrets
 ---
 kind: secret

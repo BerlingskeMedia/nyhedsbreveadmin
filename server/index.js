@@ -93,7 +93,6 @@ const init = async () => {
   });
 
   // Remove this route when task BDM-5915 will be done
-  //small test
   server.route({
     method: 'GET',
     path: '/',
