@@ -286,3 +286,11 @@ name: aws_access_key_secret_production
 get:
   path: drone/cust-production-newsletter
   name: aws_access_key_secret
+
+# PROD
+---
+kind: secret
+name: mdbapi_service_discovery
+get:
+  path: drone/cust-production-newsletter
+  name: mdbapi_service_discovery
