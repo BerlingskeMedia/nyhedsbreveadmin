@@ -24,9 +24,9 @@ steps:
     image: pelotech/drone-ecs:1.0.7
     environment:
       BPC_APP_ID:
-        from_secret: bpc_app_id_qa1
+        from_secret: bpc_app_id_prod
       BPC_APP_SECRET:
-        from_secret: bpc_app_secret_qa1
+        from_secret: bpc_app_secret_prod
       MDBAPI_ADDRESS:
         from_secret: mdbapi_service_discovery
     settings:
