@@ -46,7 +46,7 @@ steps:
       compatibilities: FARGATE
       deployment_configuration: 100 200
       desired_count: 1
-      docker_image: 815296035528.dkr.ecr.eu-west-1.amazonaws.com/cust-production-newsletter-ecr/nyhedsbreveprofil
+      docker_image: 815296035528.dkr.ecr.eu-west-1.amazonaws.com/cust-testing-newsletter-ecr/nyhedsbreveprofiladmin
       container_name: cust-production-newsletter-npa-container
       family: cust-production-newsletter-npa
       log_driver: awslogs
