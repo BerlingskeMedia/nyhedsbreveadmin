@@ -70,6 +70,9 @@
             delete interesse.display_text;
             delete interesse.interesse_display_type_id;
 
+            console.log(baseurl);
+            console.log(interesse);
+
             return $http.put(baseurl + "/interesser/" + interesse.interesse_id, interesse)
             .then(_httpSuccessCallback);
           };
