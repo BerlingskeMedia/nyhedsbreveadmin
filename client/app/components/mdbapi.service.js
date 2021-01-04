@@ -37,31 +37,26 @@
           };
 
           service.getInteresseTypes = function () {
-            console.log('INT1');
             return $http.get(baseurl + "/interesser/types")
             .then(_httpSuccessCallback);
           };
 
           service.getInteresserFull = function (displayTypeId) {
-            console.log('INT2');
             return $http.get(baseurl + "/interesser/full" + (displayTypeId !== undefined && displayTypeId !== null ? "?displayTypeId=" + displayTypeId : ""))
             .then(_httpSuccessCallback);
           };
 
           service.getInteresseToplevels = function (displayTypeId) {
-            console.log('INT3');
             return $http.get(baseurl + "/interesser/toplevels")
             .then(_httpSuccessCallback);
           };
 
           service.getInteresser = function (displayTypeId) {
-            console.log('INT4');
             return $http.get(baseurl + "/interesser" + (displayTypeId !== undefined ? "?displayTypeId=" + displayTypeId : ""))
             .then(_httpSuccessCallback);
           };
 
           service.getInteresseSiblings = function (displayTypeId, parent_id) {
-            console.log('INT5');
             return $http.get(baseurl + "/interesser?displayTypeId=" + displayTypeId + "&parent_id=" + parent_id)
             .then(_httpSuccessCallback);
           };
@@ -74,10 +69,6 @@
           service.putInteresse = function (interesse) {
             delete interesse.display_text;
             delete interesse.interesse_display_type_id;
-
-            console.log('INT6');
-            console.log(baseurl);
-            console.log(interesse);
 
             return $http.put(baseurl + "/interesser/" + interesse.interesse_id, interesse)
             .then(_httpSuccessCallback);
