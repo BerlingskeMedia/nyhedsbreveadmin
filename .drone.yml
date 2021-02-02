@@ -76,8 +76,7 @@ trigger:
   repo:
     - BerlingskeMedia/nyhedsbreveprofiladmin
   branch:
-    #After all tests change following branch to master
-    - pipetest
+    - master
   event:
     include:
       - push
