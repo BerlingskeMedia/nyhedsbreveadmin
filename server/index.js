@@ -92,15 +92,6 @@ const init = async () => {
     }
   });
 
-  // Remove this route when task BDM-5915 will be done
-  server.route({
-    method: 'GET',
-    path: '/',
-    handler: async (request, reply) => {
-      return 'OK';
-    }
-  });
-
   await server.register(inert);
   await server.register(client);
 
