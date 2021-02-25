@@ -143,6 +143,17 @@
             .then(_httpSuccessCallback);
           };
 
+          service.getInactiveUsers = function (params) {
+            return $http.get(baseurl + "/users/not-active-list")
+              .then(_httpSuccessCallback);
+          };
+
+          service.deleteInactiveUsers = function (params) {
+            params.location_id = params.location_id !== undefined ? params.location_id : LOCATIONID;
+            return $http.delete(baseurl + "/users/not-active-list")
+              .then(_httpSuccessCallback);
+          };
+
           service.createUser = function (user, location_id) {
             user.location_id = location_id !== undefined ? location_id : LOCATIONID;
             return $http.post(baseurl + "/users", user)

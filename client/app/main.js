@@ -71,7 +71,7 @@ function routerConfig($stateProvider, $urlRouterProvider) {
 
   function hasSuperadmin(){
     return function(authService) {
-      if (authService.data && authService.data.scope) {
+      if (authService && authService.data && authService.data.scope) {
         return authService.data.scope.includes('role:nyhedsbreveprofiladmin:superadmin')
       }
       toastr.error('You do not have access.');
@@ -316,7 +316,15 @@ function routerConfig($stateProvider, $urlRouterProvider) {
         authResolved: hasSuperadmin()
       }
     })
-  ;
+    .state('inactive-users', {
+      templateUrl: 'app/cleanup/user.list.html',
+      url: '/inactive-users',
+      controller: 'InactiveUsersController',
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasSuperadmin()
+      }
+    });
 
   $urlRouterProvider.otherwise('/');
 }
