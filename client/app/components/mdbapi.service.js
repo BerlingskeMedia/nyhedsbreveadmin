@@ -143,14 +143,13 @@
             .then(_httpSuccessCallback);
           };
 
-          service.getInactiveUsers = function (params) {
+          service.getInactiveUsers = function () {
             return $http.get(baseurl + "/users/not-active-list")
               .then(_httpSuccessCallback);
           };
 
-          service.deleteInactiveUsers = function (params) {
-            params.location_id = params.location_id !== undefined ? params.location_id : LOCATIONID;
-            return $http.delete(baseurl + "/users/not-active-list")
+          service.deleteInactiveUsers = function () {
+            return $http.delete(baseurl + "/users/not-active-list", {location_id: LOCATIONID})
               .then(_httpSuccessCallback);
           };
 

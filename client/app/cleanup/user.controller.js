@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function InactiveUsersController($scope, $state, mdbApiService, toastr, authResolved) {
-    var vm = this;
+    const vm = this;
     vm.searching = false;
 
     if (!authResolved) {
