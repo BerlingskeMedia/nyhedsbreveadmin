@@ -12,7 +12,7 @@
     <div >Found users: {{vm.users.length || 0}}</div>
   </div>
   <div class="col-sm-1">
-    <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-danger">Delete users</button>
+    <button type="button" data-toggle="modal" data-target="#UsersModal" class="btn btn-danger">Delete users</button>
   </div>
 </div>
 <div class="clearfix row" ng-show="vm.searching">
@@ -40,7 +40,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="UsersModal" tabindex="-1" role="dialog" aria-labelledby="UsersModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
