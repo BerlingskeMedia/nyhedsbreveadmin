@@ -6,7 +6,7 @@
   .controller('UsersOutdatedNewslettersController', UsersOutdatedNewslettersController);
 
   /** @ngInject */
-  function UsersOutdatedNewslettersController($scope, $state, authResolved, mdbApiService, toastr) {
+  function UsersOutdatedNewslettersController($scope, $state, $modal, toastr, authResolved, mdbApiService) {
     const vm = this;
 
     if (!authResolved) {
@@ -17,12 +17,12 @@
     mdbApiService.then(activate);
 
     function deleteOutdatedUserActions() {
-      mdbApiService.deleteOutdatedUserActions().then(response => {
-        toastr.success(response.rowsDeleted + ' outdated user actions deleted');
-        search();
-      }, () => {
-        toastr.error('There was a problem while deleting outdated user actions');
+      const modalInstance = $modal.open({
+        templateUrl: 'app/cleanup/users.outdated.modal.html',
+        controller: 'UsersOutdatedModalController',
+        controllerAs: 'vm',
       });
+      modalInstance.result.then(search);
     }
 
     function search() {
@@ -30,12 +30,8 @@
       .then(outdatedNewsletters => {
         vm.outdatedNewsletters = outdatedNewsletters;
       }).catch(err => {
-        if (err.status === 404) {
-          toastr.error('Kunden kunne ikke findes');
-          $state.go('user');
-        } else {
-          console.error(err);
-        }
+        toastr.error('Something went wrong');
+        console.error(err);
       });
     }
 

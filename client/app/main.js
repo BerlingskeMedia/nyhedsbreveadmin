@@ -279,24 +279,6 @@ function routerConfig($stateProvider, $urlRouterProvider) {
         authResolved: hasKundeservice()
       }
     })
-    .state('users-outdated-history', {
-      url: '/users-outdated-history',
-      templateUrl: 'app/kundeservice/users.outdated.history.html',
-      controller: 'UsersOutdatedHistoryController',
-      controllerAs: 'vm',
-      resolve: {
-        authResolved: hasKundeservice()
-      }
-    })
-    .state('users-outdated-newsletters', {
-      url: '/users-outdated-newsletters',
-      templateUrl: 'app/kundeservice/users.outdated.newsletters.html',
-      controller: 'UsersOutdatedNewslettersController',
-      controllerAs: 'vm',
-      resolve: {
-        authResolved: hasKundeservice()
-      }
-    })
     .state('importer', {
       templateUrl: 'app/importer/uploader.html',
       url: '/importer',
@@ -305,7 +287,26 @@ function routerConfig($stateProvider, $urlRouterProvider) {
       resolve: {
         authResolved: hasTicket()
       }
-    });
+    })
+    .state('users-outdated-history', {
+      url: '/users-outdated-history',
+      templateUrl: 'app/cleanup/users.outdated.history.html',
+      controller: 'UsersOutdatedHistoryController',
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasKundeservice()
+      }
+    })
+    .state('users-outdated-newsletters', {
+      url: '/users-outdated-newsletters',
+      templateUrl: 'app/cleanup/users.outdated.newsletters.html',
+      controller: 'UsersOutdatedNewslettersController',
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasKundeservice()
+      }
+    })
+  ;
 
   $urlRouterProvider.otherwise('/');
 }
