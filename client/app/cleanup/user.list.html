@@ -12,7 +12,7 @@
     <div >Found users: {{vm.users.length || 0}}</div>
   </div>
   <div class="col-sm-1">
-    <button ng-click="search()" class="btn btn-danger">Delete users</button>
+    <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-danger">Delete users</button>
   </div>
 </div>
 <div class="clearfix row" ng-show="vm.searching">
@@ -35,5 +35,27 @@
   <div class="alert alert-warning" role="alert" ng-if="vm.didSearch && vm.users.length === 0">
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
     No results found
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Inactive user cleanup</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        If you are here, we assume you know what are you doing. Best of luck!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">I want to stop</button>
+        <button ng-click="deleteUsers()" type="button" class="btn btn-danger">DELETE</button>
+      </div>
+    </div>
   </div>
 </div>

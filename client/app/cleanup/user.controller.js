@@ -27,18 +27,15 @@
     }
 
     function deleteUsers() {
-      console.log('I hope you know what are you doing');
       mdbApiService.deleteInactiveUsers().then(function() {
-        console.log('Success');
-        location.reload();
+        toastr.success('Success');
       });
     }
 
     function activate() {
       vm.didSearch = false;
       $scope.search = search;
-      $scope.delete = deleteUsers;
-      console.log('eloszka ziomeczki');
+      $scope.deleteUsers = deleteUsers;
     }
   }
 })();
