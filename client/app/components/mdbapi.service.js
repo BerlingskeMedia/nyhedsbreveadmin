@@ -149,7 +149,7 @@
           };
 
           service.deleteInactiveUsers = function () {
-            return $http.delete(baseurl + "/users/not-active-list", {location_id: LOCATIONID})
+            return $http.delete(baseurl + "/users/not-active-list" + "?location_id=" + LOCATIONID)
               .then(_httpSuccessCallback);
           };
 
