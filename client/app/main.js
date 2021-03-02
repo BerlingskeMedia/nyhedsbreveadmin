@@ -69,6 +69,16 @@ function routerConfig($stateProvider, $urlRouterProvider) {
     return hasTicket();
   }
 
+  function hasSuperadmin(){
+    return function(authService) {
+      if (authService.data && authService.data.scope) {
+        return authService.data.scope.includes('role:nyhedsbreveprofiladmin:superadmin')
+      }
+      toastr.error('You do not have access.');
+      return false;
+    }
+  }
+
   $stateProvider
     .state('base', {
       url: '/',
@@ -287,7 +297,26 @@ function routerConfig($stateProvider, $urlRouterProvider) {
       resolve: {
         authResolved: hasTicket()
       }
-    });
+    })
+    .state('users-outdated-history', {
+      url: '/users-outdated-history',
+      templateUrl: 'app/cleanup/users.outdated.history.html',
+      controller: 'UsersOutdatedHistoryController',
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasSuperadmin()
+      }
+    })
+    .state('users-outdated-newsletters', {
+      url: '/users-outdated-newsletters',
+      templateUrl: 'app/cleanup/users.outdated.newsletters.html',
+      controller: 'UsersOutdatedNewslettersController',
+      controllerAs: 'vm',
+      resolve: {
+        authResolved: hasSuperadmin()
+      }
+    })
+  ;
 
   $urlRouterProvider.otherwise('/');
 }

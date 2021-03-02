@@ -186,6 +186,21 @@
             .then(_httpSuccessCallback);
           };
 
+          service.getOutdatedNewsletters = function () {
+            return $http.get(baseurl + "/user-actions/outdated-newsletters")
+            .then(_httpSuccessCallback);
+          };
+
+          service.getOutdatedUserActions = function () {
+            return $http.get(baseurl + "/user-actions/outdated")
+            .then(_httpSuccessCallback);
+          };
+
+          service.deleteOutdatedUserActions = function () {
+            return $http.delete(baseurl + "/user-actions/outdated")
+            .then(_httpSuccessCallback);
+          };
+
           return service;
         };
 

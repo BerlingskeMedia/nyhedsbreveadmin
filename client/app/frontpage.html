@@ -1,19 +1,20 @@
 <div>
   <p class="lead">Profiladmin</p>
-  
+
   <div ng-show="authenticationRequired">
     <button
       type="button"
       ng-click="signIn()"
       style="display: inline-block; background: rgb(209, 72, 54); color: rgb(255, 255, 255); width: 190px; padding-top: 10px; padding-bottom: 10px; border-radius: 2px; border: 1px solid transparent; font-size: 16px; font-weight: bold;">Login</button>
   </div>
-  
+
   <p ng-show="missingGrant">Du mangler adgang. Kontakt din lokale IT koordinator.</p>
-  
+
   <ul ng-show="hasGrant">
     <li><p class="lead"><a ui-sref="settings">Settings</a></p></li>
     <li><p class="lead"><a ui-sref="user">Kundeservice</a></p></li>
     <li><p class="lead"><a ui-sref="importer">Importer</a></p></li>
+    <li><p class="lead"><a ui-sref="users-outdated-newsletters">Users outdated history</a></p></li>
     <li>
       <p class="lead">&nbsp;</p>
     </li>

@@ -1,0 +1,70 @@
+<div class="clearfix row">
+  <div class="col-sm-4">
+    <p><a ui-sref="base">Forside</a></p>
+  </div>
+  <div class="col-sm-8">
+    <p class="text-right"><a ui-sref="users-outdated-newsletters">Outdated users newsletter signups</a></p>
+  </div>
+</div>
+
+<div class="clearfix row lead">
+  <div class="col-sm-8">
+    <div>Outdated users actions found: {{vm.outdatedHistory.length || 0}}</div>
+  </div>
+  <div class="col-sm-4 text-right">
+    <button ng-click="delete()" class="btn btn-danger">Delete outdated users actions</button>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th colspan="5">
+        <div class="lead text-center">Outdated history</div>
+        <div class="text-center">(users actions related to newsletters signed off more than 2 years ago)</div>
+      </th>
+    </tr>
+    <tr>
+      <th>
+        <a href="" ng-click="sortType = 'email'; sortReverse = !sortReverse">
+          Email
+          <span ng-show="sortType == 'email' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+          <span ng-show="sortType == 'email' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+        </a>
+      </th>
+      <th>
+        <a href="" ng-click="sortType = 'oprettet'; sortReverse = !sortReverse">
+          Oprettet
+          <span ng-show="sortType == 'oprettet' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+          <span ng-show="sortType == 'oprettet' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+        </a>
+      </th>
+      <th>
+        <a href="" ng-click="sortType = 'user_action_type_name'; sortReverse = !sortReverse">
+          Type
+          <span ng-show="sortType == 'user_action_type_name' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+          <span ng-show="sortType == 'user_action_type_name' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+        </a>
+      </th>
+      <th>
+        Value
+      </th>
+      <th>
+        <a href="" ng-click="sortType = 'location_id'; sortReverse = !sortReverse">
+          Location
+          <span ng-show="sortType == 'location_id' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+          <span ng-show="sortType == 'location_id' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+        </a>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="item in vm.outdatedHistory | orderBy:sortType:sortReverse">
+      <td>{{::item.email}}</td>
+      <td>{{::item.oprettet | amDateFormat:'DD/MM-YYYY HH:mm:ss'}}</td>
+      <td>{{::item.user_action_type_name}}</td>
+      <td>{{::item.value}}</td>
+      <td>{{::item.location_tekst}}</td>
+    </tr>
+  </tbody>
+</table>
