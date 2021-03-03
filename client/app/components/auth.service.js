@@ -54,7 +54,7 @@
             id_token: authResponse.id_token,
             access_token: authResponse.access_token
           };
-          
+
           return $http.post('/authenticate', payload)
           .then(getTicketReponseHandler);
         }

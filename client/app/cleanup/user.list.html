@@ -1,0 +1,61 @@
+<p>
+  <a ui-sref="base">Forside</a>
+</p>
+
+<h2>List of users we assume you are here to run delete process on...</h2>
+
+<div class="clearfix row lead text-center">
+  <div class="col-sm-1">
+    <button ng-click="search()" class="btn btn-primary">Fetch users</button>
+  </div>
+  <div class="col-sm-8">
+    <div >Found users: {{vm.users.length || 0}}</div>
+  </div>
+  <div class="col-sm-1">
+    <button type="button" data-toggle="modal" data-target="#UsersModal" class="btn btn-danger">Delete users</button>
+  </div>
+</div>
+<div class="clearfix row" ng-show="vm.searching">
+  <div class="lead text-center" role="alert">Inactive users according to complex conditions</div>
+</div>
+<table class="table table-striped linkable" ng-if="vm.users.length > 0 && vm.didSearch">
+  <thead>
+  <tr>
+    <th>Email
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="user in vm.users">
+    <td>{{::user.email}}</td>
+  </tr>
+  </tbody>
+</table>
+<div class="clearfix">
+  <div class="alert alert-warning" role="alert" ng-if="vm.didSearch && vm.users.length === 0">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    No results found
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="UsersModal" tabindex="-1" role="dialog" aria-labelledby="UsersModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Inactive user cleanup</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        If you are here, we assume you know what are you doing. Best of luck!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">I want to stop</button>
+        <button ng-click="deleteUsers()" type="button" class="btn btn-danger">DELETE</button>
+      </div>
+    </div>
+  </div>
+</div>
