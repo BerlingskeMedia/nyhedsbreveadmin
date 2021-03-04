@@ -4,6 +4,7 @@
 const Http = require('http');
 const Url = require('url');
 const Boom = require('@hapi/boom');
+const logger = require('./logger');
 
 var route_prefix = '';
 
@@ -14,37 +15,37 @@ var MDBAPI_PORT;
 
 try {
   var temp = Url.parse(process.env.MDBAPI_ADDRESS);
-  
+
   // Sometimes the ENV var is including the protocol, eg: MDBAPI_ADDRESS=http://mdbapi-test.bemit.dk
 
   if(['http:', 'https:'].indexOf(temp.protocol) > -1) {
-    
+
     MDBAPI_PROTOCOL = temp.protocol;
     MDBAPI_HOSTNAME = temp.hostname;
     MDBAPI_PORT = temp.port;
-    
+
 
   // Other times (eg. in puppet) there are two seperate ENV vars, eg: MDBAPI_ADDRESS=mdbapi-test.bemit.dk MDBAPI_PORT=80
 
   } else if (process.env.MDBAPI_PORT) {
-    
+
     MDBAPI_PROTOCOL = 'http:';
     MDBAPI_HOSTNAME = process.env.MDBAPI_ADDRESS;
     MDBAPI_PORT = process.env.MDBAPI_PORT;
-    
+
   } else {
-    
+
     throw new Error();
-    
+
   }
-  
+
 } catch (ex) {
-  console.error('Env var MDBAPI_ADDRESS missing or invalid.');
+  logger.error('Env var MDBAPI_ADDRESS missing or invalid.');
   process.exit(1);
 }
 
 
-console.log('Connecting backend to MDBAPI on hostname', MDBAPI_HOSTNAME, 'and port', MDBAPI_PORT);
+logger.info('Connecting backend to MDBAPI on hostname', MDBAPI_HOSTNAME, 'and port', MDBAPI_PORT);
 
 async function proxy (request, h) {
 
@@ -81,7 +82,7 @@ async function proxy (request, h) {
       let data = '';
 
       res.setEncoding('utf8');
-      
+
       res.on('data', (chunk) => {
         data += chunk;
       });
@@ -96,22 +97,22 @@ async function proxy (request, h) {
         try {
           resolve(JSON.parse(data));
         } catch(ex) {
-          console.log(ex)
+          logger.error(ex)
           reject(ex);
         }
       });
-  
+
     })
-    
+
     req.on('error', function(e) {
-      console.log('Got error while requesting (' + request.url + '): ' + e.message);
+      logger.error('Got error while requesting (' + request.url + '): ' + e.message);
       reject(e);
     });
-  
+
     if (request.payload) {
       req.write(JSON.stringify(request.payload));
     }
-  
+
     req.end();
   });
 }

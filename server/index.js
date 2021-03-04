@@ -10,6 +10,7 @@ const Hapi = require('@hapi/hapi');
 const inert = require('@hapi/inert');
 const HapiBpc = require('hapi-bpc');
 const api = require('./api');
+const logger = require('./logger');
 
 const client = {
   name: 'client',
@@ -101,7 +102,7 @@ const init = async () => {
   await server.register(api, { routes: { prefix: '/api' } });
 
   await server.start();
-  console.log('Server running on %s', server.info.uri);
+  logger.info('Server running on %s', server.info.uri);
 
 };
 

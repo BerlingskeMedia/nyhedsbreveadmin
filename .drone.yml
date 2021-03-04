@@ -38,6 +38,7 @@ steps:
       environment_variables:
         - MDBAPI_PORT=8000
         - BPC_URL=https://bpc.berlingskemedia.net
+        - LOG_LEVEL=info
       aws_access_key_id:
         from_secret: aws_access_key_prod
       aws_secret_access_key:
@@ -54,6 +55,7 @@ steps:
         - awslogs-group=cust-production-newsletter
         - awslogs-region=eu-west-1
         - awslogs-stream-prefix=newsletter-npa
+        - awslogs-datetime-format=\[%Y-%m-%d %H:%M:%S\]
       memory: 512
       port_mappings:
         - 8000 8000
@@ -123,6 +125,7 @@ steps:
       environment_variables:
         - MDBAPI_PORT=8000
         - BPC_URL=https://bpc.berlingskemedia-testing.net
+        - LOG_LEVEL=debug
       aws_access_key_id:
         from_secret: aws_access_key_testing
       aws_secret_access_key:
@@ -139,6 +142,7 @@ steps:
         - awslogs-group=cust-testing-newsletter
         - awslogs-region=eu-west-1
         - awslogs-stream-prefix=newsletter-npa-qa1
+        - awslogs-datetime-format=\[%Y-%m-%d %H:%M:%S\]
       memory: 512
       port_mappings:
         - 8000 8000
@@ -179,6 +183,7 @@ steps:
       environment_variables:
         - MDBAPI_PORT=8000
         - BPC_URL=https://bpc.berlingskemedia-testing.net
+        - LOG_LEVEL=debug
       aws_access_key_id:
         from_secret: aws_access_key_testing
       aws_secret_access_key:
@@ -195,6 +200,7 @@ steps:
         - awslogs-group=cust-testing-newsletter
         - awslogs-region=eu-west-1
         - awslogs-stream-prefix=newsletter-npa-qa2
+        - awslogs-datetime-format=\[%Y-%m-%d %H:%M:%S\]
       memory: 512
       port_mappings:
         - 8000 8000
