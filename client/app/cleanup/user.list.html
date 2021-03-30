@@ -6,7 +6,9 @@
 
 <div class="clearfix row lead text-center">
   <div class="col-sm-1">
-    <button ng-click="search()" class="btn btn-primary">Fetch users</button>
+    <button ng-click="search()" class="btn btn-primary">Fetch users by no history</button>
+    <button ng-click="searchSignups()" class="btn btn-primary">Fetch users by no signups</button>
+    <button ng-click="searchHistory()" class="btn btn-primary">Fetch users with pairs in history</button>
   </div>
   <div class="col-sm-8">
     <div >Found users: {{vm.users.length || 0}}</div>
@@ -23,11 +25,14 @@
   <tr>
     <th>Email
     </th>
+    <th>User ID
+    </th>
   </tr>
   </thead>
   <tbody>
   <tr ng-repeat="user in vm.users">
     <td>{{::user.email}}</td>
+    <td>{{::user.user_id}}</td>
   </tr>
   </tbody>
 </table>
