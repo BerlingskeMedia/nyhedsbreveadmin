@@ -143,8 +143,18 @@
             .then(_httpSuccessCallback);
           };
 
-          service.getInactiveUsers = function () {
+          service.getInactiveUsersByHistory = function () {
             return $http.get(baseurl + "/users/not-active-list")
+              .then(_httpSuccessCallback);
+          };
+
+          service.getInactiveUsersBySignups = function () {
+            return $http.get(baseurl + "/users/not-signup-list")
+              .then(_httpSuccessCallback);
+          };
+
+          service.getInactiveUsersNoHistory = function () {
+            return $http.get(baseurl + "/users/not-history-list")
               .then(_httpSuccessCallback);
           };
 

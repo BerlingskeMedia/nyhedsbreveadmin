@@ -19,22 +19,38 @@
 
     function search() {
       vm.searching = true;
-      mdbApiService.getInactiveUsers().then(function(users) {
+      mdbApiService.getInactiveUsersNoHistory().then(function(users) {
         vm.users = users;
         vm.didSearch = true;
         vm.searching = false;
       });
     }
 
-    function deleteUsers() {
-      mdbApiService.deleteInactiveUsers().then(function() {
-        toastr.success('Success');
+    function searchSignups() {
+      vm.searching = true;
+      mdbApiService.getInactiveUsersBySignups().then(function(users) {
+        vm.users = users;
+        vm.didSearch = true;
+        vm.searching = false;
       });
     }
+
+    function searchHistory() {
+      vm.searching = true;
+      mdbApiService.getInactiveUsersByHistory().then(function(users) {
+        vm.users = users;
+        vm.didSearch = true;
+        vm.searching = false;
+      });
+    }
+
+    function deleteUsers() {}
 
     function activate() {
       vm.didSearch = false;
       $scope.search = search;
+      $scope.searchSignups = searchSignups;
+      $scope.searchHistory = searchHistory;
       $scope.deleteUsers = deleteUsers;
     }
   }
