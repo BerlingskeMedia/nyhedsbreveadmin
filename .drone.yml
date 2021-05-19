@@ -39,9 +39,9 @@ steps:
         - MDBAPI_PORT=8000
         - BPC_URL=https://bpc.berlingskemedia.net
         - LOG_LEVEL=info
-      aws_access_key_id:
+      access_key:
         from_secret: aws_access_key_prod
-      aws_secret_access_key:
+      secret_key:
         from_secret: aws_access_key_secret_prod
       cluster: cust-production-newsletter
       compatibilities: FARGATE
@@ -126,9 +126,9 @@ steps:
         - MDBAPI_PORT=8000
         - BPC_URL=https://bpc.berlingskemedia-testing.net
         - LOG_LEVEL=debug
-      aws_access_key_id:
+      access_key:
         from_secret: aws_access_key_testing
-      aws_secret_access_key:
+      secret_key:
         from_secret: aws_access_key_secret_testing
       cluster: cust-testing-newsletter
       compatibilities: FARGATE
@@ -184,9 +184,9 @@ steps:
         - MDBAPI_PORT=8000
         - BPC_URL=https://bpc.berlingskemedia-testing.net
         - LOG_LEVEL=debug
-      aws_access_key_id:
+      access_key:
         from_secret: aws_access_key_testing
-      aws_secret_access_key:
+      secret_key:
         from_secret: aws_access_key_secret_testing
       cluster: cust-testing-newsletter
       compatibilities: FARGATE
