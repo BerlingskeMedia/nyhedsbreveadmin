@@ -247,40 +247,30 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
     Papa.parse($scope.importFile, {
       preview: preview,
     	worker: false,
-      // delimiter: '',
-      // delimiter: '\r\n',
-      // encoding: 'UTF-8',
-      // encoding: 'ISO-8859-1',
-      // encoding: 'windows-1252',
       encoding: $scope.importFileEncoding,
       header: true,
       skipEmptyLines: true,
-      error: function(err, file){
+      error: function(err, file) {
         console.error(err);
       },
-    	step: function(row, parser){
-
+    	step: function(row, parser) {
         ++rowsParsed;
 
-        if(row.errors.length > 0){
+        if (row.errors.length > 0) {
           writeToErrorLog('Row ' + rowsParsed + ' has errors', row.errors);
-        
-        } else if(row.data.length > 1){
+        } else if(row.data.length > 1) {
           writeToErrorLog('Row ' + rowsParsed + ' has too many columns', row.data);
-        
-        } else if (allFieldsNullOrEmpty(row.data[0])){
+        } else if (allFieldsNullOrEmpty(row.data)) {
           writeToErrorLog('Row ' + rowsParsed + ' has no data.')
-        
         } else {
+          row.csvdata = cleanUpFields(row.data);
 
-          row.csvdata = cleanUpFields(row.data[0]);
-
-          if(!headerCalculated){
+          if (!headerCalculated) {
             calculateHeadersMapping(row.meta.fields);
             headerCalculated = true;
           }
 
-          if (preview > 0){
+          if (preview > 0) {
             $scope.previewRows.push(row);
           } else {
             globalRows.push(row);
@@ -289,24 +279,23 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
         }
 
         // If we are parsing preview, and either we have enough rows
-        if (preview > 0 && rowsParsed === preview){
+        if (preview > 0 && rowsParsed === preview) {
           $scope.parseRunning = false;
           $scope.$digest();
           toastr.success('Preview indlæst');
         }
-
     	},
-    	complete: function(){
+    	complete: function() {
         // In the case the file is shorter than the preview range this complete-event is called.
         // In this case we can skip the full "runParse"-phase.
         // We'll copy the $scope.previewRows array (by value) to the globalRows.
         // (In case the file is longer than the preview range, the complete-event is NOT called.)
-        if (preview > 0){
+        if (preview > 0) {
           globalRows = $scope.previewRows.slice();
           $scope.totalRowCount = globalRows.length;
         }
 
-        if(globalRows.length === 0){
+        if (globalRows.length === 0) {
           toastr.error('Ingen rækker fundet');
           return;
         }
@@ -689,28 +678,28 @@ function ImporterUploaderController($scope, $state, $sce, mdbApiService, toastr,
         if (h.mdbName === 'robinson_flag') {
 
           var robinson_value = row.csvdata[h.csvName];
-          user.robinson_flag = 
+          user.robinson_flag =
             [true, 't', 'true', 'j', 'ja'].indexOf(robinson_value.toLowerCase()) > -1 ? true :
             [false, 'f', 'false', 'n', 'nej'].indexOf(robinson_value.toLowerCase()) > -1 ? false : false;
 
         } else if(h.updateFieldInMDB) {
 
           user[h.mdbName] = row.csvdata[h.csvName];
-          
+
         }
       }
 
       user.nyhedsbreve = user.nyhedsbreve.concat($scope.actions.filter(filterActions('signup', 'nyhedsbrev')).map(actionIdAsInt));
       user.nyhedsbreve = user.nyhedsbreve.filter(filterIds('signout', 'nyhedsbrev'));
-      
+
       user.permissions = user.permissions.concat($scope.actions.filter(filterActions('signup', 'permission')).map(actionIdAsInt));
       user.permissions = user.permissions.filter(filterIds('signout', 'permission'));
-      
+
       user.interesser = user.interesser.concat($scope.actions.filter(filterActions('signup', 'interesse')).map(actionIdAsInt));
       user.interesser = user.interesser.filter(filterIds('signout', 'interesse'));
-      
+
       user.location_id = $scope.location_id;
-      
+
       return user;
     }
 
